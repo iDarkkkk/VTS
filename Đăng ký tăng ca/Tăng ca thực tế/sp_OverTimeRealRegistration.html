@@ -1,0 +1,949 @@
+<style>
+    /* 
+       Aesthetics: Premium Dark Mode with sleek green accents.
+       Using CSS variables for theme consistency.
+    */
+    :root {
+        --primary-color: #198754;
+        --bg-body: #f4f6f8;
+        --bg-card: #ffffff;
+        --border-color: #e2e8f0;
+        --text-main: #334155;
+        --text-muted: #64748b;
+        --table-head-bg: #f8fafc;
+        --row-warning-bg: rgba(220, 53, 69, 0.08);
+        --st-pending-bg: #fef9c3;
+        --st-approved-bg: #dcfce7;
+    }
+
+    [data-bs-theme="dark"] {
+        --bg-body: #121212;
+        --bg-card: #1e1e1e;
+        --border-color: #373737;
+        --text-main: #e2e8f0;
+        --text-muted: #a0aec0;
+        --table-head-bg: #2d2d2d;
+        --row-warning-bg: rgba(239, 68, 68, 0.15);
+    }
+
+    body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        font-family: 'Segoe UI', sans-serif !important;
+        font-size: 0.9rem;
+    }
+
+    .container_OTNIVS {
+        padding: 15px;
+    }
+
+    .card_OTNIVS {
+        background: var(--bg-card);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .card-header_OTNIVS {
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .section-label_OTNIVS {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    /* Table Styling */
+    .table-scroll-container {
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
+    .table_OTNIVS {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 0;
+    }
+
+    .table_OTNIVS th {
+        background: var(--table-head-bg);
+        padding: 12px 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .table_OTNIVS td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--border-color);
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .bg-planned_OTNIVS { background-color: rgba(13, 110, 253, 0.03); }
+    .bg-actual_OTNIVS { background-color: rgba(25, 135, 84, 0.03); }
+    
+    .input-compact_OTNIVS {
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
+        color: var(--text-main);
+        border-radius: 4px;
+        width: 100%;
+        text-align: center;
+        padding: 4px;
+        font-weight: 600;
+        font-family: 'Consolas', monospace;
+    }
+
+    /* Flow UI - Dynamic 5 Nodes */
+    .flow-wrapper_OTNIVS {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    .flow-node {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .avt-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .flow-line {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background-color: var(--border-color);
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .flow-line.active {
+        background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #10b981 100%);
+        background-size: 200% 100%;
+        animation: flowEffect 1.5s linear infinite;
+    }
+
+    @keyframes flowEffect { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+    .avatar-img {
+        position: relative;
+        z-index: 1;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--border-color);
+        background: var(--bg-card);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+    }
+
+    .avatar-img.done { border-color: #10b981; color: #10b981; background: #f0fdf4; }
+    .avatar-img.pending { border-color: #f59e0b; color: #f59e0b; background: #fffbeb; }
+    .avatar-img.reject { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
+    .avatar-img.skipped { border-style: dashed; border-color: #0dcaf0; color: #0dcaf0; }
+
+    /* Utilities */
+    .row-warning_OTNIVS { background-color: var(--row-warning-bg) !important; border-left: 4px solid #dc3545; }
+    .row-warning_OTNIVS td { color: #dc3545 !important; font-weight: 600; }
+    
+    .process-loader-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 100;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        backdrop-filter: blur(2px);
+    }
+</style>
+
+<div class="container_OTNIVS">
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs nav-tabs-custom_OTNIVS" id="otRealTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="tab-create" data-bs-toggle="tab" data-bs-target="#pane-create" type="button" onclick="closeDetailView()"><i class="bi bi-pencil-square me-1"></i> %CreateEditForm_OTRegister%</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="tab-history" data-bs-toggle="tab" data-bs-target="#pane-history" type="button" onclick="loadHistoryData()"><i class="bi bi-clock-history me-1"></i> %RegistrationHistory_OTRegister%</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Tab: Create/Edit -->
+        <div class="tab-pane fade show active" id="pane-create">
+            <div id="step1TypeSelection" class="row justify-content-center mb-3 mt-4">
+                <div class="col-md-5 mb-3">
+                    <div class="card_OTNIVS p-4 text-center shadow-sm cursor-pointer border-2" onclick="selectRegistrationType(1)" style="transition: transform 0.2s;">
+                        <i class="bi bi-calendar2-week text-success mb-2" style="font-size: 3rem;"></i>
+                        <h4 class="fw-bold text-success">%NormalDay_OTRegister%</h4>
+                        <p class="text-muted small">%TypeNormalDayDesc_OTRegister%</p>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <div class="card_OTNIVS p-4 text-center shadow-sm cursor-pointer border-2" onclick="selectRegistrationType(2)" style="transition: transform 0.2s;">
+                        <i class="bi bi-calendar2-x text-danger mb-2" style="font-size: 3rem;"></i>
+                        <h4 class="fw-bold text-danger">%Holiday_OTRegister%</h4>
+                        <p class="text-muted small">%TypeHolidayDesc_OTRegister%</p>
+                    </div>
+                </div>
+                <input type="hidden" id="hiddenTypeRegister" value="">
+            </div>
+
+            <div class="card_OTNIVS" id="step2FormControls" style="display: none;">
+                <div class="card-header_OTNIVS bg-light py-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary" id="lblSelectedType"></span>
+                        <span class="text-muted fw-bold small"><i class="bi bi-gear-fill me-1"></i> %FormParameters_OTRegister%</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="resetToCreateMode()"><i class="bi bi-arrow-repeat"></i> %Change_OTRegister%</button>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="section-label_OTNIVS"><i class="bi bi-people-fill me-1"></i> %GroupDivision_OTRegister%</label>
+                            <select class="form-select form-select-sm fw-bold" id="select-group"></select>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="section-label_OTNIVS"><i class="bi bi-calendar-event me-1"></i> %SelectOTDate_OTRegister%</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control fw-bold text-primary" id="dateOT" placeholder="DD/MM/YYYY" maxlength="10" oninput="handleDateInput(this)">
+                                <input type="date" class="form-control" style="max-width: 40px; padding: 0;" onchange="syncDatePicker(this, '#dateOT')">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 text-end align-self-end">
+                            <button class="btn btn-success btn-sm w-100 fw-bold" onclick="loadActualData()"><i class="bi bi-cloud-arrow-down-fill me-1"></i> %LoadDataBtn_OTRegister%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail View Header (for View/Edit mode) -->
+            <div class="card_OTNIVS bg-info-subtle border-info mb-3" id="viewDetailHeader" style="display: none;">
+                <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-info-emphasis fw-bold mb-1"><i class="bi bi-eye-fill me-2"></i>%FormDetail_OTRegister% <span class="badge bg-primary ms-2" id="lblDetailID"></span></h6>
+                        <div class="text-muted small"><i class="bi bi-person"></i> %CreatedBy_OTRegister%: <span id="lblDetailCreator" class="fw-bold"></span> | <i class="bi bi-clock"></i> <span id="lblDetailCreateTime"></span></div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary bg-white" onclick="closeDetailView()"><i class="bi bi-arrow-left"></i> %Back_OTRegister%</button>
+                </div>
+            </div>
+
+            <!-- Approval Flow Section (Upgraded to 5 nodes) -->
+            <div class="card_OTNIVS" id="approverSection" style="display: none;">
+                <div class="card-header_OTNIVS bg-light py-2">
+                    <h6 class="fw-bold text-muted text-uppercase m-0 small"><i class="bi bi-diagram-3-fill me-1"></i>%ApprovalFlow_OTRegister%</h6>
+                </div>
+                <div class="card-body py-3">
+                    <div class="flow-wrapper_OTNIVS">
+                        <div class="flow-node" id="node1">
+                            <label class="small fw-bold mb-1">%Level1_OTRegister%</label>
+                            <select class="form-select form-select-sm w-75 mb-1" id="approver1"></select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line1"></div>
+                                <div class="avatar-img shadow-sm" id="avt1"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center d-none" id="remark1"></div>
+                        </div>
+                        <div class="flow-node" id="node2">
+                            <label class="small fw-bold mb-1">%Level2_OTRegister%</label>
+                            <select class="form-select form-select-sm w-75 mb-1" id="approver2"></select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line2"></div>
+                                <div class="avatar-img shadow-sm" id="avt2"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center d-none" id="remark2"></div>
+                        </div>
+                        <div class="flow-node" id="node3">
+                            <label class="small fw-bold mb-1">%Level3_OTRegister%</label>
+                            <select class="form-select form-select-sm w-75 mb-1" id="approver3"></select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line3"></div>
+                                <div class="avatar-img shadow-sm" id="avt3"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center d-none" id="remark3"></div>
+                        </div>
+                        <div class="flow-node" id="node4">
+                            <label class="small fw-bold mb-1">%Level4_OTRegister%</label>
+                            <select class="form-select form-select-sm w-75 mb-1" id="approver4"></select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line4"></div>
+                                <div class="avatar-img shadow-sm" id="avt4"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center d-none" id="remark4"></div>
+                        </div>
+                        <div class="flow-node" id="node5" style="display: none;">
+                            <label class="small fw-bold mb-1">Level 5</label>
+                            <select class="form-select form-select-sm w-75 mb-1" id="approver5"></select>
+                            <div class="avt-wrapper">
+                                <div class="avatar-img shadow-sm" id="avt5"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center d-none" id="remark5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Data Table -->
+            <div class="card_OTNIVS position-relative" id="dataTableSection" style="display: none;">
+                <div id="tableLoadingProcess" class="process-loader-overlay d-none">
+                    <div class="spinner-border text-success" role="status"></div>
+                    <div class="mt-2 fw-bold text-success">%LoadingData_OTRegister%</div>
+                </div>
+                <div class="card-header_OTNIVS py-2">
+                    <h6 class="m-0 fw-bold"><i class="bi bi-table text-primary me-2"></i>%DataTable_OTRegister%</h6>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-success fw-bold" onclick="openAddExtraEmpModal()"><i class="bi bi-person-plus-fill me-1"></i> %AddEmpBtn_OTRegister%</button>
+                        <div class="form-check form-switch pt-1">
+                            <input class="form-check-input" type="checkbox" id="switchDeviated" onchange="filterDeviatedData()">
+                            <label class="form-check-label fw-bold text-danger small" for="switchDeviated">%ShowDeviatedOnly%</label>
+                        </div>
+                        <input type="text" id="searchEmpInput" class="form-control form-control-sm" style="width: 150px;" placeholder="%SearchEmp%..." onkeyup="searchEmployee()">
+                    </div>
+                </div>
+                <div class="table-scroll-container">
+                    <table class="table_OTNIVS">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">#</th>
+                                <th style="width: 90px;">%EmpCode_OTRegister%</th>
+                                <th class="text-start">%FullName_OTRegister%</th>
+                                <th style="width: 120px;">%Shift_OTRegister%</th>
+                                <th class="bg-planned_OTNIVS" style="width: 80px;">%PlanFrom%</th>
+                                <th class="bg-planned_OTNIVS" style="width: 80px;">%PlanTo%</th>
+                                <th class="bg-planned_OTNIVS" style="width: 60px;">%Hrs%</th>
+                                <th class="bg-actual_OTNIVS" style="width: 100px;">%ActualFrom%</th>
+                                <th class="bg-actual_OTNIVS" style="width: 100px;">%ActualTo%</th>
+                                <th class="bg-actual_OTNIVS" style="width: 70px;">%Total%</th>
+                                <th style="width: 40px;"><i class="bi bi-trash"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-light p-2 d-flex justify-content-end gap-3" id="summarySection" style="display: none;">
+                    <div class="badge bg-secondary px-3 py-2">%TotalEmployees%: <span id="sumEmpCount" class="fw-bold">0</span></div>
+                    <div class="badge bg-success px-3 py-2">%TotalActualHours%: <span id="sumOTHours" class="fw-bold">0</span>h</div>
+                </div>
+                <div class="card-footer p-3 bg-white" id="tableFooter" style="display: none;">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-9">
+                            <label class="section-label_OTNIVS"><i class="bi bi-chat-left-text me-1"></i> %Reason_OTRegister%</label>
+                            <input type="text" class="form-control" id="globalRemark" placeholder="%ReasonPlaceholder%...">
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button class="btn btn-primary w-100 fw-bold shadow-sm" id="btnSubmitForm" onclick="submitData()"><i class="bi bi-send-check-fill me-1"></i> %SubmitApproveBtn_OTRegister%</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: History -->
+        <div class="tab-pane fade" id="pane-history">
+            <!-- Simplified History List -->
+            <div class="card_OTNIVS mt-3">
+                <div class="card-body p-3">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-4">
+                            <label class="section-label_OTNIVS">%FromDate%</label>
+                            <input type="date" class="form-control form-control-sm" id="hisFromDate">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="section-label_OTNIVS">%ToDate%</label>
+                            <input type="date" class="form-control form-control-sm" id="hisToDate">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary btn-sm w-100 fw-bold" onclick="loadHistoryData()"><i class="bi bi-search me-1"></i> %Filter%</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table_OTNIVS table-hover">
+                        <thead>
+                            <tr>
+                                <th>%Date%</th>
+                                <th>%Group%</th>
+                                <th>%Status%</th>
+                                <th>%Approvers%</th>
+                                <th>%Action%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Add Extra Employee (Restored from Plan OT) -->
+<div class="modal fade" id="modalAddExtraEmp" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>%AddExtraEmpModalTitle_OTRegister%</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="p-3 bg-light border-bottom">
+                    <div class="input-group">
+                        <input type="text" id="searchExtraEmpInput" class="form-control" placeholder="%SearchEmp%..." onkeypress="if(event.key === 'Enter') searchExtraEmp()">
+                        <button class="btn btn-success" onclick="searchExtraEmp()"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover table-sm text-center align-middle" id="extraEmpTable">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th style="width:40px;"><input type="checkbox" id="chkAllExtra" onchange="toggleAllExtraEmp()"></th>
+                                <th>%Code%</th>
+                                <th class="text-start">%FullName%</th>
+                                <th>%Division%</th>
+                                <th>%Group%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="extraEmpTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">%Close%</button>
+                <button class="btn btn-success btn-sm fw-bold" onclick="confirmAddExtraEmp()">%AddToForm%</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script>
+    /* 
+       CORE LOGIC: UPGRADED TO 4/5 LEVELS CASCADING
+    */
+    var DYNAMIC_LEVELS = { 2: false, 3: false, 4: false, 5: false };
+    var CURRENT_IDENTITY_ID = null, CURRENT_STATUS = null, IS_LOCKED = false, IS_VIEW_MODE = false;
+    var SHIFT_DICT = {}; 
+    var EMP_LIST = []; 
+
+    function waitInit() {
+        if (typeof moment !== 'undefined') initForm();
+        else setTimeout(waitInit, 50);
+    }
+    waitInit();
+
+    function initForm() {
+        $('#dateOT').val(moment().format('DD/MM/YYYY'));
+        $('#hisToDate').val(moment().format('YYYY-MM-DD'));
+        $('#hisFromDate').val(moment().subtract(1, 'months').format('YYYY-MM-DD'));
+        
+        loadGroups();
+    }
+
+    function selectRegistrationType(type) {
+        $('#hiddenTypeRegister').val(type);
+        $('#lblSelectedType').text(type == 1 ? '%TypeNormalDay_OTRegister%' : '%TypeHoliday_OTRegister%')
+            .removeClass('bg-success bg-danger').addClass(type == 1 ? 'bg-success' : 'bg-danger');
+
+        // Setup UI nodes based on type
+        // Regular (Type 1): 4 Levels | Holiday (Type 2): 5 Levels
+        if (type == 2) {
+            $('#node4, #node5, #line3, #line4').show();
+        } else {
+            $('#node4, #line3').show();
+            $('#node5, #line4').hide();
+        }
+
+        $('#step1TypeSelection').slideUp(200, function() { $('#step2FormControls').fadeIn(200); });
+        resetTableAndFlow();
+        loadApprovers();
+    }
+
+    function resetToCreateMode() {
+        IS_VIEW_MODE = false; CURRENT_IDENTITY_ID = null; IS_LOCKED = false;
+        $('#viewDetailHeader, #step2FormControls, #dataTableSection, #approverSection').hide();
+        $('#step1TypeSelection').slideDown(200);
+        $('#tableBody').empty();
+        $('#approver1, #approver2, #approver3, #approver4, #approver5, #globalRemark').val('');
+    }
+
+    function closeDetailView() {
+        resetToCreateMode();
+        var tab = new bootstrap.Tab(document.querySelector('#tab-create'));
+        tab.show();
+    }
+
+    // --- APPROVER LOGIC (CASCADING 5 LEVELS) ---
+    function loadApprovers(mData = null) {
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+        AjaxHPAParadise({
+            data: { name: "API_GetApprovers", param: ["LeaderEmpID", LoginID, "OTType", 2, "TypeRegister", typeReg] }, // OTType 2 = Actual
+            success: function(res) {
+                var p = JSON.parse(res);
+                // Clear all
+                for(let i=1; i<=5; i++) {
+                    $(`#approver${i}`).empty().append('<option value="">-- %Select% --</option>').prop('disabled', i > 1);
+                    if(i <= 2) $(`#approver${i}`).append('<option value="SKIP" class="text-primary fw-bold">-- SKIP --</option>');
+                }
+
+                if (p.result === "success" && p.data[0].length > 0) {
+                    var counts = {1:0, 2:0, 3:0, 4:0, 5:0}, vals = {};
+                    p.data[0].forEach(a => {
+                        $(`#approver${a.approver}`).append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                        counts[a.approver]++; vals[a.approver] = a.EmployeeID;
+                    });
+
+                    // Detect dynamic levels (those not returned by API_GetApprovers)
+                    for(let i=2; i<=5; i++) DYNAMIC_LEVELS[i] = (counts[i] === 0);
+
+                    // Auto-set fixed approvers
+                    for(let i=1; i<=5; i++) {
+                        if(counts[i] === 1) $(`#approver${i}`).val(vals[i]).prop('disabled', true).addClass('bg-light text-dark fw-bold');
+                    }
+
+                    if(mData) {
+                        // Restore values for View Mode
+                        for(let i=1; i<=5; i++) {
+                            if(mData[`Approver_${i}`]) $(`#approver${i}`).val(mData[`Approver_${i}`]);
+                        }
+                        if(IS_LOCKED) $('select[id^="approver"]').prop('disabled', true);
+                        
+                        // Start cascading chain
+                        recursiveLoadDynamic(1, mData);
+                    } else {
+                        // Start cascading for new form if Level 1 is fixed
+                        if(counts[1] === 1) triggerLoadNext(1, vals[1]);
+                        updateFlowUI();
+                    }
+                }
+            }
+        });
+    }
+
+    function recursiveLoadDynamic(lvl, mData) {
+        if(lvl >= 5) { updateFlowUI(mData); return; }
+        let next = lvl + 1;
+        if(DYNAMIC_LEVELS[next]) {
+            let prevVal = $(`#approver${lvl}`).val();
+            if(prevVal === 'SKIP') prevVal = findLastNonSkip(lvl);
+            triggerLoadNext(lvl, prevVal, mData[`Approver_${next}`], function() { recursiveLoadDynamic(next, mData); });
+        } else {
+            recursiveLoadDynamic(next, mData);
+        }
+    }
+
+    function findLastNonSkip(lvl) {
+        for(let i=lvl-1; i>=1; i--) {
+            let val = $(`#approver${i}`).val();
+            if(val && val !== 'SKIP') return val;
+        }
+        return null;
+    }
+
+    $(document).on('change', 'select[id^="approver"]', function() {
+        let lvl = parseInt(this.id.replace('approver', ''));
+        if(lvl < 5) {
+            // Clear sub-levels if they are dynamic
+            for(let i=lvl+1; i<=5; i++) if(DYNAMIC_LEVELS[i]) $(`#approver${i}`).val('').prop('disabled', true);
+            
+            let val = $(this).val();
+            if(val === 'SKIP') val = findLastNonSkip(lvl);
+            triggerLoadNext(lvl, val);
+        }
+        updateFlowUI();
+    });
+
+    function triggerLoadNext(currentLvl, empId, valToSet = null, callback = null) {
+        let targetLvl = currentLvl + 1;
+        let sel = $(`#approver${targetLvl}`);
+        if(!DYNAMIC_LEVELS[targetLvl]) { if(callback) callback(); return; }
+
+        sel.empty().append('<option value="">-- Loading... --</option>');
+        if(!empId) { sel.empty().append('<option value="">-- %Select% --</option>').prop('disabled', true); return; }
+
+        let typeReg = $('#hiddenTypeRegister').val() || 1;
+        AjaxHPAParadise({
+            data: { name: "API_GetNextLevelApprovers_Plan", param: ["LeaderEmpID", LoginID, "PrevLevelEmpID", empId, "TargetLevel", targetLvl, "TypeRegister", typeReg] },
+            success: function(res) {
+                let p = JSON.parse(res);
+                sel.empty().append('<option value="">-- %Select% --</option>');
+                if(targetLvl <= 2) sel.append('<option value="SKIP" class="text-primary fw-bold">-- SKIP --</option>');
+                
+                let count = 0, firstVal = "";
+                if(p.result === "success" && p.data[0].length > 0) {
+                    p.data[0].forEach(a => {
+                        sel.append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                        count++; firstVal = a.EmployeeID;
+                    });
+                }
+                sel.prop('disabled', false).removeClass('bg-light');
+                if(valToSet) sel.val(valToSet);
+                else if(count === 1) sel.val(firstVal).prop('disabled', true).addClass('bg-light text-dark fw-bold');
+
+                if(callback) callback();
+                else if(count === 1 && targetLvl < 5) triggerLoadNext(targetLvl, firstVal === 'SKIP' ? empId : firstVal);
+                updateFlowUI();
+            }
+        });
+    }
+
+    function updateFlowUI(mData = null) {
+        let typeReg = $('#hiddenTypeRegister').val() || 1;
+        let maxLvl = (typeReg == 2) ? 5 : 4;
+        let curLvl = mData ? parseInt(mData.Current_Approved_Level) : 1;
+        let status = mData ? parseInt(mData.Approve_Status) : 0;
+
+        for(let i=1; i<=5; i++) {
+            let node = $(`#node${i}`), avt = $(`#avt${i}`), line = $(`#line${i}`), remark = $(`#remark${i}`);
+            let val = mData ? mData[`Approver_${i}`] : $(`#approver${i}`).val();
+            let name = mData ? mData[`Approver${i}_Name`] : $(`#approver${i} option:selected`).text();
+
+            if(i > maxLvl) { node.hide(); continue; }
+            node.show();
+            if(line.length) line.toggle(i < maxLvl);
+
+            avt.removeClass('done pending reject skipped').addClass('text-muted');
+            avt.html('<i class="bi bi-person-fill"></i>');
+            if(line.length) line.removeClass('active');
+            remark.addClass('d-none').empty();
+
+            if(IS_VIEW_MODE && mData) {
+                $(`#approver${i}`).hide();
+                if(val === 'SKIP') {
+                    avt.addClass('skipped').html('<i class="bi bi-fast-forward-fill"></i>');
+                    if(line.length) line.addClass('active');
+                    remark.removeClass('d-none').html('<span class="badge bg-info text-dark">SKIP</span>');
+                } else if(val) {
+                    let date = mData[`ApproveDate_${i}`];
+                    let isDone = (date || status === 2 || (status === 3 && curLvl > i));
+                    let isReject = (status === 3 && curLvl === i);
+                    let isWait = ((status === 1 || status === 5) && curLvl === i);
+
+                    if(isDone) {
+                        avt.addClass('done').html('<i class="bi bi-check-lg"></i>');
+                        if(line.length) line.addClass('active');
+                        remark.removeClass('d-none').html(`<div class="fw-bold small">${name}</div><div class="text-success x-small">Approved</div>`);
+                    } else if(isReject) {
+                        avt.addClass('reject').html('<i class="bi bi-x-lg"></i>');
+                        remark.removeClass('d-none').html(`<div class="fw-bold small">${name}</div><div class="text-danger x-small">Rejected</div>`);
+                    } else if(isWait) {
+                        avt.addClass('pending').html('<i class="bi bi-hourglass-split"></i>');
+                        remark.removeClass('d-none').html(`<div class="fw-bold small">${name}</div><div class="text-warning x-small">Waiting...</div>`);
+                    } else {
+                        remark.removeClass('d-none').html(`<div class="fw-bold small">${name}</div>`);
+                    }
+                }
+            } else {
+                $(`#approver${i}`).show();
+                if(val === 'SKIP') {
+                    avt.addClass('skipped').html('<i class="bi bi-fast-forward-fill"></i>');
+                    if(line.length) line.addClass('active');
+                } else if(val) {
+                    avt.addClass('done').html('<i class="bi bi-person-check-fill"></i>');
+                    if(line.length) line.addClass('active');
+                }
+            }
+        }
+    }
+
+    // --- DATA LOADING & TABLE ---
+    function loadActualData() {
+        var targetId = $('#select-group').val();
+        var date = $('#dateOT').val();
+        if(!targetId || !date) return uiManager.showAlert({ type: "warning", message: "Vui lòng chọn Nhóm và Ngày!" });
+
+        $('#tableLoadingProcess').removeClass('d-none');
+        AjaxHPAParadise({
+            data: { 
+                name: "API_OTConfirm_CreateOrGet", 
+                param: [targetId, moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD'), LoginID, $('#hiddenTypeRegister').val(), $('#select-group option:selected').data('isdiv')] 
+            },
+            success: function(res) {
+                $('#tableLoadingProcess').addClass('d-none');
+                var p = JSON.parse(res);
+                if(p.result === 'error') return uiManager.showAlert({ type: "warning", message: p.reason });
+
+                var master = p.data[0][0];
+                CURRENT_IDENTITY_ID = master.Identity_ID;
+                CURRENT_STATUS = master.Approve_Status;
+                IS_LOCKED = (CURRENT_STATUS > 0 && CURRENT_STATUS !== 3); // Locked if Pending/Approved/Cancelled
+
+                $('#approverSection, #dataTableSection, #summarySection').show();
+                $('#tableFooter').toggle(!IS_LOCKED);
+                $('#globalRemark').val(master.ApproverRemark_1 || ''); // Use as global reason
+
+                renderTable(p.data[1]);
+                loadApprovers(master);
+            }
+        });
+    }
+
+    function renderTable(data) {
+        var tbody = $('#tableBody'); tbody.empty();
+        EMP_LIST = data;
+        var totalHrs = 0;
+
+        data.forEach((row, i) => {
+            var actualHrs = parseFloat(row.Actual_OTHours) || 0;
+            totalHrs += actualHrs;
+            
+            var isDeviated = (actualHrs > (parseFloat(row.Planned_OTHours) || 0));
+            var rowClass = isDeviated ? 'row-warning_OTNIVS' : '';
+            
+            var aF = row.Saved_OTFrom || row.Planned_OTFrom || '';
+            var aT = row.Saved_OTTo || row.Planned_OTTo || '';
+
+            tbody.append(`
+                <tr class="employee-row ${rowClass}" data-emp="${row.EmployeeID}">
+                    <td class="small text-muted">${i+1}</td>
+                    <td class="fw-bold text-primary">${row.EmployeeID}</td>
+                    <td class="text-start small">${row.FullName}</td>
+                    <td class="small">${row.ShiftName || ''}<br><span class="text-muted x-small">${row.WorkStart || '--'} - ${row.WorkEnd || '--'}</span></td>
+                    <td class="bg-planned_OTNIVS text-muted small">${row.Planned_OTFrom || '--:--'}</td>
+                    <td class="bg-planned_OTNIVS text-muted small">${row.Planned_OTTo || '--:--'}</td>
+                    <td class="bg-planned_OTNIVS fw-bold small">${parseFloat(row.Planned_OTHours || 0).toFixed(1)}</td>
+                    <td class="bg-actual_OTNIVS">
+                        <input type="text" class="input-compact_OTNIVS act-from" value="${aF}" ${IS_LOCKED ? 'disabled' : ''} onblur="recalcRow(this)">
+                    </td>
+                    <td class="bg-actual_OTNIVS">
+                        <input type="text" class="input-compact_OTNIVS act-to" value="${aT}" ${IS_LOCKED ? 'disabled' : ''} onblur="recalcRow(this)">
+                    </td>
+                    <td class="bg-actual_OTNIVS fw-bold text-success actual-hrs">${actualHrs.toFixed(1)}</td>
+                    <td>
+                        ${!IS_LOCKED ? `<button class="btn btn-sm btn-outline-danger border-0" onclick="removeRow('${row.EmployeeID}')"><i class="bi bi-trash"></i></button>` : ''}
+                    </td>
+                </tr>
+            `);
+            SHIFT_DICT[row.EmployeeID] = row;
+        });
+
+        $('#sumEmpCount').text(data.length);
+        $('#sumOTHours').text(totalHrs.toFixed(1));
+    }
+
+    function recalcRow(el) {
+        var tr = $(el).closest('tr');
+        var empId = tr.data('emp');
+        var s = SHIFT_DICT[empId];
+        var f = tr.find('.act-from').val(), t = tr.find('.act-to').val();
+        
+        // Helper to format time HH:mm
+        if(f) f = formatTime(f); if(t) t = formatTime(t);
+        tr.find('.act-from').val(f); tr.find('.act-to').val(t);
+
+        var hrs = calculateOTHours_Logic(f, t, s.WorkStart, s.WorkEnd, s.OTBeforeStart, s.OTBeforeEnd, s.OTAfterStart, s.OTAfterEnd, $('#hiddenTypeRegister').val(), s.IsDirect, s.HolidayStatus, s.IsAllowLate, s.EmployeeTypeID);
+        tr.find('.actual-hrs').text(hrs.toFixed(1));
+
+        var pId = parseFloat(s.Planned_OTHours) || 0;
+        tr.toggleClass('row-warning_OTNIVS', hrs > pId);
+        
+        updateSummary();
+    }
+
+    function formatTime(v) {
+        v = v.replace(/\D/g, '');
+        if(v.length === 1) v = '0' + v + '00';
+        else if(v.length === 2) v = v + '00';
+        else if(v.length === 3) v = '0' + v;
+        if(v.length > 4) v = v.substring(0, 4);
+        return v.substring(0, 2) + ':' + v.substring(2, 4);
+    }
+
+    function updateSummary() {
+        var total = 0, count = 0;
+        $('.actual-hrs').each(function() { total += parseFloat($(this).text()) || 0; count++; });
+        $('#sumEmpCount').text(count);
+        $('#sumOTHours').text(total.toFixed(1));
+    }
+
+    // --- LOGIC CALCULATOR (REPLICATED FROM PLAN) ---
+    function calculateOTHours_Logic(f, t, ws, we, bs, be, as, ae, typeReg, isDirect, isHol, isAllowLate, empTypeID) {
+        if(!f || !t || f.length<5 || t.length<5) return 0;
+        function toM(ts) { let p = ts.split(':'); return parseInt(p[0])*60 + parseInt(p[1]); }
+        let mf = toM(f), mt = toM(t);
+        if(mt < mf) mt += 1440;
+
+        // Holiday Logic
+        if(typeReg == 2 || isHol > 0) {
+            let h = (mt - mf) / 60;
+            if(empTypeID == 0 && mf <= 720 && mt > 720) h -= 0.5; // Lunch break
+            return Math.floor(Math.max(0, h) * 2) / 2;
+        }
+
+        // Regular Logic
+        if(!ws || !we) return 0;
+        let tws = toM(ws), twe = toM(we);
+        if(twe < tws) twe += 1440;
+        
+        function align(x, ref) { if(x<ref-360) return x+1440; if(x>ref+1080) return x-1440; return x; }
+        let af = align(mf, tws), at = align(mt, af);
+        
+        let tbs = bs ? align(toM(bs), tws) : null, tbe = be ? align(toM(be), tws) : null;
+        let tas = as ? align(toM(as), twe) : null, tae = ae ? align(toM(ae), tas || twe) : null;
+
+        let hrs = 0;
+        if(tbs !== null && tbe !== null) { if(tbe<tbs) tbe+=1440; hrs += Math.max(0, Math.min(at, tbe) - Math.max(af, tbs)) / 60; }
+        if(tas !== null && tae !== null) { if(tae<tas) tae+=1440; hrs += Math.max(0, Math.min(at, tae) - Math.max(af, tas)) / 60; }
+        
+        // Maternity
+        if(isAllowLate == '1') { let e = tws+60; if(af<e && at>tws) hrs += (Math.min(at, e)-Math.max(af, tws))/60; }
+        else if(isAllowLate == '0') { let s = twe-60; if(at>s && af<twe) hrs += (Math.min(at, twe)-Math.max(af, s))/60; }
+
+        return Math.floor(hrs * 2) / 2;
+    }
+
+    // --- EXTRA EMPLOYEE LOGIC ---
+    function openAddExtraEmpModal() {
+        if(IS_LOCKED) return uiManager.showAlert({ type: "warning", message: "Đơn đã khóa, không thể thêm nhân viên!" });
+        $('#modalAddExtraEmp').modal('show');
+        $('#extraEmpTableBody').html('<tr><td colspan="5" class="py-3 text-muted">Nhập mã nhân viên để tìm kiếm...</td></tr>');
+    }
+
+    function searchExtraEmp() {
+        var k = $('#searchExtraEmpInput').val();
+        if(!k) return;
+        $('#extraEmpTableBody').html('<tr><td colspan="5" class="py-3 text-muted"><span class="spinner-border spinner-border-sm"></span> Đang tìm...</td></tr>');
+        AjaxHPAParadise({
+            data: { name: "API_GetScheduleForExtraEmp", param: [k, moment($('#dateOT').val(), 'DD/MM/YYYY').format('YYYY-MM-DD')] },
+            success: function(res) {
+                var p = JSON.parse(res);
+                var b = $('#extraEmpTableBody'); b.empty();
+                if(p.result === "success" && p.data[0].length > 0) {
+                    p.data[0].forEach(row => {
+                        b.append(`
+                            <tr>
+                                <td><input type="checkbox" class="form-check-input chk-extra" data-json='${JSON.stringify(row)}'></td>
+                                <td>${row.EmployeeID}</td>
+                                <td class="text-start">${row.FullName}</td>
+                                <td>${row.DivisionName || ''}</td>
+                                <td>${row.GroupName || ''}</td>
+                            </tr>
+                        `);
+                    });
+                } else b.html('<tr><td colspan="5" class="py-3 text-danger">Không tìm thấy nhân viên hoặc chưa có Kế hoạch được duyệt!</td></tr>');
+            }
+        });
+    }
+
+    function confirmAddExtraEmp() {
+        $('.chk-extra:checked').each(function() {
+            var row = $(this).data('json');
+            if($(`.employee-row[data-emp="${row.EmployeeID}"]`).length > 0) return;
+            
+            // Map Plan data
+            row.Planned_OTFrom = row.OTFrom;
+            row.Planned_OTTo = row.OTTo;
+            row.Planned_OTHours = row.OTHours;
+            row.Saved_OTFrom = row.OTFrom;
+            row.Saved_OTTo = row.OTTo;
+            row.Actual_OTHours = row.OTHours;
+            row.IsExtraEmp = 1;
+
+            EMP_LIST.push(row);
+            renderTable(EMP_LIST);
+        });
+        $('#modalAddExtraEmp').modal('hide');
+    }
+
+    function removeRow(empId) {
+        EMP_LIST = EMP_LIST.filter(e => e.EmployeeID !== empId);
+        renderTable(EMP_LIST);
+    }
+
+    // --- SUBMIT ---
+    async function submitData() {
+        if(IS_LOCKED) return;
+        var a1 = $('#approver1').val(), a2 = $('#approver2').val(), a3 = $('#approver3').val(), a4 = $('#approver4').val(), a5 = $('#approver5').val();
+        var typeReg = $('#hiddenTypeRegister').val();
+
+        if(!a1 || !a3 || (typeReg == 1 && !a4) || (typeReg == 2 && !a5)) {
+            return uiManager.showAlert({ type: "warning", message: "Vui lòng chọn đầy đủ người duyệt các cấp!" });
+        }
+
+        var details = [];
+        $('.employee-row').each(function() {
+            var tr = $(this);
+            var empId = tr.data('emp');
+            details.push({
+                EmployeeID: empId,
+                ActualFrom: tr.find('.act-from').val(),
+                ActualTo: tr.find('.act-to').val(),
+                Actual_OTHours: parseFloat(tr.find('.actual-hrs').text()) || 0,
+                IsExtraEmp: SHIFT_DICT[empId].IsExtraEmp || 0,
+                IsIndirectEmp: SHIFT_DICT[empId].IsIndirectEmp || 0
+            });
+        });
+
+        if(details.length === 0) return uiManager.showAlert({ type: "warning", message: "Không có dữ liệu nhân viên!" });
+
+        $('#tableLoadingProcess').removeClass('d-none');
+        var res = await AjaxHPAParadiseAsync({
+            data: { 
+                name: "API_OTConfirm_Submit", 
+                param: [
+                    CURRENT_IDENTITY_ID, 
+                    $('#select-group').val(), 
+                    LoginID, 
+                    typeReg, 
+                    moment($('#dateOT').val(), 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                    a1, a2, a3, a4, a5, 
+                    $('#globalRemark').val(), 
+                    JSON.stringify(details),
+                    $('#select-group option:selected').data('isdiv') || 0
+                ] 
+            }
+        });
+        $('#tableLoadingProcess').addClass('d-none');
+
+        if(res) {
+            uiManager.showAlert({ type: "success", message: "Gửi đơn duyệt thành công!" });
+            closeDetailView();
+        } else {
+            uiManager.showAlert({ type: "danger", message: "Lỗi khi lưu dữ liệu!" });
+        }
+    }
+
+    // --- SEARCH ---
+    function searchEmployee() {
+        var k = $('#searchEmpInput').val().toLowerCase();
+        $('.employee-row').each(function() {
+            var t = $(this).text().toLowerCase();
+            $(this).toggle(t.includes(k));
+        });
+    }
+
+    function filterDeviatedData() {
+        var check = $('#switchDeviated').is(':checked');
+        $('.employee-row').each(function() {
+            if(check) $(this).toggle($(this).hasClass('row-warning_OTNIVS'));
+            else $(this).show();
+        });
+    }
+</script>

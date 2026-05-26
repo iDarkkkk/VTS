@@ -1,0 +1,928 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+    }
+
+    body {
+        font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+        background: var(--color-background-tertiary, #f5f5f0);
+        min-height: 100vh
+    }
+
+    :root {
+        --green: #1a7a4a;
+        --green-light: #e8f5ee;
+        --green-mid: #2d9e5f;
+        --red: #c0392b;
+        --red-light: #fdf0f0;
+        --amber: #b8730a;
+        --amber-light: #fef9f0;
+        --blue: #1565c0;
+        --blue-light: #e8f0fe;
+        --gray: #6b7280;
+        --gray-light: #f9fafb;
+        --border: #e5e7eb;
+        --white: #ffffff;
+        --radius: 12px;
+        --shadow: 0 2px 12px rgba(0, 0, 0, .07)
+    }
+
+    .app-header {
+        background: linear-gradient(135deg, #1a7a4a 0%, #2d9e5f 100%);
+        padding: 16px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 100
+    }
+
+    .app-header h1 {
+        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
+        margin: 0
+    }
+
+    .app-header .subtitle {
+        color: rgba(255, 255, 255, .75);
+        font-size: 12px;
+        margin-top: 2px
+    }
+
+    .month-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        background: var(--white);
+        border-bottom: 1px solid var(--border)
+    }
+
+    .month-nav .month-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827
+    }
+
+    .month-nav .nav-btn {
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: .15s;
+        color: #374151
+    }
+
+    .month-nav .nav-btn:hover {
+        background: var(--green-light);
+        border-color: var(--green)
+    }
+
+    .view-toggle {
+        display: flex;
+        gap: 6px;
+        padding: 12px 20px;
+        background: var(--white);
+        border-bottom: 1px solid var(--border)
+    }
+
+    .view-btn {
+        flex: 1;
+        padding: 9px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--white);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: .15s;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px
+    }
+
+    .view-btn.active {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff
+    }
+
+    .summary-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 12px 20px;
+        background: var(--white);
+        border-bottom: 1px solid var(--border)
+    }
+
+    .stat-pill {
+        text-align: center;
+        padding: 10px 6px;
+        border-radius: 10px;
+        background: var(--gray-light)
+    }
+
+    .stat-pill .val {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1
+    }
+
+    .stat-pill .lbl {
+        font-size: 10px;
+        color: var(--gray);
+        margin-top: 3px;
+        line-height: 1.3
+    }
+
+    .stat-pill.green .val {
+        color: var(--green)
+    }
+
+    .stat-pill.red .val {
+        color: var(--red)
+    }
+
+    .stat-pill.amber .val {
+        color: var(--amber)
+    }
+
+    .stat-pill.blue .val {
+        color: var(--blue)
+    }
+
+    .calendar-view {
+        padding: 12px 20px 20px
+    }
+
+    .cal-header {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        margin-bottom: 6px
+    }
+
+    .cal-header span {
+        text-align: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--gray);
+        padding: 4px 0
+    }
+
+    .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px
+    }
+
+    .cal-cell {
+        border-radius: 10px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        padding: 6px 5px;
+        cursor: pointer;
+        transition: .15s;
+        min-height: 72px;
+        position: relative;
+        overflow: hidden
+    }
+
+    .cal-cell:hover {
+        border-color: var(--green);
+        box-shadow: 0 0 0 2px rgba(26, 122, 74, .12)
+    }
+
+    .cal-cell.empty {
+        background: transparent;
+        border-color: transparent;
+        cursor: default
+    }
+
+    .cal-cell.empty:hover {
+        box-shadow: none
+    }
+
+    .cal-cell.today {
+        border-color: var(--green);
+        border-width: 2px
+    }
+
+    .cal-cell.weekend {
+        background: #fafafa
+    }
+
+    .cal-cell.off {
+        background: #f3f4f6
+    }
+
+    .cal-cell .day-num {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 3px
+    }
+
+    .cal-cell.weekend .day-num,
+    .cal-cell.off .day-num {
+        color: #9ca3af
+    }
+
+    .cal-cell.today .day-num {
+        color: var(--green)
+    }
+
+    .cal-cell .time-row {
+        font-size: 9.5px;
+        color: #4b5563;
+        line-height: 1.4
+    }
+
+    .cal-cell .badge-work {
+        font-size: 9px;
+        font-weight: 700;
+        padding: 2px 5px;
+        border-radius: 5px;
+        margin-top: 3px;
+        display: inline-block
+    }
+
+    .badge-ok {
+        background: #d1fae5;
+        color: #065f46
+    }
+
+    .badge-warn {
+        background: #fee2e2;
+        color: #991b1b
+    }
+
+    .badge-partial {
+        background: #fef3c7;
+        color: #92400e
+    }
+
+    .badge-leave {
+        background: #e0e7ff;
+        color: #3730a3
+    }
+
+    .badge-off {
+        background: #f3f4f6;
+        color: #6b7280
+    }
+
+    .cal-cell .dot-row {
+        display: flex;
+        gap: 2px;
+        margin-top: 2px;
+        flex-wrap: wrap
+    }
+
+    .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%
+    }
+
+    .dot-ot {
+        background: #f59e0b
+    }
+
+    .dot-late {
+        background: #ef4444
+    }
+
+    .dot-early {
+        background: #8b5cf6
+    }
+
+    .list-view {
+        padding: 0 20px 80px
+    }
+
+    .day-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        margin-bottom: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: .15s
+    }
+
+    .day-card:hover {
+        border-color: var(--green);
+        box-shadow: var(--shadow)
+    }
+
+    .day-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border)
+    }
+
+    .day-card-header .date-info .dname {
+        font-size: 13px;
+        font-weight: 600;
+        color: #111827
+    }
+
+    .day-card-header .date-info .dnum {
+        font-size: 12px;
+        color: var(--gray)
+    }
+
+    .day-card-header .status-badge {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px
+    }
+
+    .day-card-body {
+        padding: 12px 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px
+    }
+
+    .dc-item {
+        display: flex;
+        align-items: center;
+        gap: 6px
+    }
+
+    .dc-item .ic {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0
+    }
+
+    .dc-item .ic.green {
+        background: var(--green-light);
+        color: var(--green)
+    }
+
+    .dc-item .ic.red {
+        background: var(--red-light);
+        color: var(--red)
+    }
+
+    .dc-item .ic.amber {
+        background: var(--amber-light);
+        color: var(--amber)
+    }
+
+    .dc-item .ic.blue {
+        background: var(--blue-light);
+        color: var(--blue)
+    }
+
+    .dc-item .ic.gray {
+        background: #f3f4f6;
+        color: var(--gray)
+    }
+
+    .dc-item .dc-label {
+        font-size: 10px;
+        color: var(--gray)
+    }
+
+    .dc-item .dc-val {
+        font-size: 13px;
+        font-weight: 600;
+        color: #111827
+    }
+
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .45);
+        z-index: 200;
+        display: none;
+        align-items: flex-end
+    }
+
+    .overlay.show {
+        display: flex
+    }
+
+    .popup {
+        background: var(--white);
+        border-radius: 20px 20px 0 0;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: slideUp .25s ease
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%)
+        }
+
+        to {
+            transform: translateY(0)
+        }
+    }
+
+    .popup-handle {
+        width: 36px;
+        height: 4px;
+        border-radius: 2px;
+        background: #d1d5db;
+        margin: 12px auto 0
+    }
+
+    .popup-header {
+        padding: 16px 20px 12px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    .popup-header h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #111827
+    }
+
+    .popup-header .close-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #6b7280
+    }
+
+    .popup-body {
+        padding: 16px 20px
+    }
+
+    .section-title {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        color: var(--gray);
+        margin: 16px 0 8px
+    }
+
+    .section-title:first-child {
+        margin-top: 0
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px
+    }
+
+    .info-card {
+        background: var(--gray-light);
+        border-radius: 10px;
+        padding: 10px 12px
+    }
+
+    .info-card .ic-label {
+        font-size: 10px;
+        color: var(--gray);
+        margin-bottom: 2px
+    }
+
+    .info-card .ic-val {
+        font-size: 15px;
+        font-weight: 700;
+        color: #111827
+    }
+
+    .info-card .ic-sub {
+        font-size: 10px;
+        color: var(--gray);
+        margin-top: 1px
+    }
+
+    .info-card.highlight {
+        background: var(--green-light)
+    }
+
+    .info-card.highlight .ic-val {
+        color: var(--green)
+    }
+
+    .info-card.warn {
+        background: var(--red-light)
+    }
+
+    .info-card.warn .ic-val {
+        color: var(--red)
+    }
+
+    .info-card.amber-card {
+        background: var(--amber-light)
+    }
+
+    .info-card.amber-card .ic-val {
+        color: var(--amber)
+    }
+
+    .punch-list {
+        list-style: none
+    }
+
+    .punch-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        background: var(--gray-light);
+        border-radius: 8px;
+        margin-bottom: 6px
+    }
+
+    .punch-item .p-time {
+        font-size: 14px;
+        font-weight: 700;
+        color: #111827;
+        min-width: 48px
+    }
+
+    .punch-item .p-type {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px
+    }
+
+    .p-in {
+        background: #d1fae5;
+        color: #065f46
+    }
+
+    .p-out {
+        background: #fee2e2;
+        color: #991b1b
+    }
+
+    .punch-item .p-src {
+        font-size: 11px;
+        color: var(--gray);
+        margin-left: auto
+    }
+
+    .action-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border)
+    }
+
+    .action-btn {
+        flex: 1;
+        padding: 12px 8px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--white);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .15s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #374151
+    }
+
+    .action-btn i {
+        font-size: 20px
+    }
+
+    .action-btn:hover {
+        background: var(--green-light);
+        border-color: var(--green);
+        color: var(--green)
+    }
+
+    .action-btn.primary {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff
+    }
+
+    .action-btn.primary:hover {
+        background: #155e38
+    }
+
+    .timeline-bar {
+        height: 8px;
+        border-radius: 4px;
+        background: #e5e7eb;
+        margin: 6px 0;
+        position: relative;
+        overflow: hidden
+    }
+
+    .timeline-fill {
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(90deg, var(--green), var(--green-mid))
+    }
+
+    .timeline-ot {
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        position: absolute;
+        top: 0
+    }
+
+    .hidden {
+        display: none
+    }
+
+    @media(max-width:400px) {
+        .summary-bar {
+            grid-template-columns: repeat(2, 1fr)
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr 1fr
+        }
+    }
+</style>
+
+<div class="app-header">
+    <h1><i class="ti ti-id-badge-2" aria-hidden="true"></i> Chấm công cá nhân</h1>
+    <div class="subtitle">Nguyễn Văn An &nbsp;·&nbsp; Mã NV: NV001 &nbsp;·&nbsp; Hành Chính</div>
+</div>
+
+<div class="month-nav">
+    <button class="nav-btn" onclick="changeMonth(-1)" aria-label="Tháng trước"><i
+            class="ti ti-chevron-left"></i></button>
+    <span class="month-title" id="monthTitle">Tháng 4, 2026</span>
+    <button class="nav-btn" onclick="changeMonth(1)" aria-label="Tháng sau"><i class="ti ti-chevron-right"></i></button>
+</div>
+
+<div class="view-toggle">
+    <button class="view-btn active" id="btnCal" onclick="switchView('cal')">
+        <i class="ti ti-calendar-month"></i> Lịch
+    </button>
+    <button class="view-btn" id="btnList" onclick="switchView('list')">
+        <i class="ti ti-list-details"></i> Theo ngày
+    </button>
+</div>
+
+<div class="summary-bar" id="summaryBar"></div>
+
+<div id="calView" class="calendar-view">
+    <div class="cal-header">
+        <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span>
+        <span style="color:#ef4444">T7</span><span style="color:#ef4444">CN</span>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+</div>
+
+<div id="listView" class="list-view hidden"></div>
+
+<div class="overlay" id="overlay" onclick="closePopup(event)">
+    <div class="popup" id="popup">
+        <div class="popup-handle"></div>
+        <div class="popup-header">
+            <h2 id="popupTitle">Chi tiết ngày</h2>
+            <button class="close-btn" onclick="closePopupBtn()"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="popup-body" id="popupBody"></div>
+    </div>
+</div>
+
+<script>
+    const attendanceData = {
+        "employee": { "id": "NV001", "name": "Nguyễn Văn An", "dept": "Hành Chính", "shift": "08:00-17:00", "workHours": 8 },
+        "month": 4, "year": 2026,
+        "days": [
+            { "date": "2026-04-06", "dow": 1, "type": "work", "shift": "08:00-17:00", "checkIn": "08:03", "checkOut": "18:34", "workMinutes": 477, "otMinutes": 60, "late": 3, "earlyLeave": 0, "công": 7.95, "status": "warn", "leave": null, "punches": [{ "time": "08:03", "kind": "in", "src": "Máy chấm công 1" }, { "time": "12:01", "kind": "out", "src": "Máy chấm công 1" }, { "time": "13:02", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:34", "kind": "out", "src": "Máy chấm công 1" }], "note": "Vào trễ 3 phút" },
+            { "date": "2026-04-07", "dow": 2, "type": "work", "shift": "08:00-17:00", "checkIn": "07:58", "checkOut": "18:36", "workMinutes": 518, "otMinutes": 90, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "07:58", "kind": "in", "src": "Máy chấm công 1" }, { "time": "12:00", "kind": "out", "src": "Máy chấm công 1" }, { "time": "13:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:36", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-08", "dow": 3, "type": "work", "shift": "08:00-17:00", "checkIn": "08:03", "checkOut": "20:20", "workMinutes": 517, "otMinutes": 180, "late": 3, "earlyLeave": 0, "công": 7.95, "status": "warn", "leave": null, "punches": [{ "time": "08:03", "kind": "in", "src": "Máy chấm công 1" }, { "time": "12:00", "kind": "out", "src": "Máy chấm công 1" }, { "time": "13:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "20:20", "kind": "out", "src": "Máy chấm công 1" }], "note": "Tăng ca đến 20:20" },
+            { "date": "2026-04-09", "dow": 4, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "18:30", "workMinutes": 510, "otMinutes": 60, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 2" }, { "time": "18:30", "kind": "out", "src": "Máy chấm công 2" }], "note": "" },
+            { "date": "2026-04-10", "dow": 5, "type": "work", "shift": "08:00-17:00", "checkIn": "08:03", "checkOut": "18:30", "workMinutes": 507, "otMinutes": 60, "late": 3, "earlyLeave": 0, "công": 7.95, "status": "warn", "leave": null, "punches": [{ "time": "08:03", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:30", "kind": "out", "src": "Máy chấm công 1" }], "note": "Vào trễ 3 phút" },
+            { "date": "2026-04-11", "dow": 6, "type": "off", "shift": null, "checkIn": null, "checkOut": null, "workMinutes": 0, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 0, "status": "off", "leave": null, "punches": [], "note": "Thứ 7 - nghỉ" },
+            { "date": "2026-04-12", "dow": 0, "type": "off", "shift": null, "checkIn": null, "checkOut": null, "workMinutes": 0, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 0, "status": "off", "leave": null, "punches": [], "note": "Chủ nhật - nghỉ" },
+            { "date": "2026-04-13", "dow": 1, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "18:22", "workMinutes": 502, "otMinutes": 60, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:22", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-14", "dow": 2, "type": "work", "shift": "08:00-17:00", "checkIn": "08:01", "checkOut": "17:38", "workMinutes": 457, "otMinutes": 0, "late": 1, "earlyLeave": 0, "công": 7.983, "status": "warn", "leave": null, "punches": [{ "time": "08:01", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:38", "kind": "out", "src": "Máy chấm công 1" }], "note": "Vào trễ 1 phút" },
+            { "date": "2026-04-15", "dow": 3, "type": "work", "shift": "08:00-17:00", "checkIn": "10:00", "checkOut": "18:30", "workMinutes": 390, "otMinutes": 0, "late": 120, "earlyLeave": 0, "công": 6, "status": "partial", "leave": { "type": "annual", "session": "morning", "hours": 2, "code": "PN" }, "punches": [{ "time": "10:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:30", "kind": "out", "src": "Máy chấm công 1" }], "note": "Phép năm sáng 2h" },
+            { "date": "2026-04-16", "dow": 4, "type": "work", "shift": "08:00-17:00", "checkIn": "07:58", "checkOut": "12:00", "workMinutes": 244, "otMinutes": 0, "late": 0, "earlyLeave": 240, "công": 4, "status": "partial", "leave": { "type": "annual", "session": "afternoon", "hours": 4, "code": "PN" }, "punches": [{ "time": "07:58", "kind": "in", "src": "Máy chấm công 1" }, { "time": "12:00", "kind": "out", "src": "Máy chấm công 1" }], "note": "Phép năm chiều 4h" },
+            { "date": "2026-04-17", "dow": 5, "type": "work", "shift": "08:00-17:00", "checkIn": "08:02", "checkOut": "18:13", "workMinutes": 491, "otMinutes": 60, "late": 2, "earlyLeave": 0, "công": 7.967, "status": "warn", "leave": null, "punches": [{ "time": "08:02", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:13", "kind": "out", "src": "Máy chấm công 1" }], "note": "Vào trễ 2 phút" },
+            { "date": "2026-04-18", "dow": 6, "type": "work", "shift": "08:00-17:00", "checkIn": "11:59", "checkOut": "22:34", "workMinutes": 395, "otMinutes": 300, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "11:59", "kind": "in", "src": "Máy chấm công 2" }, { "time": "22:34", "kind": "out", "src": "Máy chấm công 2" }], "note": "Tăng ca cuối tuần" },
+            { "date": "2026-04-19", "dow": 0, "type": "work", "shift": "08:00-17:00", "checkIn": "11:30", "checkOut": "17:09", "workMinutes": 399, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "11:30", "kind": "in", "src": "Máy chấm công 2" }, { "time": "17:09", "kind": "out", "src": "Máy chấm công 2" }], "note": "Làm chủ nhật" },
+            { "date": "2026-04-20", "dow": 1, "type": "work", "shift": "08:00-17:00", "checkIn": "08:01", "checkOut": "18:20", "workMinutes": 499, "otMinutes": 60, "late": 1, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:01", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:20", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-21", "dow": 2, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "17:55", "workMinutes": 475, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:55", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-22", "dow": 3, "type": "work", "shift": "08:00-17:00", "checkIn": "08:01", "checkOut": "18:30", "workMinutes": 509, "otMinutes": 60, "late": 1, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:01", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:30", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-23", "dow": 4, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "17:30", "workMinutes": 450, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:30", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-24", "dow": 5, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "17:00", "workMinutes": 420, "otMinutes": 0, "late": 0, "earlyLeave": 60, "công": 7, "status": "partial", "leave": { "type": "annual", "session": "afternoon", "hours": 2, "code": "PN" }, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:00", "kind": "out", "src": "Máy chấm công 1" }], "note": "Phép nửa buổi chiều" },
+            { "date": "2026-04-25", "dow": 6, "type": "off", "shift": null, "checkIn": null, "checkOut": null, "workMinutes": 0, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 0, "status": "off", "leave": null, "punches": [], "note": "Thứ 7 - nghỉ" },
+            { "date": "2026-04-26", "dow": 0, "type": "off", "shift": null, "checkIn": null, "checkOut": null, "workMinutes": 0, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 0, "status": "off", "leave": null, "punches": [], "note": "Chủ nhật - nghỉ" },
+            { "date": "2026-04-27", "dow": 1, "type": "work", "shift": "08:00-17:00", "checkIn": "08:02", "checkOut": "18:05", "workMinutes": 483, "otMinutes": 60, "late": 2, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:02", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:05", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-28", "dow": 2, "type": "work", "shift": "08:00-17:00", "checkIn": "08:00", "checkOut": "18:00", "workMinutes": 480, "otMinutes": 60, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:00", "kind": "in", "src": "Máy chấm công 1" }, { "time": "18:00", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-29", "dow": 3, "type": "work", "shift": "08:00-17:00", "checkIn": "08:01", "checkOut": "17:58", "workMinutes": 477, "otMinutes": 0, "late": 1, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "08:01", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:58", "kind": "out", "src": "Máy chấm công 1" }], "note": "" },
+            { "date": "2026-04-30", "dow": 4, "type": "work", "shift": "08:00-17:00", "checkIn": "07:55", "checkOut": "17:02", "workMinutes": 427, "otMinutes": 0, "late": 0, "earlyLeave": 0, "công": 8, "status": "ok", "leave": null, "punches": [{ "time": "07:55", "kind": "in", "src": "Máy chấm công 1" }, { "time": "17:02", "kind": "out", "src": "Máy chấm công 1" }], "note": "" }
+        ]
+    };
+
+    const DAY_NAMES = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+    const MONTH_NAMES = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+    let curMonth = 4, curYear = 2026, curView = 'cal';
+
+    function getDay(dateStr) { return attendanceData.days.find(d => d.date === dateStr) || null }
+
+    function dateKey(y, m, d) { return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}` }
+
+    function calcSummary() {
+        const ds = attendanceData.days.filter(d => d.type === 'work');
+        const totalCong = ds.reduce((a, b) => a + (b.công || 0), 0);
+        const totalOT = ds.reduce((a, b) => a + (b.otMinutes || 0), 0);
+        const lateDays = ds.filter(d => d.late > 0).length;
+        const leaveDays = ds.filter(d => d.leave).length;
+        return { cong: totalCong.toFixed(2), ot: (totalOT / 60).toFixed(1), late: lateDays, leave: leaveDays };
+    }
+
+    function renderSummary() {
+        const s = calcSummary();
+        document.getElementById('summaryBar').innerHTML = `
+    <div class="stat-pill green"><div class="val">${s.cong}</div><div class="lbl">Tổng công</div></div>
+    <div class="stat-pill amber"><div class="val">${s.ot}h</div><div class="lbl">Tăng ca</div></div>
+    <div class="stat-pill red"><div class="val">${s.late}</div><div class="lbl">Ngày trễ</div></div>
+    <div class="stat-pill blue"><div class="val">${s.leave}</div><div class="lbl">Ngày phép</div></div>
+  `;
+    }
+
+    function renderCalendar() {
+        const grid = document.getElementById('calGrid');
+        grid.innerHTML = '';
+        const firstDay = new Date(curYear, curMonth - 1, 1).getDay();
+        const totalDays = new Date(curYear, curMonth, 0).getDate();
+        const offset = firstDay === 0 ? 6 : firstDay - 1;
+        const today = new Date();
+        for (let i = 0; i < offset; i++) {
+            const el = document.createElement('div'); el.className = 'cal-cell empty'; grid.appendChild(el);
+        }
+        for (let d = 1; d <= totalDays; d++) {
+            const dk = dateKey(curYear, curMonth, d);
+            const day = getDay(dk);
+            const dow = new Date(curYear, curMonth - 1, d).getDay();
+            const isWE = dow === 0 || dow === 6;
+            const isToday = today.getDate() === d && today.getMonth() + 1 === curMonth && today.getFullYear() === curYear;
+            const el = document.createElement('div');
+            let cls = 'cal-cell';
+            if (isWE && (!day || day.type === 'off')) cls += ' off weekend';
+            else if (isWE) cls += ' weekend';
+            if (isToday) cls += ' today';
+            el.className = cls;
+            let inner = `<div class="day-num">${d}</div>`;
+            if (day && day.type === 'work') {
+                inner += `<div class="time-row">${day.checkIn || '--:--'}<br>${day.checkOut || '--:--'}</div>`;
+                const bCls = day.status === 'ok' ? 'badge-ok' : day.status === 'partial' ? 'badge-partial' : day.status === 'warn' ? 'badge-warn' : 'badge-off';
+                const label = day.leave ? 'Phép' : 'Công: ' + day.công;
+                inner += `<div class="badge-work ${bCls}">${label}</div>`;
+                inner += `<div class="dot-row">`;
+                if (day.otMinutes > 0) inner += `<div class="dot dot-ot" title="Tăng ca"></div>`;
+                if (day.late > 0) inner += `<div class="dot dot-late" title="Trễ"></div>`;
+                if (day.earlyLeave > 0) inner += `<div class="dot dot-early" title="Về sớm"></div>`;
+                inner += `</div>`;
+            } else if (!day || day.type === 'off') {
+                inner += `<div class="badge-work badge-off" style="font-size:8px">OFF</div>`;
+            }
+            el.innerHTML = inner;
+            if (day) { el.onclick = () => openPopup(dk); }
+            grid.appendChild(el);
+        }
+    }
+
+    function renderList() {
+        const lv = document.getElementById('listView');
+        lv.innerHTML = '';
+        const workDays = attendanceData.days.filter(d => d.type === 'work').sort((a, b) => a.date < b.date ? -1 : 1);
+        workDays.forEach(day => {
+            const date = new Date(day.date);
+            const dname = DAY_NAMES[date.getDay()];
+            const dnum = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+            const sc = day.status === 'ok' ? 'style="background:#d1fae5;color:#065f46"' : day.status === 'partial' ? 'style="background:#fef3c7;color:#92400e"' : day.status === 'warn' ? 'style="background:#fee2e2;color:#991b1b"' : 'style="background:#f3f4f6;color:#6b7280"';
+            const slabel = day.status === 'ok' ? 'Đủ công' : day.status === 'partial' ? 'Phép/Thiếu' : day.status === 'warn' ? 'Cần bù' : 'OFF';
+            const card = document.createElement('div');
+            card.className = 'day-card';
+            card.innerHTML = `
+      <div class="day-card-header">
+        <div class="date-info"><div class="dname">${dname}, ${dnum}</div><div class="dnum">${day.shift || ''}</div></div>
+        <span class="status-badge" ${sc}>${slabel}</span>
+      </div>
+      <div class="day-card-body">
+        <div class="dc-item"><div class="ic green"><i class="ti ti-login-2" aria-hidden="true"></i></div><div><div class="dc-label">Giờ vào</div><div class="dc-val">${day.checkIn || '—'}</div></div></div>
+        <div class="dc-item"><div class="ic red"><i class="ti ti-logout-2" aria-hidden="true"></i></div><div><div class="dc-label">Giờ ra</div><div class="dc-val">${day.checkOut || '—'}</div></div></div>
+        <div class="dc-item"><div class="ic amber"><i class="ti ti-clock-bolt" aria-hidden="true"></i></div><div><div class="dc-label">Tăng ca</div><div class="dc-val">${day.otMinutes > 0 ? (day.otMinutes / 60).toFixed(1) + 'h' : '—'}</div></div></div>
+        <div class="dc-item"><div class="ic blue"><i class="ti ti-checkup-list" aria-hidden="true"></i></div><div><div class="dc-label">Công</div><div class="dc-val">${day.công}</div></div></div>
+      </div>
+    `;
+            card.onclick = () => openPopup(day.date);
+            lv.appendChild(card);
+        });
+    }
+
+    function fmtMin(m) { if (!m) return '0p'; const h = Math.floor(m / 60); const mn = m % 60; return h > 0 ? `${h}h${mn > 0 ? mn + 'p' : ''}` : `${mn}p` }
+
+    function openPopup(dateStr) {
+        const day = getDay(dateStr);
+        if (!day) return;
+        const date = new Date(dateStr);
+        const dname = DAY_NAMES[date.getDay()];
+        document.getElementById('popupTitle').textContent = `${dname}, ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        const workPct = day.workMinutes > 0 ? Math.min(100, Math.round(day.workMinutes / 480 * 100)) : 0;
+        const otPct = day.otMinutes > 0 ? Math.min(40, Math.round(day.otMinutes / 480 * 100)) : 0;
+        let html = ``;
+        html += `<div class="section-title"><i class="ti ti-clock" aria-hidden="true"></i> Thời gian làm việc</div>`;
+        html += `<div class="info-grid">`;
+        html += `<div class="info-card highlight"><div class="ic-label">Giờ vào thực tế</div><div class="ic-val">${day.checkIn || '—'}</div><div class="ic-sub">${day.late > 0 ? `⚠ Trễ ${day.late} phút` : 'Đúng giờ'}</div></div>`;
+        html += `<div class="info-card ${day.earlyLeave > 0 ? 'warn' : ''}"><div class="ic-label">Giờ ra thực tế</div><div class="ic-val">${day.checkOut || '—'}</div><div class="ic-sub">${day.earlyLeave > 0 ? `Về sớm ${day.earlyLeave}p` : 'Bình thường'}</div></div>`;
+        html += `<div class="info-card"><div class="ic-label">Tổng giờ làm</div><div class="ic-val">${fmtMin(day.workMinutes)}</div><div class="ic-sub">Ca: ${day.shift || '—'}</div></div>`;
+        html += `<div class="info-card ${day.otMinutes > 0 ? 'amber-card' : ''}"><div class="ic-label">Tăng ca</div><div class="ic-val">${day.otMinutes > 0 ? fmtMin(day.otMinutes) : 'Không'}</div><div class="ic-sub">${day.otMinutes > 0 ? 'Được tính OT' : '—'}</div></div>`;
+        html += `</div>`;
+        html += `<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-bottom:4px"><span>Tiến độ công ca</span><span>${workPct}%</span></div><div class="timeline-bar"><div class="timeline-fill" style="width:${workPct}%"></div>${day.otMinutes > 0 ? `<div class="timeline-ot" style="left:${workPct}%;width:${otPct}%"></div>` : ''}</div><div style="display:flex;gap:12px;font-size:10px;color:var(--gray);margin-top:4px"><span>🟢 Giờ làm</span>${day.otMinutes > 0 ? `<span>🟡 Tăng ca (${fmtMin(day.otMinutes)})</span>` : ''}</div></div>`;
+        html += `<div class="info-grid" style="margin-top:10px">`;
+        const sc = day.status === 'ok' ? '#065f46;background:#d1fae5' : day.status === 'partial' ? '#92400e;background:#fef3c7' : day.status === 'warn' ? '#991b1b;background:#fee2e2' : '#6b7280;background:#f3f4f6';
+        const slabel = day.status === 'ok' ? 'Đủ công' : day.status === 'partial' ? 'Phép / Thiếu công' : day.status === 'warn' ? 'Cần bù công' : 'Nghỉ';
+        html += `<div class="info-card"><div class="ic-label">Công trong ngày</div><div class="ic-val">${day.công}</div></div>`;
+        html += `<div class="info-card"><div class="ic-label">Trạng thái</div><div class="ic-val" style="font-size:12px;color:${sc.split(';')[0]};padding:4px 8px;border-radius:8px;display:inline-block;${sc.split(';')[1]}">${slabel}</div></div>`;
+        html += `</div>`;
+        if (day.leave) {
+            html += `<div class="section-title" style="margin-top:14px"><i class="ti ti-beach" aria-hidden="true"></i> Thông tin nghỉ phép</div>`;
+            html += `<div class="info-card" style="background:#e0e7ff;margin-bottom:4px"><div class="ic-label">Loại phép</div><div class="ic-val" style="color:#3730a3;font-size:14px">Phép năm (${day.leave.code})</div><div class="ic-sub">Buổi: ${day.leave.session === 'morning' ? 'Sáng' : 'Chiều'} · ${day.leave.hours} giờ</div></div>`;
+        }
+        if (day.punches && day.punches.length > 0) {
+            html += `<div class="section-title" style="margin-top:14px"><i class="ti ti-fingerprint" aria-hidden="true"></i> Lịch sử bấm máy thực tế</div>`;
+            html += `<ul class="punch-list">`;
+            day.punches.forEach((p, i) => {
+                html += `<li class="punch-item"><span class="p-time">${p.time}</span><span class="p-type ${p.kind === 'in' ? 'p-in' : 'p-out'}">${p.kind === 'in' ? 'Vào' : 'Ra'}</span><span class="p-src"><i class="ti ti-device-desktop" aria-hidden="true"></i> ${p.src}</span></li>`;
+            });
+            html += `</ul>`;
+        }
+        if (day.note) { html += `<div style="margin-top:10px;padding:10px 12px;background:#fef9f0;border-radius:8px;border-left:3px solid #f59e0b"><span style="font-size:12px;color:#92400e"><i class="ti ti-info-circle"></i> ${day.note}</span></div>`; }
+        html += `<div class="action-row">`;
+        if (day.status === 'warn' || day.status === 'partial') { html += `<button class="action-btn" onclick="requestBuCong('${dateStr}')"><i class="ti ti-clock-plus"></i><span>Bù công</span></button>`; }
+        html += `<button class="action-btn" onclick="requestLeave('${dateStr}')"><i class="ti ti-calendar-off"></i><span>Đăng ký phép</span></button>`;
+        html += `<button class="action-btn primary" onclick="viewDetail('${dateStr}')"><i class="ti ti-external-link"></i><span>Chi tiết</span></button>`;
+        html += `</div>`;
+        document.getElementById('popupBody').innerHTML = html;
+        document.getElementById('overlay').classList.add('show');
+    }
+
+    function closePopup(e) { if (e.target === document.getElementById('overlay')) closePopupBtn(); }
+    function closePopupBtn() { document.getElementById('overlay').classList.remove('show'); }
+    function requestBuCong(d) { closePopupBtn(); sendPrompt(`Mở form đăng ký bù công cho ngày ${d}`); }
+    function requestLeave(d) { closePopupBtn(); sendPrompt(`Mở form đăng ký nghỉ phép cho ngày ${d}`); }
+    function viewDetail(d) { closePopupBtn(); sendPrompt(`Xem chi tiết đầy đủ chấm công ngày ${d} bao gồm giờ bấm máy và lịch sử thay đổi`); }
+
+    function switchView(v) {
+        curView = v;
+        document.getElementById('calView').classList.toggle('hidden', v !== 'cal');
+        document.getElementById('listView').classList.toggle('hidden', v !== 'list');
+        document.getElementById('btnCal').classList.toggle('active', v === 'cal');
+        document.getElementById('btnList').classList.toggle('active', v === 'list');
+        if (v === 'list') renderList();
+    }
+
+    function changeMonth(dir) {
+        curMonth += dir;
+        if (curMonth > 12) { curMonth = 1; curYear++; }
+        if (curMonth < 1) { curMonth = 12; curYear--; }
+        document.getElementById('monthTitle').textContent = `${MONTH_NAMES[curMonth - 1]}, ${curYear}`;
+        renderCalendar();
+    }
+
+    renderSummary();
+    renderCalendar();
+</script>

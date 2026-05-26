@@ -1,0 +1,3072 @@
+<style>
+    .extra-emp-row-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .extra-emp-row-item.table-success {
+        background-color: rgba(25, 135, 84, 0.1) !important;
+    }
+
+    .smart-timepicker-container {
+        position: absolute;
+        z-index: 9999;
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        max-height: 220px;
+        overflow-y: auto;
+        display: none;
+        width: 100%;
+        min-width: 100px;
+    }
+
+    .smart-timepicker-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .smart-timepicker-container::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    .time-option-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-family: 'Consolas', monospace;
+        font-weight: 600;
+        color: var(--text-main);
+        font-size: 0.9rem;
+        border-bottom: 1px solid #f8fafc;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .time-option-item:last-child {
+        border-bottom: none;
+    }
+
+    .time-option-item:hover {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: var(--primary-color);
+        padding-left: 18px;
+    }
+
+    .time-option-item i {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .time-option-item:hover i {
+        color: var(--primary-color);
+    }
+
+    :root {
+        --primary-color: #198754;
+        --bg-body: #f4f6f8;
+        --bg-card: #ffffff;
+        --border-color: #e2e8f0;
+        --text-main: #334155;
+        --text-muted: #64748b;
+        --table-head-bg: #f8fafc;
+        --row-past-bg: #f1f5f9;
+        --st-reg-bg: #dcfce7;
+        --st-reg-text: #166534;
+        --st-not-bg: #fef9c3;
+        --st-not-text: #854d0e;
+        --st-locked-bg: #e2e8f0;
+        --st-locked-text: #475569;
+    }
+
+    [data-bs-theme="dark"] {
+        --bg-body: #121212;
+        --bg-card: #1e1e1e;
+        --border-color: #373737;
+        --text-main: #e2e8f0;
+        --text-muted: #a0aec0;
+        --table-head-bg: #2d2d2d;
+        --row-past-bg: #1a1a1a;
+        --st-reg-bg: #064e3b;
+        --st-reg-text: #6ee7b7;
+        --st-not-bg: #713f12;
+        --st-not-text: #fcd34d;
+        --st-locked-bg: #2d3748;
+        --st-locked-text: #a0aec0;
+        --bs-body-bg: var(--bg-body);
+        --bs-body-color: var(--text-main);
+    }
+
+    body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        font-family: 'Segoe UI', sans-serif !important;
+        font-size: 0.92rem;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card_OTNIVS {
+        background: var(--bg-card);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header_OTNIVS {
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s;
+    }
+
+    .card-body_OTNIVS {
+        padding: 20px;
+    }
+
+    .leader-avatar_OTNIVS {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #10b981, #047857);
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .section-label_OTNIVS {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        display: block;
+        letter-spacing: 0.5px;
+    }
+
+    .table-scroll-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    .table_OTNIVS {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        table-layout: fixed;
+        margin-bottom: 0;
+    }
+
+    .table_OTNIVS th,
+    .table_OTNIVS td {
+        padding: 10px;
+        border-bottom: 1px solid var(--border-color);
+        vertical-align: middle;
+        text-align: center;
+        color: var(--text-main);
+        transition: background-color 0.2s;
+    }
+
+    .table_OTNIVS tbody tr.hoverable-row:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    [data-bs-theme="dark"] .table_OTNIVS tbody tr.hoverable-row:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .table_OTNIVS th {
+        background: var(--table-head-bg);
+        color: var(--text-muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        border-bottom: 2px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .date-header-row {
+        background-color: rgba(25, 135, 84, 0.08) !important;
+        color: var(--primary-color) !important;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: filter 0.2s;
+        user-select: none;
+    }
+
+    .date-header-row:hover {
+        filter: brightness(0.95);
+    }
+
+    .toggle-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-icon.collapsed {
+        transform: rotate(-90deg);
+    }
+
+    .row-past_OTNIVS {
+        background-color: var(--row-past-bg);
+        color: var(--text-muted);
+    }
+
+    .row-warning_OTNIVS {
+        background-color: rgba(220, 53, 69, 0.1) !important;
+        border-left: 4px solid #dc3545;
+        transition: all 0.3s;
+    }
+
+    .row-warning_OTNIVS td {
+        color: #dc3545 !important;
+        font-weight: 600;
+    }
+
+    .badge_OTNIVS {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        padding: 4px 0;
+        border-radius: 30px;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+
+    .status-registered {
+        background-color: var(--st-reg-bg);
+        color: var(--st-reg-text);
+    }
+
+    .status-pending {
+        background-color: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+    }
+
+    .status-locked {
+        background-color: var(--st-locked-bg);
+        color: var(--st-locked-text);
+        border: 1px solid var(--border-color);
+    }
+
+    .status-none {
+        color: #ef4444;
+        background-color: #fef2f2;
+        border: 1px dashed #fca5a5;
+    }
+
+    .compact-input {
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-card);
+        color: var(--text-main);
+        border-radius: 6px;
+        padding: 6px 12px;
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
+        font-family: '' Consolas'', monospace;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+    .compact-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
+    }
+
+    .compact-input:disabled {
+        background: var(--row-past-bg);
+        color: var(--text-muted);
+        cursor: not-allowed;
+    }
+
+    .date-input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .date-input-wrapper input[type="text"] {
+        padding-right: 30px;
+        text-align: center;
+    }
+
+    .date-input-wrapper .calendar-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        pointer-events: none;
+        font-size: 0.9rem;
+    }
+
+    .date-input-wrapper input[type="date"] {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 30px;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .btn-action-del {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all .2s;
+    }
+
+    .btn-action-del:hover {
+        background: #ef4444;
+        color: #fff;
+    }
+
+    .flow-node {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avt-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .flow-line {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background-color: var(--border-color);
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .flow-line.active {
+        background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #10b981 100%);
+        background-size: 200% 100%;
+        animation: flow 1.5s linear infinite;
+        box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+    }
+
+    @keyframes flow {
+        0% {
+            background-position: 100% 0;
+        }
+
+        100% {
+            background-position: -100% 0;
+        }
+    }
+
+    .avatar-img {
+        position: relative;
+        z-index: 1;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--border-color);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: var(--text-muted);
+        transition: all 0.3s;
+    }
+
+    .avatar-img.done {
+        border-color: #10b981;
+        color: #10b981;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        background: #f0fdf4;
+    }
+
+    .avatar-img.reject {
+        border-color: #ef4444;
+        color: #ef4444;
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        background: #fef2f2;
+    }
+
+    .avatar-img.pending {
+        border-color: #f59e0b;
+        color: #f59e0b;
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        background: #fffbeb;
+    }
+
+    .avatar-img.active-select {
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+        box-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
+    }
+
+    .avatar-img.skipped {
+        border-color: #0dcaf0;
+        color: #0dcaf0;
+        border-style: dashed;
+        background: #e0f2fe;
+    }
+
+    .nav-tabs-custom .nav-link {
+        color: var(--text-muted);
+        font-weight: 600;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+        background: transparent;
+    }
+
+    .type-register-box {
+        border: 2px dashed var(--border-color);
+        border-radius: 12px;
+        padding: 25px 15px;
+        text-align: center;
+        transition: all .3s;
+        background: var(--bg-card);
+        cursor: pointer;
+    }
+
+    .type-register-box:hover {
+        border-color: var(--primary-color);
+        background-color: rgba(25, 135, 84, 0.02);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .type-register-box.active {
+        border-color: var(--primary-color);
+        border-style: solid;
+        background-color: rgba(25, 135, 84, 0.05);
+    }
+
+    .filter-header-interactive:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+        cursor: pointer;
+    }
+
+    .process-loader-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 12px 12px;
+        backdrop-filter: blur(3px);
+    }
+
+    .progress-bar-custom {
+        height: 6px;
+        border-radius: 3px;
+        background-color: var(--border-color);
+        width: 50%;
+        max-width: 300px;
+        overflow: hidden;
+        position: relative;
+        margin-top: 15px;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), #4ade80);
+        width: 0%;
+        transition: width 0.1s ease;
+    }
+
+    .blink-effect {
+        animation: blinker 1.5s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    .form-check-danger .form-check-input:checked {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .modal-backdrop {
+        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+</style>
+<div class="container_OTNIVS ">
+    <ul class="nav nav-tabs nav-tabs-custom" id="otTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-create" data-bs-toggle="tab" data-bs-target="#pane-create"
+                type="button" onclick="closeDetailView()"><i class="bi bi-pencil-square me-1"></i>
+                %CreateEditForm_OTRegister%</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-history" data-bs-toggle="tab" data-bs-target="#pane-history" type="button"
+                onclick="loadHistoryData()"><i class="bi bi-clock-history me-1"></i>
+                %RegistrationHistory_OTRegister%</button>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="pane-create">
+            <div id="step1TypeSelection" class="row justify-content-center mb-3 mt-2">
+                <div class="col-md-5 mb-2">
+                    <div class="type-register-box shadow-sm" onclick="selectRegistrationType(1)">
+                        <i class="bi bi-calendar2-week text-success mb-2"
+                            style="font-size: 2.5rem; display: inline-block;"></i>
+                        <h5 class="fw-bold text-success mb-1">%NormalDay_OTRegister%</h5>
+                        <p class="text-muted mb-0 d-none" style="font-size: 0.8rem;">%MondayToFriday_OTRegister%</p>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-2">
+                    <div class="type-register-box shadow-sm" onclick="selectRegistrationType(2)">
+                        <i class="bi bi-calendar2-x text-danger mb-2"
+                            style="font-size: 2.5rem; display: inline-block;"></i>
+                        <h5 class="fw-bold text-danger mb-1">%Holiday_OTRegister%</h5>
+                        <p class="text-muted mb-0 d-none" style="font-size: 0.8rem;">%WeekendHoliday_OTRegister%</p>
+                    </div>
+                </div>
+                <input type="hidden" id="hiddenTypeRegister" value="">
+            </div>
+            <div class="card_OTNIVS" id="step2FormControls" style="display: none;">
+                <div class="card-header_OTNIVS bg-light border-bottom py-2 px-3 filter-header-interactive"
+                    onclick="toggleFilterForm()">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary px-2 py-1" id="lblSelectedType" style="font-size: 0.8rem;"></span>
+                        <span class="text-muted fw-bold" style="font-size: 0.85rem;" id="filterInstructionText"><i
+                                class="bi bi-gear-fill me-1"></i> %FormParameters_OTRegister%</span>
+                        <span class="text-primary fw-bold d-none" style="font-size: 0.85rem;"
+                            id="filterSummaryText"></span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-light border fw-bold px-2 py-0" style="font-size: 0.8rem;"
+                            id="btnToggleFilter"><i class="bi bi-chevron-up"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary fw-bold px-2 py-0" style="font-size: 0.8rem;"
+                            onclick="event.stopPropagation(); closeDetailView();"><i class="bi bi-arrow-repeat"></i>
+                            %Change_OTRegister%</button>
+                    </div>
+                </div>
+                <div class="card-body_OTNIVS p-3" id="filterFormBody">
+                    <div class="row g-3 align-items-start">
+                        <div class="col-lg-3 col-md-4">
+                            <label class="section-label_OTNIVS"><i class="bi bi-people-fill me-1"></i>
+                                %GroupDivision_OTRegister%</label>
+                            <select class="form-select form-select-sm shadow-sm fw-bold" style="border-radius: 6px;"
+                                id="select-group">
+                                <option value="">%Loading_OTRegister%</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-5 col-md-8">
+                            <label class="section-label_OTNIVS"><i class="bi bi-calendar-range me-1"></i>
+                                %TimeRange_OTRegister%</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="date-input-wrapper shadow-sm">
+                                    <input type="text" class="compact-input text-primary" id="dateFrom"
+                                        placeholder="DD/MM/YYYY" maxlength="10" oninput="handleDateInput(this)">
+                                    <i class="bi bi-calendar-date calendar-icon"></i>
+                                    <input type="date" onchange="syncDatePicker(this, '#dateFrom')">
+                                </div>
+                                <span class="text-muted fw-bold">-</span>
+                                <div class="date-input-wrapper shadow-sm">
+                                    <input type="text" class="compact-input text-primary" id="dateTo"
+                                        placeholder="DD/MM/YYYY" maxlength="10" oninput="handleDateInput(this)">
+                                    <i class="bi bi-calendar-date calendar-icon"></i>
+                                    <input type="date" onchange="syncDatePicker(this, '#dateTo')">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <label class="section-label_OTNIVS text-danger"><i class="bi bi-clock-history me-1"></i>
+                                %DefaultTime_OTRegister% </label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" autocomplete="off"
+                                    class="compact-input text-success global-time-input border-success"
+                                    id="globalFromTime" placeholder="HH:mm" maxlength="5"
+                                    oninput="handleTimeInput(this)" onblur="validateTimeInput(this)">
+                                <span class="text-muted fw-bold">-</span>
+                                <input type="text" autocomplete="off"
+                                    class="compact-input text-success global-time-input border-success"
+                                    id="globalToTime" placeholder="HH:mm" maxlength="5" oninput="handleTimeInput(this)"
+                                    onblur="validateTimeInput(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 mt-2 align-items-center">
+                        <div class="col-lg-10 col-md-9">
+                            <input type="text" class="form-control form-control-sm shadow-sm d-none" id="globalRemark1"
+                                placeholder="%AdditionalRemarkPlaceholder_OTRegister%" style="border-radius: 6px;">
+                        </div>
+                        <div class="col-lg-2 col-md-3 text-end">
+                            <button class="btn btn-success btn-sm w-100 fw-bold shadow-sm" style="border-radius: 6px;"
+                                onclick="loadEmployeeDataWithProcess()">
+                                <i class="bi bi-cloud-arrow-down-fill me-1"></i> %CreateFormBtn_OTRegister%
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card_OTNIVS" id="viewDetailHeader" style="display: none;">
+                <div
+                    class="card-body_OTNIVS bg-info-subtle border border-info rounded-3 d-flex justify-content-between align-items-center py-2 px-3">
+                    <div>
+                        <h6 class="text-info-emphasis fw-bold mb-0" style="font-size: 0.95rem;">
+                            <i class="bi bi-eye-fill me-1"></i>%FormDetail_OTRegister% <span
+                                class="badge bg-primary px-2 py-1 ms-2" style="font-size: 0.7rem;"
+                                id="lblViewType"></span>
+                        </h6>
+                        <div class="text-muted mt-1" style="font-size: 0.8rem;">
+                            <i class="bi bi-hash"></i> %Code_OTRegister%: <span id="lblDetailID"
+                                class="fw-bold text-dark"></span> - %CreatedBy_OTRegister%: <span id="lblDetailCreator"
+                                class="fw-bold text-primary"></span>
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-clock"></i> %RegisterDate_OTRegister%: <span id="lblDetailCreateTime"
+                                class="fw-bold text-dark"></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary fw-bold shadow-sm bg-white"
+                        onclick="closeDetailView()"><i class="bi bi-arrow-left"></i> %Back_OTRegister%</button>
+                </div>
+            </div>
+            <div class="card_OTNIVS" id="approverSection" style="display: none; margin-bottom: 15px;">
+                <div class="card-header_OTNIVS bg-light border-bottom py-2 px-3 filter-header-interactive"
+                    onclick="$('#approverBody').slideToggle(200); $(this).find('i.toggle-icon').toggleClass('collapsed');">
+                    <h6 class="fw-bold text-muted text-uppercase m-0" style="font-size:0.8rem;"><i
+                            class="bi bi-diagram-3-fill me-1"></i>%ApprovalFlow_OTRegister%</h6>
+                    <button class="btn btn-sm btn-light border fw-bold px-2 py-0" style="font-size: 0.8rem;"><i
+                            class="bi bi-chevron-up toggle-icon"></i></button>
+                </div>
+                <div class="card-body_OTNIVS py-3" id="approverBody">
+                    <div class="d-flex w-100 justify-content-between align-items-start px-md-5">
+                        <div class="flow-node" id="node1">
+                            <label class="small fw-bold mb-1 text-muted" style="font-size: 0.75rem;"><i
+                                    class="bi bi-person-badge me-1"></i> %Level1_OTRegister%</label>
+                            <select class="form-select form-select-sm shadow-sm mx-auto w-75 mb-1"
+                                style="font-size: 0.8rem;" id="approver1" onchange="updateFlowUI()">
+                                <option value="">-- %Select_OTRegister% --</option>
+                            </select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line1"></div>
+                                <div class="avatar-img shadow-sm" id="avt1"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center mt-1 w-100 d-none" id="remark1"></div>
+                        </div>
+                        <div class="flow-node" id="node2">
+                            <label class="small fw-bold mb-1 text-muted" style="font-size: 0.75rem;"><i
+                                    class="bi bi-person-badge me-1"></i> %Level2_OTRegister%</label>
+                            <select class="form-select form-select-sm shadow-sm mx-auto w-75 mb-1 text-primary"
+                                style="font-size: 0.8rem;" id="approver2" onchange="updateFlowUI()">
+                                <option value="">-- %Select_OTRegister% --</option>
+                            </select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line2" style="display: none;"></div>
+                                <div class="avatar-img shadow-sm" id="avt2"><i class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center mt-1 w-100 d-none" id="remark2"></div>
+                        </div>
+                        <div class="flow-node" id="node3" style="display: none;">
+                            <label class="small fw-bold text-danger mb-1" style="font-size: 0.75rem;"><i
+                                    class="bi bi-person-badge me-1"></i> %Level3_OTRegister% </label>
+                            <select
+                                class="form-select form-select-sm shadow-sm mx-auto w-75 mb-1 border-danger text-danger"
+                                style="font-size: 0.8rem;" id="approver3" onchange="updateFlowUI()">
+                                <option value="">-- %Select_OTRegister% --</option>
+                            </select>
+                            <div class="avt-wrapper">
+                                <div class="flow-line" id="line3" style="display: none;"></div>
+
+                                <div class="avatar-img shadow-sm border-danger text-danger" id="avt3"><i
+                                        class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center mt-1 w-100 d-none" id="remark3"></div>
+                        </div>
+                        <div class="flow-node" id="node4" style="display: none;">
+                            <label class="small fw-bold text-danger mb-1" style="font-size: 0.75rem;"><i
+                                    class="bi bi-person-badge me-1"></i> Level 4 </label>
+                            <select
+                                class="form-select form-select-sm shadow-sm mx-auto w-75 mb-1 border-danger text-danger"
+                                style="font-size: 0.8rem;" id="approver4" onchange="updateFlowUI()">
+                                <option value="">-- %Select_OTRegister% --</option>
+                            </select>
+                            <div class="avt-wrapper">
+                                <div class="avatar-img shadow-sm border-danger text-danger" id="avt4"><i
+                                        class="bi bi-person-fill"></i></div>
+                            </div>
+                            <div class="small text-center mt-1 w-100 d-none" id="remark4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card_OTNIVS position-relative" id="dataTableSection" style="display: none; overflow: hidden;">
+                <div id="tableLoadingProcess" class="process-loader-overlay d-none">
+                    <div class="spinner-border text-success" style="width: 2.5rem; height: 2.5rem;" role="status"></div>
+                    <div class="progress-bar-custom">
+                        <div class="progress-bar-fill" id="processBar"></div>
+                    </div>
+                    <div class="loader-text" id="processText">%LoadingData_OTRegister%</div>
+                </div>
+                <div class="card-header_OTNIVS flex-wrap gap-2 py-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <h6 class="m-0 fw-bold" style="color: var(--text-main); font-size: 0.95rem;"><i
+                                class="bi bi-table text-primary me-1"></i> %DataTable_OTRegister%</h6>
+                        <div id="formStatusBanner" class="d-none px-3 py-1 rounded-pill fw-bold border shadow-sm"
+                            style="font-size: 0.75rem;">
+                            <span id="formStatusText"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 align-items-center">
+                        <button class="btn btn-sm btn-outline-success fw-bold shadow-sm px-3"
+                            onclick="openAddExtraEmpModal()">
+                            <i class="bi bi-person-add"></i> %AddEmpBtn_OTRegister%
+
+                        </button>
+                        <div class="form-check form-switch form-check-danger d-none m-0" id="switchOver100hWrapper">
+                            <input class="form-check-input" type="checkbox" id="switchOver100h"
+                                onchange="filterOver100hData()">
+                            <label class="form-check-label fw-bold text-danger" for="switchOver100h"
+                                style="font-size: 0.8rem;" id="lblOver100hCount">%FilterWarning_OTRegister%</label>
+                        </div>
+                        <div class="input-group input-group-sm shadow-sm" style="max-width: 200px;">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input type="text" id="searchEmpInput" class="form-control"
+                                placeholder="%SearchEmpPlaceholder_OTRegister%" onkeyup="searchEmployee()">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-scroll-container">
+                    <table class="table_OTNIVS">
+                        <thead>
+                            <tr>
+                                <th style="width: 140px;">#</th>
+                                <th style="width: 85px;">%EmpCode_OTRegister%</th>
+                                <th class="text-start">%FullName_OTRegister%</th>
+                                <th style="width: 140px;">%ShiftStatus_OTRegister%</th>
+                                <th style="width: 120px;">%FromTime_OTRegister%</th>
+                                <th style="width: 120pxpx;">%ToTime_OTRegister%</th>
+                                <th class="col-holiday-only" style="display:none; width: 85px;">
+                                    %ConsecutiveWork_OTRegister%</th>
+                                <th class="col-holiday-only" style="display:none; width: 95px;">
+                                    %WorkedHoliday_OTRegister%</th>
+                                <th style="width: 120px;">%AccumulatedOT_OTRegister%</th>
+                                <th style="width: 45px;"><i class="bi bi-gear"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div id="summarySection"
+                    class="p-2 bg-light border-top d-flex justify-content-end align-items-center gap-3"
+                    style="display: none;">
+                    <div class="fw-bold text-muted text-uppercase" style="font-size: 0.8rem;">%Summary_OTRegister%:
+                    </div>
+                    <div class="badge bg-info-subtle border border-info text-info-emphasis px-3 py-2 shadow-sm"
+                        style="font-size: 0.85rem;">
+                        <i class="bi bi-people-fill me-1"></i> %EmployeeLabel_OTRegister%: <span id="sumEmpCount"
+                            class="fw-bold fs-6">0</span>
+                    </div>
+                    <div class="badge bg-warning-subtle border border-warning text-warning-emphasis px-3 py-2 shadow-sm"
+                        style="font-size: 0.85rem;">
+                        <i class="bi bi-clock-history me-1"></i> %TotalHoursLabel_OTRegister%: <span id="sumOTHours"
+                            class="fw-bold fs-6">0</span>h
+                    </div>
+                </div>
+                <div class="card-footer p-3 bg-white" id="tableFooter"
+                    style="display:none; border-radius: 0 0 12px 12px; border-top: 1px solid var(--border-color);">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-8">
+                            <label class="section-label_OTNIVS text-primary"><i class="bi bi-chat-left-text me-1"></i>
+                                %OTReason_OTRegister%</label>
+                            <textarea class="form-control border-primary" id="globalRemark" rows="2"
+                                placeholder="%OTReasonPlaceholder_OTRegister%" style="resize: none;"></textarea>
+                        </div>
+                        <div class="col-md-4 d-flex justify-content-end gap-2">
+                            <button class="btn btn-light border fw-bold text-secondary px-3"
+                                onclick="closeDetailView()"><i class="bi bi-x-circle me-1"></i>
+                                %CloseCancelBtn_OTRegister%</button>
+                            <button class="btn btn-danger fw-bold px-3 shadow-sm d-none" id="btnCancelMaster"
+                                onclick="requestCancelMaster()"><i class="bi bi-trash-fill me-1"></i> <span
+                                    id="txtCancelMaster">%CancelRequestBtn_OTRegister%</span></button>
+                            <button class="btn btn-primary fw-bold px-4 shadow-sm" id="btnSubmitForm"
+                                onclick="submitData()"><i class="bi bi-send-check-fill me-1"></i>
+                                %SubmitApproveBtn_OTRegister%</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pane-history">
+            <div class="card_OTNIVS">
+                <div class="card-body_OTNIVS p-3">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-lg-3 col-md-6">
+                            <label class="section-label_OTNIVS"><i class="bi bi-calendar-event me-1"></i>
+                                %FromDate_OTRegister%</label>
+                            <div class="date-input-wrapper shadow-sm">
+                                <input type="text" id="hisFromDate" class="compact-input text-primary"
+                                    placeholder="DD/MM/YYYY" maxlength="10" oninput="handleDateInput(this)">
+                                <i class="bi bi-calendar-date calendar-icon"></i>
+                                <input type="date" onchange="syncDatePicker(this, '#hisFromDate')">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <label class="section-label_OTNIVS"><i class="bi bi-calendar-event me-1"></i>
+                                %ToDate_OTRegister%</label>
+                            <div class="date-input-wrapper shadow-sm">
+                                <input type="text" id="hisToDate" class="compact-input text-primary"
+                                    placeholder="DD/MM/YYYY" maxlength="10" oninput="handleDateInput(this)">
+                                <i class="bi bi-calendar-date calendar-icon"></i>
+                                <input type="date" onchange="syncDatePicker(this, '#hisToDate')">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-8">
+                            <label class="section-label_OTNIVS"><i class="bi bi-list-check me-1"></i>
+                                %StatusLabel_OTRegister%</label>
+                            <select id="hisStatus" class="form-select form-select-sm shadow-sm fw-bold"
+                                style="border-radius: 6px; height: 33px;">
+                                <option value="-1">-- %AllStatus_OTRegister% --</option>
+                                <option value="1">%PendingStatus_OTRegister%</option>
+                                <option value="2">%ApprovedStatus_OTRegister%</option>
+                                <option value="3">%RejectedStatus_OTRegister%</option>
+                                <option value="4">%CancelledStatus_OTRegister%</option>
+                                <option value="5">%CancelRequestStatus_OTRegister%</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-4">
+                            <button class="btn btn-primary btn-sm w-100 fw-bold shadow-sm"
+                                style="height: 33px; border-radius: 6px;" onclick="loadHistoryData()"><i
+                                    class="bi bi-search me-1"></i> %FilterBtn_OTRegister%</button>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 d-flex align-items-center gap-2">
+                            <span class="fw-bold text-muted small"><i class="bi bi-funnel"></i>
+                                %QuickFilterLabel_OTRegister%:</span>
+                            <button type="button"
+                                class="btn btn-sm btn-outline-success rounded-pill fw-bold filter-type-btn px-3"
+                                data-val="1" onclick="toggleHisTypeFilter(this, 1)">%NormalDay_OTRegister%</button>
+                            <button type="button"
+                                class="btn btn-sm btn-outline-danger rounded-pill fw-bold filter-type-btn px-3"
+                                data-val="2" onclick="toggleHisTypeFilter(this, 2)">%Holiday_OTRegister%</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive_OTNIVS border-top">
+                    <table class="table_OTNIVS table-hover">
+                        <thead>
+                            <tr>
+                                <th>%RegisterDate_OTConfirm%</th>
+                                <th>%GroupDivision_OTRegister%</th>
+                                <th>%StatusCol_OTRegister%</th>
+                                <th>%Level1_OTRegister%</th>
+
+                                <th>%Level2_OTRegister%</th>
+                                <th>%Level3_OTRegister%</th>
+                                <th>%Level4_OTRegister%</th>
+                                <th>%CreatedDateCol_OTRegister%</th>
+                                <th>%ActionCol_OTRegister%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="8" class="text-center py-4 text-muted small">
+                                    %PressFilterToSearch_OTRegister%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="paginationHistory" class="d-flex justify-content-end p-2 bg-light border-top"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalAddExtraEmp" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title fw-bold"><i
+                        class="bi bi-person-plus-fill me-2"></i>%AddExtraEmpModalTitle_OTRegister%</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="p-3 bg-light border-bottom">
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-white"><i class="bi bi-search text-success"></i></span>
+                        <input type="text" id="searchExtraEmpInput" class="form-control border-start-0 ps-0"
+                            placeholder="%QuickSearchExtraEmpPlaceholder_OTRegister%"
+                            onkeypress="if(event.key === 'Enter') searchExtraEmp()">
+                        <button class="btn btn-success fw-bold" onclick="searchExtraEmp()"><i
+                                class="bi bi-search me-1"></i>%SearchBtn_OTRegister%</button>
+                    </div>
+                </div>
+                <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+                    <table class="table table-hover table-sm mb-0 text-center align-middle" style="font-size: 0.85rem;"
+                        id="extraEmpTable">
+                        <thead class="table-light"
+                            style="position: sticky; top: 0; z-index: 1; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                            <tr>
+                                <th style="width:40px;"><input type="checkbox" class="form-check-input border-secondary"
+                                        id="chkAllExtra" onchange="toggleAllExtraEmp()"></th>
+                                <th>%EmpCode_OTRegister%</th>
+                                <th class="text-start">%FullName_OTRegister%</th>
+                                <th>%DivisionCol_OTRegister%</th>
+                                <th>%GroupCol_OTRegister%</th>
+                                <th>%RegStatusCol_OTRegister%</th>
+                            </tr>
+                        </thead>
+                        <tbody id="extraEmpTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <div class="spinner-border spinner-border-sm text-success me-2"></div>
+                                    %LoadingEmpList_OTRegister%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0">
+                <button type="button" class="btn btn-secondary btn-sm fw-bold px-3"
+                    data-bs-dismiss="modal">%CloseBtn_OTRegister%</button>
+                <button type="button" class="btn btn-success btn-sm fw-bold px-4" onclick="confirmAddExtraEmp()"><i
+                        class="bi bi-check-circle me-1"></i> %AddToFormBtn_OTRegister%</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/vi.js"></script>
+<script>
+
+    var DYNAMIC_LEVELS = { 2: false, 3: false, 4: false };
+    var CURRENT_IDENTITY_ID = null, CURRENT_STATUS = null, IS_FORM_LOCKED = false, IS_VIEW_MODE = false;
+    var GLOBAL_FROM_DATE = null, GLOBAL_TO_DATE = null;
+    var SHIFT_DICT = {}, EMP_DICT = {};
+    var IS_DYNAMIC_APP2 = false;
+    var RAW_HISTORY_LIST = [];
+    var GLOBAL_HISTORY_LIST = [];
+    var CURRENT_PAGE_HISTORY = 1;
+    var PAGE_SIZE_HISTORY = 10;
+    var HIS_TYPE_FILTER = 0;
+
+    function waitLibrariesAndInit() {
+        if (typeof moment !== 'undefined') initOTNIVS();
+        else setTimeout(waitLibrariesAndInit, 50);
+    }
+    waitLibrariesAndInit();
+
+    function setDateValue(inputId, dateMoment) {
+        $(inputId).val(dateMoment.format('DD/MM/YYYY'));
+        $(inputId).siblings('input[type="date"]').val(dateMoment.format('YYYY-MM-DD'));
+    }
+
+    function initOTNIVS() {
+
+        moment.locale('vi');
+        $('#sysDateDisplay').text(moment().format('DD/MM/YYYY'));
+        $('.table_OTNIVS').css('table-layout', 'auto');
+
+
+        if ($('#timeList5Min').length === 0) {
+            var dlHtml = '<datalist id="timeList5Min">';
+            for (let h = 0; h < 24; h++) {
+                for (let m = 0; m < 60; m += 5) {
+                    dlHtml += `<option value="${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}"></option>`;
+                }
+            }
+            dlHtml += '</datalist>';
+            $('body').append(dlHtml);
+        }
+
+        setDateValue('#dateFrom', moment().startOf('isoWeek'));
+        setDateValue('#dateTo', moment().endOf('isoWeek'));
+        setDateValue('#hisToDate', moment());
+        setDateValue('#hisFromDate', moment().subtract(1, 'months'));
+
+        loadGroupsAPI();
+        //loadApproversAPI();
+    }
+
+    function toggleFilterForm(forceClose = false) {
+        var body = $('#filterFormBody');
+        var btn = $('#btnToggleFilter');
+        var isVisible = body.is(':visible');
+
+        if (isVisible || forceClose === true) {
+            body.slideUp(250);
+            btn.html('<i class="bi bi-chevron-down"></i>');
+            $('#filterInstructionText').addClass('d-none');
+            var grp = $("#select-group option:selected").text();
+            var fD = $('#dateFrom').val(), tD = $('#dateTo').val();
+            if (grp && fD && tD) {
+                $('#filterSummaryText').html(`<i class="bi bi-filter-circle-fill me-1"></i> ${grp} (${fD} - ${tD})`).removeClass('d-none');
+            }
+        } else {
+            body.slideDown(250);
+            btn.html('<i class="bi bi-chevron-up"></i>');
+            $('#filterInstructionText').removeClass('d-none');
+            $('#filterSummaryText').addClass('d-none');
+        }
+    }
+
+    function startLoadingProcess() {
+        $('#dataTableSection').show();
+        $('#tableBody').empty();
+        $('#switchOver100hWrapper').addClass('d-none');
+        $('#switchOver100h').prop('checked', false);
+        $('#tableLoadingProcess').removeClass('d-none');
+        $('#processBar').css('width', '50%');
+        $('#processText').text('%ProcessingData_OTRegister%');
+    }
+
+    function finishLoadingProcess(isSuccess, errMsg = "") {
+        if (isSuccess) {
+            $('#processBar').css('width', '100%');
+            $('#processText').text('%CompleteData_OTRegister%');
+            setTimeout(() => { $('#tableLoadingProcess').addClass('d-none'); }, 200);
+        } else {
+            $('#processBar').css({ 'width': '100%', 'background': '#ef4444' });
+            $('#processText').html(`<span class="text-danger"><i class="bi bi-exclamation-triangle-fill"></i> %Error_OTRegister%: ${errMsg}</span>`);
+            setTimeout(() => {
+                $('#tableLoadingProcess').addClass('d-none');
+                if (!IS_VIEW_MODE) toggleFilterForm(false);
+            }, 2000);
+        }
+    }
+
+    function syncDatePicker(picker, targetId) {
+        var val = $(picker).val();
+        if (val) {
+            $(targetId).val(moment(val).format('DD/MM/YYYY'));
+            if (targetId === '#dateFrom') $('#dateTo').siblings('input[type="date"]').attr('min', val);
+            if (targetId === '#hisFromDate') $('#hisToDate').siblings('input[type="date"]').attr('min', val);
+        }
+    }
+
+    function handleDateInput(el) {
+        var v = el.value.replace(/\D/g, '');
+        if (v.length > 8) v = v.slice(0, 8);
+        if (v.length >= 5) el.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+        else if (v.length >= 3) el.value = v.slice(0, 2) + '/' + v.slice(2);
+        else el.value = v;
+
+        if (el.value.length === 10) {
+            var m = moment(el.value, 'DD/MM/YYYY');
+            if (m.isValid()) $(el).siblings('input[type="date"]').val(m.format('YYYY-MM-DD'));
+        }
+    }
+
+    function handleTimeInput(el) {
+        var v = el.value.replace(/\D/g, '');
+        if (v.length > 4) v = v.slice(0, 4);
+        el.value = v.length >= 3 ? v.slice(0, 2) + ':' + v.slice(2) : v;
+    }
+
+    function validateTimeInput(el) {
+        var val = el.value;
+        var isGlobal = $(el).hasClass('global-time-input');
+        if (!val) { if (!isGlobal) calculateAllOTWarning(); return; }
+        var c = val.replace(/\D/g, '');
+        if (c.length === 0) { if (!isGlobal) calculateAllOTWarning(); return; }
+        if (c.length === 1) c = "0" + c + "00"; else if (c.length === 2) c += "00"; else if (c.length === 3) c = "0" + c;
+        var hh = parseInt(c.slice(0, 2), 10), mm = parseInt(c.slice(2, 4), 10);
+        if (hh > 23) hh = 23; if (mm > 59) mm = 59;
+        el.value = `${hh.toString().padStart(2, '0')}:${mm.toString().padStart(2, '0')}`;
+        if (!isGlobal) calculateAllOTWarning();
+    }
+
+    function selectRegistrationType(type) {
+        $('#hiddenTypeRegister').val(type);
+        var title = type === 1 ? '%TypeNormalDay_OTRegister%' : '%TypeHoliday_OTRegister%';
+        $('#lblSelectedType').text(title).removeClass('bg-primary bg-danger').addClass(type === 1 ? 'bg-success' : 'bg-danger');
+
+        if (type == 2) {
+            // Ngày nghỉ: 4 cấp
+            $('#node3, #node4, #line2, #line3').show();
+            $('.col-holiday-only').show();
+        } else {
+            // Ngày thường: 3 cấp
+            $('#node3, #line2').show();
+            $('#node4, #line3').hide();
+            $('.col-holiday-only').hide();
+        }
+        $('#step1TypeSelection').slideUp(200, function () { $('#step2FormControls').fadeIn(200); });
+        if (!$('#filterFormBody').is(':visible')) toggleFilterForm();
+        resetTableAndFlow();
+        loadApproversAPI();
+    }
+
+    function resetTableAndFlow() {
+        $('#dataTableSection, #approverSection').hide();
+        $('#tableBody').empty();
+        $('#summarySection').hide();
+        $('#approver1, #approver2, #approver3, #approver4, #globalRemark').val('');
+        $('#globalFromTime, #globalToTime').val('');
+        updateFlowUI();
+    }
+
+    function resetToCreateMode() {
+        IS_VIEW_MODE = false; CURRENT_IDENTITY_ID = null; CURRENT_STATUS = null; IS_FORM_LOCKED = false;
+        $('#viewDetailHeader').hide();
+        $('#step2FormControls, #dataTableSection, #approverSection').hide();
+        $('#hiddenTypeRegister').val('');
+        $('#step1TypeSelection').slideDown(200);
+        $('#summarySection').hide();
+        $('#tableBody').empty();
+        $('#switchOver100hWrapper').addClass('d-none');
+        $('#switchOver100h').prop('checked', false);
+        $('#approver1, #approver2, #approver3, #approver4, #globalRemark, #globalFromTime, #globalToTime').val('');
+        updateFlowUI();
+    }
+
+    function closeDetailView() {
+        var wasViewMode = IS_VIEW_MODE;
+        resetToCreateMode();
+        if (wasViewMode) {
+            var tab = new bootstrap.Tab(document.querySelector('#tab-history'));
+            tab.show();
+        } else {
+            var tab = new bootstrap.Tab(document.querySelector('#tab-create'));
+            tab.show();
+        }
+    }
+
+    function updateFlowUI(mData = null) {
+        var a1 = mData ? mData.Approver_1 : $('#approver1').val();
+        var a2 = mData ? mData.Approver_2 : $('#approver2').val();
+        var a3 = mData ? mData.Approver_3 : $('#approver3').val();
+        var a4 = mData ? mData.Approver_4 : $('#approver4').val();
+
+        var name1 = mData ? mData.Approver1_Name : $('#approver1 option:selected').text();
+        var name2 = mData ? mData.Approver2_Name : $('#approver2 option:selected').text();
+        var name3 = mData ? mData.Approver3_Name : $('#approver3 option:selected').text();
+        var name4 = mData ? mData.Approver4_Name : $('#approver4 option:selected').text();
+
+        var curLvl = mData ? parseInt(mData.Current_Approved_Level) : 1;
+        var status = mData ? parseInt(mData.Approve_Status) : 0;
+
+        var nodes = [
+            { id: a1, name: name1, el: $('#avt1'), line: $('#line1'), date: mData ? mData.ApproveDate_1 : null, remark: mData ? mData.ApproverRemark_1 : null, txt: $('#remark1'), select: $('#approver1'), nodeEl: $('#node1') },
+            { id: a2, name: name2, el: $('#avt2'), line: $('#line2'), date: mData ? mData.ApproveDate_2 : null, remark: mData ? mData.ApproverRemark_2 : null, txt: $('#remark2'), select: $('#approver2'), nodeEl: $('#node2') },
+            { id: a3, name: name3, el: $('#avt3'), line: $('#line3'), date: mData ? mData.ApproveDate_3 : null, remark: mData ? mData.ApproverRemark_3 : null, txt: $('#remark3'), select: $('#approver3'), nodeEl: $('#node3') },
+            { id: a4, name: name4, el: $('#avt4'), line: null, date: mData ? mData.ApproveDate_4 : null, remark: mData ? mData.ApproverRemark_4 : null, txt: $('#remark4'), select: $('#approver4'), nodeEl: $('#node4') }
+        ];
+
+        nodes.forEach(n => {
+            n.el.removeClass('done reject pending active-select text-success border-success text-danger border-danger text-warning border-warning border-primary text-primary skipped text-secondary border-info bg-info-subtle text-info').addClass('text-muted border-secondary').css('border-style', 'solid');
+            n.el.html('<i class="bi bi-person-fill"></i>');
+            if (n.line) n.line.removeClass('active');
+            n.txt.addClass('d-none').empty();
+        });
+
+        if (IS_VIEW_MODE && mData) {
+            var validNodes = nodes.filter(n => n.id && String(n.id).trim() !== '' && String(n.id).toLowerCase() !== 'null');
+            var maxLvl = validNodes.length;
+
+            nodes.forEach(n => { n.nodeEl.hide(); if (n.line) n.line.hide(); });
+
+            for (let i = 0; i < maxLvl; i++) {
+                let n = validNodes[i];
+                n.nodeEl.show();
+
+                // [ĐÃ SỬA]: Giấu dây nối nếu là node cuối cùng
+                if (n.line) {
+                    if (i < maxLvl - 1) n.line.show();
+                    else n.line.hide();
+                }
+
+                n.select.hide();
+
+                if (n.id === 'SKIP') {
+                    n.el.removeClass('text-muted border-secondary').addClass('skipped border-info bg-info-subtle text-info');
+                    n.el.html('<i class="bi bi-fast-forward-fill"></i>');
+                    if (n.line && i < maxLvl - 1) n.line.addClass('active');
+                    n.txt.removeClass('d-none').html(`<span class="badge bg-info text-dark mt-1">Khác</span>`);
+                    continue;
+                }
+
+                let hasActed = (n.date && n.date !== "" && n.date !== "null" && n.date !== null);
+                let isDone = false, isReject = false, isCurrent = false;
+
+                if (hasActed) {
+                    if (status === 3 && curLvl === (i + 1)) isReject = true;
+                    else isDone = true;
+                } else {
+                    if ((status === 1 || status === 5) && curLvl === (i + 1)) isCurrent = true;
+                }
+                if ((status === 2 || status === 4) && i < maxLvl) isDone = true;
+
+                let noteHtml = n.remark ? `<div class="mt-1 text-dark" style="font-style: italic; font-size: 0.75rem;">"${n.remark}"</div>` : '';
+                let nameHtml = n.name && !n.name.includes('Loading') && !n.name.includes('Chọn') ? `<span class="fw-bold text-dark d-block mb-1" style="font-size:0.8rem;">${n.name}</span>` : '';
+
+                if (isDone) {
+                    n.el.removeClass('text-muted border-secondary').addClass('done text-success border-success');
+                    n.el.html('<i class="bi bi-check-lg"></i>');
+                    if (n.line && i < maxLvl - 1) n.line.addClass('active');
+                    let actText = (status === 4 || status === 5) ? "Đã duyệt Hủy" : "Đã duyệt";
+                    n.txt.removeClass('d-none').html(`${nameHtml}<span class="text-success small fw-bold"><i class="bi bi-check-circle"></i> ${actText}</span><br><span style="font-size:0.7rem;" class="text-muted">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${noteHtml}`);
+                } else if (isReject) {
+                    n.el.removeClass('text-muted border-secondary').addClass('reject text-danger border-danger');
+                    n.el.html('<i class="bi bi-x-lg"></i>');
+                    n.txt.removeClass('d-none').html(`${nameHtml}<span class="text-danger small fw-bold"><i class="bi bi-x-circle"></i> Từ chối</span><br><span style="font-size:0.7rem;" class="text-muted">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${noteHtml}`);
+                } else if (isCurrent) {
+                    n.el.removeClass('text-muted border-secondary').addClass('pending text-warning border-warning');
+                    n.el.html('<i class="bi bi-hourglass-split"></i>');
+                    let waitText = (status === 5) ? "Đang đợi duyệt Hủy..." : "Đang chờ...";
+                    n.txt.removeClass('d-none').html(`${nameHtml}<span class="text-warning small fw-bold" style="color:#d97706!important;">${waitText}</span>`);
+                } else if (n.id) {
+                    n.txt.removeClass('d-none').html(`${nameHtml}<span class="text-muted small">Đợi duyệt</span>`);
+                }
+            }
+        } else {
+            var typeReg = $('#hiddenTypeRegister').val();
+            var maxLvl = typeReg == 1 ? 3 : 4;
+
+            nodes.forEach((n, i) => {
+                if (i < maxLvl) {
+                    n.nodeEl.show();
+                    // [ĐÃ SỬA]: Giấu dây nối nếu là node cuối cùng
+                    if (n.line) {
+                        if (i < maxLvl - 1) n.line.show();
+                        else n.line.hide();
+                    }
+                    n.select.show();
+
+                    if (n.id === 'SKIP') {
+                        n.el.removeClass('text-muted border-secondary').addClass('skipped border-info bg-info-subtle text-info');
+                        n.el.html('<i class="bi bi-fast-forward-fill"></i>');
+                        if (n.line && i < maxLvl - 1) n.line.addClass('active');
+                        n.txt.removeClass('d-none').html(`<span class="badge bg-info text-dark mt-1">Hệ thống bỏ qua</span>`);
+                    } else if (n.id) {
+                        n.el.removeClass('text-muted border-secondary').addClass('active-select text-primary border-primary');
+                        if (n.line && i < maxLvl - 1) n.line.addClass('active');
+                    }
+                } else {
+                    n.nodeEl.hide();
+                    if (n.line) n.line.hide();
+                }
+            });
+        }
+    }
+    function loadGroupsAPI() {
+        if (typeof LoginID === 'undefined') return;
+        AjaxHPAParadise({
+            data: { name: "API_GetLeaderGroups", param: ["LoginID", LoginID] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                var select = $('#select-group'); select.empty();
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    parsedRes.data[0].forEach(g => {
+                        var typeTag = g.IsDivision == 1 ? " (%OfficeBlock_OTRegister%)" : "";
+                        select.append(`<option value="${g.GroupID}" data-isdiv="${g.IsDivision}">${g.GroupName}</option>`);
+                    });
+                } else select.append('<option value="">%NoGroup_OTRegister%</option>');
+            }
+        });
+    }
+
+    function loadApproversAPI(mData = null) {
+        if (typeof LoginID === 'undefined') return;
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+
+        AjaxHPAParadise({
+            data: { name: "API_GetApprovers", param: ["LeaderEmpID", LoginID, "OTType", 1, "TypeRegister", typeReg] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+
+                // Khởi tạo các ô, mặc định khóa các ô 2, 3, 4 nếu chưa chọn ô liền trước
+                $('#approver1').empty().append('<option value="">-- Chọn --</option><option value="SKIP" class="text-primary fw-bold">-- Khác --</option>').prop('disabled', false).removeClass('bg-light fw-bold text-dark');
+                $('#approver2').empty().append('<option value="">-- Chọn --</option><option value="SKIP" class="text-primary fw-bold">-- Khác --</option>').prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                $('#approver3').empty().append('<option value="">-- Chọn --</option>').prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                $('#approver4').empty().append('<option value="">-- Chọn --</option>').prop('disabled', true).addClass('bg-light fw-bold text-dark');
+
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    var counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+                    var vals = { 1: "", 2: "", 3: "", 4: "" };
+
+                    parsedRes.data[0].forEach(function (a) {
+                        $(`#approver${a.approver}`).append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                        counts[a.approver]++; vals[a.approver] = a.EmployeeID;
+                    });
+
+                    // Nhận diện cấp nào Động (Không có data từ API_GetApprovers)
+                    DYNAMIC_LEVELS[2] = (counts[2] === 0);
+                    DYNAMIC_LEVELS[3] = (counts[3] === 0);
+                    DYNAMIC_LEVELS[4] = (counts[4] === 0);
+
+                    if (counts[1] === 1) $('#approver1').val(vals[1]);
+
+                    // Nếu cấp duyệt được ghim cứng -> Chốt giá trị và Khóa
+                    if (counts[2] === 1) $('#approver2').val(vals[2]).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                    if (counts[3] === 1) $('#approver3').val(vals[3]).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                    if (counts[4] === 1) $('#approver4').val(vals[4]).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+
+                    if (mData) {
+                        // CHẾ ĐỘ XEM CHI TIẾT
+                        if (mData.Approver_1) $('#approver1').val(mData.Approver_1);
+                        if (mData.Approver_3 && !DYNAMIC_LEVELS[3]) $('#approver3').val(mData.Approver_3);
+                        if (mData.Approver_4 && !DYNAMIC_LEVELS[4]) $('#approver4').val(mData.Approver_4);
+
+                        if (IS_FORM_LOCKED) $('#approver1, #approver2, #approver3, #approver4').prop('disabled', true);
+
+                        // Trigger chuỗi Load động đệ quy
+                        if (DYNAMIC_LEVELS[2]) triggerLoadNextApprover(mData.Approver_1, 2, mData.Approver_2, mData);
+                        else if (DYNAMIC_LEVELS[3]) triggerLoadNextApprover(mData.Approver_2, 3, mData.Approver_3, mData);
+                        else if (DYNAMIC_LEVELS[4] && typeReg == '2') triggerLoadNextApprover(mData.Approver_3, 4, mData.Approver_4, mData);
+                        else {
+                            if (mData.Approver_2) $('#approver2').val(mData.Approver_2);
+                            updateFlowUI(mData);
+                        }
+                    } else {
+                        // CHẾ ĐỘ TẠO ĐƠN
+                        if (counts[1] === 1 && DYNAMIC_LEVELS[2]) triggerLoadNextApprover(vals[1], 2, null, null);
+                        updateFlowUI();
+                    }
+                }
+            }
+        });
+    }
+    $(document).on('change', '#approver1', function () {
+        if (DYNAMIC_LEVELS[2]) $('#approver2').val('');
+        if (DYNAMIC_LEVELS[3]) $('#approver3').val('');
+        if (DYNAMIC_LEVELS[4]) $('#approver4').val('');
+
+        if (DYNAMIC_LEVELS[2]) triggerLoadNextApprover($(this).val(), 2, null, null);
+    });
+
+    $(document).on('change', '#approver2', function () {
+        if (DYNAMIC_LEVELS[3]) $('#approver3').val('');
+        if (DYNAMIC_LEVELS[4]) $('#approver4').val('');
+
+        var refId = $(this).val();
+        if (refId === 'SKIP') {
+            refId = $('#approver1').val();
+        }
+
+        if (DYNAMIC_LEVELS[3]) triggerLoadNextApprover(refId, 3, null, null);
+    });
+
+    $(document).on('change', '#approver3', function () {
+        if (DYNAMIC_LEVELS[4]) $('#approver4').val('');
+
+        if (DYNAMIC_LEVELS[4] && $('#hiddenTypeRegister').val() == '2') triggerLoadNextApprover($(this).val(), 4, null, null);
+    });
+    function triggerLoadNextApprover(prevEmpId, targetLevel, valToSetAfterLoad, mData) {
+        var selNext = $(`#approver${targetLevel}`);
+        selNext.empty().append('<option value="">-- Loading... --</option>');
+
+        if (!prevEmpId) {
+            let defTxt = targetLevel <= 2 ? '<option value="SKIP" class="text-primary fw-bold">-- Khác --</option>' : '';
+            selNext.empty().append(`<option value="">-- Chọn --</option>${defTxt}`).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+            updateFlowUI(mData); return;
+        }
+
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+        AjaxHPAParadise({
+            data: { name: "API_GetNextLevelApprovers_Plan", param: ["LeaderEmpID", LoginID, "PrevLevelEmpID", prevEmpId, "TargetLevel", targetLevel, "TypeRegister", typeReg] },
+            success: function (res) {
+                var pRes = typeof res === 'string' ? JSON.parse(res) : res;
+
+                // Chỉ cho "Khác" (SKIP) xuất hiện ở Cấp 1, Cấp 2
+                let skipTxt = targetLevel <= 2 ? '<option value="SKIP" class="text-primary fw-bold">-- Khác --</option>' : '';
+                selNext.empty().append(`<option value="">-- Chọn --</option>${skipTxt}`);
+
+                if (!IS_FORM_LOCKED) selNext.prop('disabled', false).removeClass('bg-light fw-bold text-dark');
+
+                var countRes = 0; var valRes = "";
+                if (pRes.result === "success" && pRes.data && pRes.data[0].length > 0) {
+                    pRes.data[0].forEach(function (a) {
+                        selNext.append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                        countRes++; valRes = a.EmployeeID;
+                    });
+                }
+
+                if (valToSetAfterLoad) selNext.val(valToSetAfterLoad);
+                else if (countRes === 1 && !IS_FORM_LOCKED) selNext.val(valRes).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+
+                // Chạy đệ quy tiếp nếu cấp sau cũng Động
+                if (mData) {
+                    if (targetLevel === 2 && DYNAMIC_LEVELS[3]) triggerLoadNextApprover(valToSetAfterLoad || valRes, 3, mData.Approver_3, mData);
+                    else if (targetLevel === 3 && DYNAMIC_LEVELS[4] && typeReg == '2') triggerLoadNextApprover(valToSetAfterLoad || valRes, 4, mData.Approver_4, mData);
+                    else updateFlowUI(mData);
+                } else {
+                    if (countRes === 1 && !IS_FORM_LOCKED) {
+                        if (targetLevel === 2 && DYNAMIC_LEVELS[3]) {
+                            let refForLvl3Auto = valRes;
+                            if (refForLvl3Auto === 'SKIP') refForLvl3Auto = $('#approver1').val();
+
+                            triggerLoadNextApprover(refForLvl3Auto, 3, null, null);
+                        }
+                        else if (targetLevel === 3 && DYNAMIC_LEVELS[4] && typeReg == '2') {
+                            triggerLoadNextApprover(valRes, 4, null, null);
+                        }
+                        else updateFlowUI();
+                    } else {
+                        updateFlowUI();
+                    }
+                }
+            }
+        });
+    }
+    function getVietnameseDay(dateObj) {
+        var days = ['%Sunday_OTRegister%', '%Monday_OTRegister%', '%Tuesday_OTRegister%', '%Wednesday_OTRegister%', '%Thursday_OTRegister%', '%Friday_OTRegister%', '%Saturday_OTRegister%'];
+        return days[dateObj.day()];
+    }
+    function triggerLoadApprover2(l1EmpId, valToSetAfterLoad, mData) {
+        var sel2 = $('#approver2');
+        sel2.empty().append('<option value="">-- Loading... --</option>');
+
+        if (!l1EmpId) {
+            sel2.empty().append('<option value="">-- %Select_OTRegister% --</option><option value="SKIP" class="text-primary fw-bold">-- Khác --</option>').prop('disabled', true).addClass('bg-light fw-bold text-dark');
+            updateFlowUI(mData);
+            return;
+        }
+
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+        AjaxHPAParadise({
+            data: { name: "API_GetLevel2Approvers_Plan", param: ["LeaderEmpID", LoginID, "Level1EmpID", l1EmpId, "TypeRegister", typeReg] },
+            success: function (res) {
+                var pRes = typeof res === 'string' ? JSON.parse(res) : res;
+                sel2.empty().append('<option value="">-- %Select_OTRegister% --</option><option value="SKIP" class="text-primary fw-bold">-- Khác --</option>');
+
+                if (!IS_FORM_LOCKED) {
+                    sel2.prop('disabled', false).removeClass('bg-light fw-bold text-dark');
+                }
+
+                var count2 = 0; var val2 = "";
+                if (pRes.result === "success" && pRes.data && pRes.data[0].length > 0) {
+                    pRes.data[0].forEach(function (a) {
+                        sel2.append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                        count2++; val2 = a.EmployeeID;
+                    });
+                }
+
+                if (valToSetAfterLoad) sel2.val(valToSetAfterLoad);
+                else if (count2 === 1 && !IS_FORM_LOCKED) sel2.val(val2).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+
+                updateFlowUI(mData);
+            }
+        });
+    }
+    function extractTime(dtStr) {
+        if (!dtStr || dtStr === "null" || dtStr === "undefined") return "";
+        if (dtStr.length >= 5 && dtStr.indexOf(':') === 2) return dtStr.substring(0, 5);
+        if (dtStr.includes('T')) return moment(dtStr).format("HH:mm");
+        return "";
+    }
+
+
+    function timeToMins(tStr) {
+        if (!tStr) return null;
+        var p = tStr.split(':');
+        return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+    }
+
+    function getOTLimit(empType, posId) {
+        var eType = parseInt(empType) || 0;
+        var pId = (posId || "").toString().trim();
+        var pos35h = ['1461', '1462', '1463', '1464', '1465', '1466', '1488', '1490'];
+
+        if (eType === 0) {
+            if (pos35h.includes(pId)) return 35;
+            return 45;
+        }
+
+        return 100;
+    }
+
+    function alignToRef(x, ref) {
+
+        if (x === null || isNaN(x)) return null;
+        if (ref === null || isNaN(ref)) return x;
+        if (x < ref - 360) return x + 1440;
+        if (x > ref + 1080) return x - 1440;
+        return x;
+    }
+
+    function calculateOTHours(f, t, ws, we, bs, be, as, ae, typeReg, empType, isHoliday, isAllowLate, EmployeeTypeID, shiftName) {
+        if (!f || !t || f === '--:--' || t === '--:--') return 0;
+        var val_f = timeToMins(f);
+        var val_t = timeToMins(t);
+        if (val_t < val_f) val_t += 1440;
+
+        // RULE 1: Ngày nghỉ/Lễ hoặc Holiday luôn tính toàn bộ (Bỏ rule 30p)
+        if (typeReg == '2' || isHoliday) {
+            var hrsHoliday = (val_t - val_f) / 60;
+            if (parseInt(EmployeeTypeID) == 0 && val_f <= 720 && val_t > 720) {
+                hrsHoliday -= 0.5;
+            }
+            return Math.floor(Math.max(0, hrsHoliday) * 2) / 2;
+        }
+
+        if (!ws || ws === "null" || ws === "" || !we || we === "null" || we === "") return 0;
+
+        var t_ws = timeToMins(ws);
+        var t_we = alignToRef(timeToMins(we), t_ws);
+        var t_f = alignToRef(val_f, t_ws);
+        var t_t = alignToRef(timeToMins(t), t_f);
+        if (t_t < t_f) t_t += 1440;
+
+        var t_bs = (bs && bs !== "null" && bs !== "") ? alignToRef(timeToMins(bs), t_ws) : null;
+        var t_be = (be && be !== "null" && be !== "") ? alignToRef(timeToMins(be), t_ws) : null;
+        var t_as = (as && as !== "null" && as !== "") ? alignToRef(timeToMins(as), t_we) : null;
+        var t_ae = (ae && ae !== "null" && ae !== "") ? alignToRef(timeToMins(ae), t_as !== null ? t_as : t_we) : null;
+
+        var hrs = 0;
+
+        // TÍNH TĂNG CA TRƯỚC
+        if (t_bs !== null && t_be !== null && t_bs !== t_be) {
+            if (t_be < t_bs) t_be += 1440;
+
+            var beforeMins = Math.max(0, Math.min(t_t, t_be) - Math.max(t_f, t_bs));
+
+            // [LOGIC MỚI - FIX THEO SHIFTNAME]: 
+            // Không áp rule 30p cho "Shift 4" hoặc khi isHoliday = true
+            var isShift4 = shiftName && String(shiftName).includes('4');
+
+            if (!isHoliday && !isShift4) {
+                if (beforeMins <= 30) {
+                    beforeMins = 0; // Đi sớm vừa đúng 30p hoặc ít hơn -> Ép về 0
+                }
+            }
+
+            hrs += beforeMins / 60;
+        }
+
+        // TÍNH TĂNG CA SAU
+        if (t_as !== null && t_ae !== null && t_as !== t_ae) {
+            if (t_ae < t_as) t_ae += 1440;
+            hrs += Math.max(0, Math.min(t_t, t_ae) - Math.max(t_f, t_as)) / 60;
+        }
+
+        // CHẾ ĐỘ THAI SẢN / NUÔI CON NHỎ
+        if (isAllowLate !== 'NONE' && isAllowLate !== undefined && isAllowLate !== null) {
+            if (String(isAllowLate) === "1") {
+                var allowedLateEnd = t_ws + 60;
+                if (t_f < allowedLateEnd && t_t > t_ws) {
+                    var extraLateMins = Math.min(t_t, allowedLateEnd) - Math.max(t_f, t_ws);
+                    if (extraLateMins > 0) hrs += extraLateMins / 60;
+                }
+            }
+            else if (String(isAllowLate) === "0") {
+                var allowedEarlyStart = t_we - 60;
+                if (t_t > allowedEarlyStart && t_f < t_we) {
+                    var extraEarlyMins = Math.min(t_t, t_we) - Math.max(t_f, allowedEarlyStart);
+                    if (extraEarlyMins > 0) hrs += extraEarlyMins / 60;
+                }
+            }
+        }
+
+        return Math.floor(hrs * 2) / 2;
+    }
+    window.toggleDateGroup = function (dateStr, headerRow) {
+        var icon = $(headerRow).find('.toggle-icon');
+        var rows = $(`#tableBody tr.employee-row[data-date="${dateStr}"]`);
+        rows.toggle();
+        if (rows.is(':visible')) {
+            icon.removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+        } else {
+            icon.removeClass('bi-chevron-down').addClass('bi-chevron-right collapsed');
+        }
+    };
+
+    window.openAddExtraEmpModal = function () {
+        if (IS_FORM_LOCKED) return uiManager.showAlert({ type: "warning", message: "%CannotAddLocked_OTRegister%" });
+        if (!GLOBAL_FROM_DATE || !GLOBAL_TO_DATE) return uiManager.showAlert({ type: "warning", message: "%RequireCreateForm_OTRegister%" });
+
+        $('#searchExtraEmpInput').val('');
+        $('#chkAllExtra').prop('checked', false);
+
+        var instructionHtml = `
+                <tr>
+          <td colspan="6" class="text-center py-5 text-muted">
+          <i class="bi bi-search" style="font-size: 2.5rem; color: #cbd5e1;"></i><br><br>
+                        <span class="fw-bold text-dark fs-6">%SearchGuide_OTRegister%</span><br>
+                        %SearchInputGuide_OTRegister%<br>
+                        %SearchEnterGuide_OTRegister%
+            </td>
+
+        </tr>
+            `;
+        $('#extraEmpTableBody').html(instructionHtml);
+
+        var myModal = new bootstrap.Modal(document.getElementById('modalAddExtraEmp'));
+        myModal.show();
+    };
+
+    window.searchExtraEmp = function () {
+        var keyword = $('#searchExtraEmpInput').val().trim();
+        if (keyword.length < 2) {
+            return uiManager.showAlert({ type: "warning", message: "%EnterAtLeast2Chars%" });
+        }
+
+        var typeReg = $('#hiddenTypeRegister').val();
+        $('#extraEmpTableBody').html('<tr><td colspan="6" class="text-center py-5 text-muted"><div class="spinner-border spinner-border-sm text-success me-2"></div>%LoadingEmpList%</td></tr>');
+
+        AjaxHPAParadise({
+            data: { name: "API_SearchExtraEmployeeOT", param: ["LoginID", LoginID, "FromDate", GLOBAL_FROM_DATE.format('YYYY-MM-DD'), "ToDate", GLOBAL_TO_DATE.format('YYYY-MM-DD'), "Keyword", keyword] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                var tbody = $('#extraEmpTableBody'); tbody.empty();
+
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    window.TEMP_EXTRA_EMPS = parsedRes.data[0];
+
+                    parsedRes.data[0].forEach(function (emp) {
+                        var regCount = parseInt(emp.RegisteredCount || 0);
+                        var totalDays = parseInt(emp.TotalDays || 1);
+                        var regDatesVN = emp.RegisteredDates_VN || '';
+                        var regDatesSYS = emp.RegisteredDates_SYS || '';
+
+                        var chkHtml = '';
+                        var statusHtml = '';
+                        var rowClass = 'extra-emp-row-item';
+
+                        var existUI = $(`#tableBody tr.employee-row[data-emp="${emp.EmployeeID}"]`).length > 0;
+
+                        var hStatus = parseInt(emp.HolidayStatus || 0);
+                        var isHolidayValid = true;
+                        if (typeReg == 1 && hStatus > 0) isHolidayValid = false;
+                        if (typeReg == 2 && hStatus == 0) isHolidayValid = false;
+
+                        if (existUI) {
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary" disabled>`;
+                            statusHtml = `<span class="badge bg-secondary">%ExistInUI_OTRegister%</span>`;
+                        } else if (!isHolidayValid && typeReg == 1) {
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary" disabled>`;
+                            statusHtml = `<span class="badge bg-warning text-dark">%EmpOnHoliday_OTRegister%</span>`;
+                        } else if (!isHolidayValid && typeReg == 2) {
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary" disabled>`;
+                            statusHtml = `<span class="badge bg-warning text-dark">%EmpNotOnHoliday_OTRegister%</span>`;
+                        } else if (regCount >= totalDays) {
+                            // [KÍN LỊCH]: Trùng toàn bộ các ngày -> KHÓA!
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary" disabled>`;
+                            statusHtml = `<span class="badge bg-danger" style="cursor:help;" title="%LockedDates_OTRegister%:\n${regDatesVN}">%FullyBooked_OTRegister% (${regCount}/${totalDays}) <i class="bi bi-info-circle-fill ms-1"></i></span>`;
+                        } else if (regCount > 0) {
+                            // [TRÙNG 1 PHẦN]: Vẫn cho chọn, hiển thị Tooltip Cảnh báo Vàng cực kỳ chi tiết
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary chk-extra-emp" value="${emp.EmployeeID}" data-regsys="${regDatesSYS}">`;
+                            statusHtml = `<span class="badge bg-warning text-dark" style="cursor:help;" title="%NoteOverlap_OTRegister%:\n${regDatesVN}">%OverlapDays_OTRegister% ${regCount} %Days_OTRegister% <i class="bi bi-info-circle-fill ms-1"></i></span>`;
+                        } else {
+                            chkHtml = `<input type="checkbox" class="form-check-input border-secondary chk-extra-emp" value="${emp.EmployeeID}" data-regsys="">`;
+                            statusHtml = `<span class="badge bg-success">%ValidStatus_OTRegister%</span>`;
+                        }
+
+                        tbody.append(`
+                                <tr class="${rowClass}">
+                                    <td>${chkHtml}</td>
+                                    <td class="fw-bold text-primary">${emp.EmployeeID}</td>
+                                    <td class="text-start fw-bold">${emp.FullName}</td>
+                                    <td class="small">${emp.DepartmentName || ''}</td>
+                                    <td class="small">${emp.GroupName || ''}</td>
+                                    <td>${statusHtml}</td>
+                                </tr>
+                            `);
+                    });
+                } else {
+                    tbody.html('<tr><td colspan="6" class="text-danger py-4 fw-bold">%NoMatchingEmpFound%</td></tr>');
+                }
+            },
+            error: function () {
+                $('#extraEmpTableBody').html('<tr><td colspan="6" class="text-danger py-4 fw-bold">%ServerConnectionError_OTRegister%</td></tr>');
+            }
+        });
+    };
+
+    window.toggleAllExtraEmp = function () {
+        var isChecked = $('#chkAllExtra').is(':checked');
+        $('.chk-extra-emp:not(:disabled):visible').prop('checked', isChecked);
+    };
+
+    function confirmAddExtraEmp() {
+        var selectedEmps = [];
+        $('.chk-extra-emp:checked').each(function () {
+            selectedEmps.push({
+                id: $(this).val(),
+                skipDates: ($(this).attr('data-regsys') || "").split(';').filter(x => x)
+            });
+        });
+
+        if (selectedEmps.length === 0) {
+            return uiManager.showAlert({ type: "warning", message: "%SelectAtLeastOneEmp_OTRegister%" });
+        }
+
+        var selectedIds = selectedEmps.map(x => x.id);
+        var globalFrom = $('#globalFromTime').val();
+        var globalTo = $('#globalToTime').val();
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+        var isDiv = $('#select-group option:selected').data('isdiv') == 1;
+
+        $('#modalAddExtraEmp').modal('hide');
+        $('#tableLoadingProcess').removeClass('d-none');
+        $('#processBar').css('width', '50%');
+        $('#processText').text('%AddingEmp_OTRegister%...');
+
+        AjaxHPAParadise({
+            data: {
+                name: "API_GetScheduleForExtraEmp",
+                param: [
+                    "EmpIDs", selectedIds.join(','),
+                    "FromDate", GLOBAL_FROM_DATE.format('YYYY-MM-DD'),
+                    "ToDate", GLOBAL_TO_DATE.format('YYYY-MM-DD')
+                ]
+            },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    var scheduleData = parsedRes.data[0];
+
+                    scheduleData.forEach(function (emp) {
+                        if (!EMP_DICT[emp.EmployeeID]) {
+                            EMP_DICT[emp.EmployeeID] = {
+                                name: emp.FullName || 'N/A',
+                                baseOT: emp.BaseOT_Before || 0,
+                                empType: emp.EmployeeTypeID,
+                                posId: emp.PositionID,
+                                isDirect: parseInt(emp.IsDirect || 1),
+                                isExtra: !isDiv,
+                                isIndirect: isDiv
+                            };
+                        }
+                        var dStr = moment(emp.OTDate).format('YYYY-MM-DD');
+                        SHIFT_DICT[`${emp.EmployeeID}_${dStr}`] = emp;
+                    });
+
+                    var curr = GLOBAL_FROM_DATE.clone();
+                    var displayStyle = (typeReg == 2) ? '' : 'display:none;';
+
+                    while (curr.isSameOrBefore(GLOBAL_TO_DATE)) {
+                        var dateStr = curr.format('YYYY-MM-DD');
+                        var targetHeaderRow = $(`#tableBody tr.date-header-row`).filter(function () {
+                            return $(this).text().indexOf(curr.format('DD/MM/YYYY')) > -1;
+                        }).first();
+
+                        if (targetHeaderRow.length === 0) {
+                            $('#tableBody').append(`
+                                  <tr class="date-header-row" onclick="toggleDateGroup('${dateStr}', this)" title="%ToggleRow_OTRegister%">
+                    <td colspan="10" class="text-start p-0">
+                                            <div class="d-flex justify-content-between align-items-center w-100" style="padding: 10px 15px;">
+  <span><i class="bi bi-calendar2-check-fill me-2"></i> ${getVietnameseDay(curr)}, %Day_OTRegister% ${curr.format('DD/MM/YYYY')}</span>
+                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `);
+                            targetHeaderRow = $('#tableBody tr.date-header-row').last();
+                        }
+
+                        selectedEmps.forEach(empObjArr => {
+                            var id = empObjArr.id;
+
+                            if (empObjArr.skipDates.includes(dateStr)) return;
+
+                            var shiftData = SHIFT_DICT[`${id}_${dateStr}`];
+                            if (!shiftData) return;
+
+                            var hStatus = 0;
+                            if (shiftData.HolidayStatus !== undefined && shiftData.HolidayStatus !== null) {
+                                hStatus = parseInt(shiftData.HolidayStatus);
+                            }
+
+                            var isHolidayValid = true;
+                            if (typeReg == 1 && hStatus > 0) isHolidayValid = false;
+                            if (typeReg == 2 && hStatus == 0) isHolidayValid = false;
+                            if (!isHolidayValid) return;
+
+                            var existingRow = $(`#tableBody tr.employee-row[data-date="${dateStr}"][data-emp="${id}"]`);
+                            if (existingRow.length > 0) return;
+
+                            var empObj = EMP_DICT[id];
+                            var bs = extractTime(shiftData.OTBeforeStart);
+                            var be = extractTime(shiftData.OTBeforeEnd);
+                            var as = extractTime(shiftData.OTAfterStart);
+                            var ae = extractTime(shiftData.OTAfterEnd);
+                            var ws = extractTime(shiftData.WorkStart) || be || '--:--';
+                            var we = extractTime(shiftData.WorkEnd) || as || '--:--';
+                            var shiftID = shiftData.ShiftID;
+                            var shiftName = shiftData.ShiftName || "%NoShift_OTRegister%";
+
+                            var maternityIcon = '';
+                            if (shiftData && shiftData.IsAllowLate !== undefined && shiftData.IsAllowLate !== null && shiftData.IsAllowLate !== 'NONE' && shiftData.IsAllowLate !== -1 && shiftData.IsAllowLate !== "-1") {
+                                maternityIcon = ` <i class="bi bi-person-hearts text-danger" title="%MaternityChildcareMode%"></i>`;
+                            }
+
+                            var shiftDisplayHtml = `<div class="fw-bold text-dark">${shiftName}${maternityIcon}</div>`;
+                            if (ws && we && ws !== '--:--' && we !== '--:--') shiftDisplayHtml += `<div class="text-primary mt-1" style="font-size:0.75rem;"><i class="bi bi-clock"></i> ${ws} - ${we}</div>`;
+
+                            if (!shiftData.ShiftID && typeReg == '1') {
+                                shiftDisplayHtml = `<span class="badge bg-light text-danger border border-danger shadow-sm px-2 py-1">${shiftName}</span>`;
+                            } else if (typeReg == '2') {
+                                shiftName = "%HolidayType_OTRegister%";
+                                shiftDisplayHtml = `<span class="badge bg-light text-dark border shadow-sm px-2 py-1">${shiftName}</span>`;
+                            }
+
+                            var statusBadge = `<span class="badge_OTNIVS status-pending">%NewAdded_OTRegister%</span>`;
+                            shiftDisplayHtml += `<div class="mt-2">${statusBadge}</div>`;
+
+                            var btnAction = `<button class="btn-action-del" onclick="clearRowInput(this, '${id}')" title="%Delete_OTRegister%"><i class="bi bi-trash"></i></button>`;
+
+                            var shiftAttr = `data-shiftid="${shiftID}" data-bs="${bs}" data-be="${be}" data-as="${as}" data-ae="${ae}" data-ws="${ws}" data-we="${we}" data-emptype="${shiftData.EmployeeTypeID || 1}" data-posid="${shiftData.PositionID || ''}" data-allowlate="${shiftData.IsAllowLate === null ? 'null' : shiftData.IsAllowLate}"`;
+                            var dbAttrs = `data-dbhrs="0" data-isrisk="0" data-limit="" data-currenttotal="${shiftData.BaseOT_Before || 0}" data-saved-f="" data-saved-t="" data-isextra="${empObj.isExtra ? 1 : 0}" data-isindirect="${empObj.isIndirect ? 1 : 0}"`;
+
+                            var valFrom = globalFrom;
+                            var valTo = globalTo;
+
+                            var inputHtmlFrom = `<input type="text" autocomplete="off" class="compact-input time-cell-input inp-from" value="${valFrom}" placeholder="HH:mm" maxlength="5" data-emp="${id}" ${shiftAttr} oninput="handleTimeInput(this)" onblur="validateTimeInput(this)">`;
+                            var inputHtmlTo = `<input type="text" autocomplete="off" class="compact-input time-cell-input inp-to" value="${valTo}" placeholder="HH:mm" maxlength="5" data-emp="${id}" oninput="handleTimeInput(this)" onblur="validateTimeInput(this)">`;
+
+                            var nameHtml = empObj.name;
+                            var rowClass = "hoverable-row employee-row";
+
+                            // [SỬA LẠI NHÃN Ở ĐÂY DỰA VÀO EmployeeTypeID]
+                            var eTypeID = parseInt(empObj.isDirect);
+                            if (isNaN(eTypeID)) eTypeID = 1;
+
+                            if (eTypeID === 0) {
+                                nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> %KhoiGT_OTMess% </span>`;
+                                rowClass += " bg-primary-subtle";
+                            } else if (eTypeID === 1 || eTypeID === 2) {
+                                nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> %KhoiTT_OTMess% </span>`;
+                            }
+
+                            if (empObj.isExtra) {
+                                rowClass += " bg-light";
+                            }
+
+                            var consecDays = shiftData.ConsecutiveDays || 0;
+                            var holWorked = shiftData.WorkedHolidays || 0;
+
+                            var newRowHtml = `
+                                <tr class="${rowClass}" data-date="${dateStr}" data-emp="${id}" data-baseot="${shiftData.BaseOT_Before || 0}" data-readonly="false" data-groupid="${shiftData.GroupTeamID || ''}" ${dbAttrs}>
+                                      <td class="text-success fw-bold align-middle"><i class="bi bi-person-plus-fill fs-5"></i></td>
+                                        <td class="fw-bold text-primary align-middle">${id}</td>
+                                        <td class="text-start fw-bold align-middle">${nameHtml}</td>
+                                        <td class="align-middle text-center bg-light border-end border-start">${shiftDisplayHtml}</td>
+                                        <td class="align-middle" style="width: 120px;">${inputHtmlFrom}</td>
+                         <td class="align-middle" style="width: 120px;">${inputHtmlTo}</td>
+                                        <td class="col-holiday-only align-middle text-center fw-bold text-danger" style="display:${typeReg == 2 ? '' : 'none'};">${consecDays}</td>
+                                       <td class="col-holiday-only align-middle text-center fw-bold text-warning" style="color: #d97706!important; display:${typeReg == 2 ? '' : 'none'};">${holWorked}</td>
+                                        <td class="ot-daily-calc small text-end pe-2 align-middle"></td>
+                                        <td class="align-middle">${btnAction}</td>
+                                    </tr>
+                                `;
+                            targetHeaderRow.after(newRowHtml);
+                        });
+                        curr.add(1, 'days');
+                    }
+
+                    cleanUpEmptyDates();
+                    calculateAllOTWarning();
+
+                    $('#processBar').css('width', '100%');
+                    $('#processText').text('%CompleteData_OTRegister%');
+                    setTimeout(() => { $('#tableLoadingProcess').addClass('d-none'); }, 200);
+
+                    $('#tableBody tr td:contains("%PlsClickAddEmpToSelect%")').parent().remove();
+                    $('#tableFooter').show();
+
+                    uiManager.showAlert({ type: "success", message: `%AddedSuccess% ${selectedIds.length} %EmpIgnoreOverlap%` });
+                } else {
+                    $('#tableLoadingProcess').addClass('d-none');
+                    uiManager.showAlert({ type: "error", message: "%CannotGetWorkSchedule%" });
+                }
+            },
+            error: function () {
+                $('#tableLoadingProcess').addClass('d-none');
+                uiManager.showAlert({ type: "error", message: "%ServerConnectionError_OTRegister%" });
+            }
+        });
+    }
+    function loadEmployeeDataWithProcess() {
+        var groupId = $('#select-group').val();
+        var isDiv = $('#select-group option:selected').data('isdiv') || 0;
+        if (!groupId) return uiManager.showAlert({ type: "warning", message: "%SelectGroupDivision_OTRegister%" });
+        var typeReg = $('#hiddenTypeRegister').val();
+        if (!typeReg) return uiManager.showAlert({ type: "error", message: "%ErrorNotSelectType_OTRegister%" });
+        var fDate = $('#dateFrom').val(), tDate = $('#dateTo').val();
+        if (fDate.length !== 10 || tDate.length !== 10) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormat_OTRegister%" });
+        var start = moment(fDate, 'DD/MM/YYYY'), end = moment(tDate, 'DD/MM/YYYY');
+        if (!start.isValid() || !end.isValid() || start.isAfter(end)) return uiManager.showAlert({ type: "warning", message: "%InvalidDateRange_OTRegister%" });
+        var gFrom = $('#globalFromTime').val(), gTo = $('#globalToTime').val();
+        if (!gFrom || !gTo || gFrom.length !== 5 || gTo.length !== 5) return uiManager.showAlert({ type: "warning", message: "%RequireDefaultTime_OTRegister%" });
+        GLOBAL_FROM_DATE = start; GLOBAL_TO_DATE = end;
+
+        startLoadingProcess();
+        $('#approverSection').show();
+        toggleFilterForm(true);
+        $('#approver1, #approver2, #approver3, #approver4').val('');
+        updateFlowUI();
+        CURRENT_IDENTITY_ID = null; IS_FORM_LOCKED = false;
+
+        AjaxHPAParadise({
+            data: {
+                name: "API_CreateOrGetOTRegistration",
+                param: ["TargetID", groupId, "FromDate", start.format('YYYY-MM-DD'), "ToDate", end.format('YYYY-MM-DD'), "LoginID", LoginID, "TypeRegister", typeReg, "IsDivision", isDiv]
+            },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data.length > 0) {
+                    var mData = parsedRes.data[0][0];
+                    if (mData) {
+                        if (mData.Identity_ID === 'OVERLAP_ERROR') {
+                            uiManager.showAlert({ type: "error", message: mData.Remark });
+                            finishLoadingProcess(false, "%OverlapTimeError_OTRegister%");
+                            return;
+                        }
+                        CURRENT_IDENTITY_ID = mData.Identity_ID;
+                        CURRENT_STATUS = parseInt(mData.Approve_Status);
+                        var currentLevel = parseInt(mData.Current_Approved_Level || 1);
+                        updateFormStatusBanner(CURRENT_STATUS, currentLevel);
+                        if (mData.Approver_1) $('#approver1').val(mData.Approver_1);
+                        if (mData.Approver_2) $('#approver2').val(mData.Approver_2);
+                        if (mData.Approver_3) $('#approver3').val(mData.Approver_3);
+                        if (mData.Approver_4) $('#approver4').val(mData.Approver_4);
+                        if (mData.Remark) $('#globalRemark').val(mData.Remark);
+                        updateFlowUI();
+                    }
+                    if (parsedRes.data.length >= 2) {
+                        try { renderTableHTML(parsedRes.data[1], start, end, typeReg); } catch (e) { console.error("Lỗi Render Data:", e); }
+                    } else {
+                        renderTableHTML([], start, end, typeReg);
+                    }
+                    finishLoadingProcess(true);
+                    loadApproversAPI(mData); // Nạp lại Cấp 2 Động nếu cần
+                } else {
+                    finishLoadingProcess(false, parsedRes.reason || "%InvalidDataReturned_OTRegister%");
+                }
+            },
+            error: function () { finishLoadingProcess(false, "%ServerConnectionError_OTRegister%"); }
+        });
+    }
+    function viewDetails(identityId) {
+        IS_VIEW_MODE = true;
+        $('#step1TypeSelection, #step2FormControls').hide();
+        $('#viewDetailHeader').show();
+        startLoadingProcess();
+        $('#approverSection').show();
+        $('#approverBody').show();
+        var tab = new bootstrap.Tab(document.querySelector('#tab-create')); tab.show();
+
+        AjaxHPAParadise({
+            data: { name: "API_GetOTRegistrationByID", param: ["Identity_ID", identityId] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data.length >= 2) {
+                    var mData = parsedRes.data[0][0] || {};
+                    CURRENT_IDENTITY_ID = mData.Identity_ID || identityId;
+                    CURRENT_STATUS = parseInt(mData.Approve_Status || 0);
+                    var currentLevel = parseInt(mData.Current_Approved_Level || 1);
+
+                    var safeId = CURRENT_IDENTITY_ID || "";
+                    $('#lblDetailID').text(safeId.length > 8 ? safeId.substring(0, 8) : safeId);
+                    $('#lblDetailCreator').text(mData.RegisterBy || 'N/A');
+                    $('#lblDetailCreateTime').text(mData.CreateTime ? moment(mData.CreateTime).format('DD/MM/YYYY HH:mm') : 'N/A');
+
+                    var sDate = moment(mData.OTDateFrom || GLOBAL_FROM_DATE);
+                    var eDate = moment(mData.OTDateTo || GLOBAL_TO_DATE);
+                    GLOBAL_FROM_DATE = sDate; GLOBAL_TO_DATE = eDate;
+
+                    var typeReg = mData.TypeRegister || 1;
+                    $('#hiddenTypeRegister').val(typeReg);
+                    $('#lblViewType').text(typeReg == 1 ? "%TypeNormalDay_OTRegister%" : "%TypeHoliday_OTRegister%").removeClass('bg-success bg-danger').addClass(typeReg == 1 ? 'bg-success' : 'bg-danger');
+
+                    if (typeReg == '2') {
+                        $('.col-holiday-only').show();
+                    } else {
+                        $('.col-holiday-only').hide();
+                    }
+
+                    if (mData.Remark) $('#globalRemark').val(mData.Remark);
+
+                    updateFormStatusBanner(CURRENT_STATUS, currentLevel, mData);
+                    updateFlowUI(mData);
+                    //loadApproversAPI(mData);
+
+                    try { renderViewDetailTable(parsedRes.data[1], typeReg); } catch (e) { console.error("Lỗi Render Details:", e); }
+                    finishLoadingProcess(true);
+                } else {
+                    finishLoadingProcess(false, "%NotFoundDetailData_OTRegister%");
+                }
+            },
+            error: function () { finishLoadingProcess(false, "%ServerConnectionError_OTRegister%"); }
+        });
+    }
+    function renderViewDetailTable(sqlData, typeReg) {
+        var tbody = $('#tableBody'); tbody.empty();
+        if (!sqlData || sqlData.length === 0) {
+            tbody.html('<tr><td colspan="10" class="text-danger py-4 text-center">%NoData_OTMess%</td></tr>');
+            return;
+        }
+        var grandTotalHours = 0;
+        var activeEmps = new Set();
+        var riskCount = 0;
+        var dataByDate = {};
+
+        sqlData.forEach(row => {
+            var f = extractTime(row.Saved_OTFrom || row.Planned_OTFrom || row.OTFrom);
+            var t = extractTime(row.Saved_OTTo || row.Planned_OTTo || row.OTTo);
+
+            if (!f && !t && !row.Original_OTFrom && !row.Original_OTTo) return;
+
+            var dStr = moment(row.ScheduleDate || row.OTDate).format('YYYY-MM-DD');
+            if (!dataByDate[dStr]) dataByDate[dStr] = [];
+            dataByDate[dStr].push(row);
+        });
+
+        if (Object.keys(dataByDate).length === 0) {
+            tbody.html('<tr><td colspan="10" class="text-danger py-4 text-center">%NoValidOTData%</td></tr>');
+            return;
+        }
+
+        var displayStyle = (typeReg == 2) ? '' : 'display:none;';
+
+        Object.keys(dataByDate).sort().forEach(dateStr => {
+            var dMom = moment(dateStr);
+            var rowsForDate = dataByDate[dateStr];
+
+            tbody.append(`
+                    <tr class="date-header-row" onclick="toggleDateGroup('${dateStr}', this)" title="%ToggleRow_OTRegister%">
+                    <td colspan="10" class="text-start p-0">
+                            <div class="d-flex justify-content-between align-items-center w-100" style="padding: 10px 15px;">
+                                <span><i class="bi bi-calendar2-check-fill me-2"></i> ${getVietnameseDay(dMom)}, %Day_OTRegister% ${dMom.format('DD/MM/YYYY')}</span>
+                                <i class="bi bi-chevron-down toggle-icon"></i>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+
+            rowsForDate.forEach((row, idx) => {
+                var f = extractTime(row.Saved_OTFrom || row.Planned_OTFrom || row.OTFrom);
+                var t = extractTime(row.Saved_OTTo || row.Planned_OTTo || row.OTTo);
+                var hrs = parseFloat(row.OTHours || 0);
+                var baseOT = parseFloat(row.CurrentTotalOT || 0);
+                var isRisk = parseInt(row.IsExceed || 0) === 1;
+                var limitType = (row.LimitType || '').replace('Vượt', '%ExceedLimit_OTMess%').replace('Giờ', '%Hours_OTMess%').replace('giờ', '%Hours_OTMess%');
+                var runningTotal = baseOT + hrs;
+
+                var orgF = row.Original_OTFrom ? extractTime(row.Original_OTFrom) : f;
+                var orgT = row.Original_OTTo ? extractTime(row.Original_OTTo) : t;
+                var hasModified = (row.Original_OTFrom && row.Original_OTFrom !== row.OTFrom) || (row.Original_OTTo && row.Original_OTTo !== row.OTTo);
+
+                grandTotalHours += hrs;
+                activeEmps.add(row.EmployeeID);
+
+                var bs = extractTime(row.OTBeforeStart);
+                var be = extractTime(row.OTBeforeEnd);
+                var as = extractTime(row.OTAfterStart);
+                var ae = extractTime(row.OTAfterEnd);
+                var ws = extractTime(row.WorkStart) || be || '';
+                var we = extractTime(row.WorkEnd) || as || '';
+
+                var shiftName = row.ShiftName || "%NoShift_OTRegister%";
+
+                var maternityIcon = '';
+                if (row.IsAllowLate !== undefined && row.IsAllowLate !== null && row.IsAllowLate !== 'NONE' && row.IsAllowLate !== -1 && row.IsAllowLate !== "-1") {
+                    maternityIcon = ` <i class="bi bi-person-hearts text-danger" title="%MaternityChildcareMode%"></i>`;
+                }
+
+                var shiftDisplayHtml = `<div class="fw-bold">${shiftName}${maternityIcon}</div>`;
+
+                if (typeReg == 1) {
+                    if (ws && we && ws !== '--:--' && we !== '--:--') {
+
+                        shiftDisplayHtml += `<div class="text-primary mt-1" style="font-size:0.75rem;"><i class="bi bi-clock"></i> ${ws} - ${we}</div>`;
+                    }
+                    if (!row.ShiftID) {
+                        shiftDisplayHtml = `<span class="badge bg-light text-danger border border-danger shadow-sm px-2 py-1">${shiftName}</span>`;
+                    }
+                } else if (typeReg == 2) {
+                    shiftName = "%HolidayType_OTRegister%";
+                    shiftDisplayHtml = `<span class="badge bg-light text-dark border shadow-sm px-2 py-1">${shiftName}</span>`;
+                }
+
+                var isExtra = parseInt(row.IsExtraEmp || 0) === 1;
+                var isIndirect = parseInt(row.IsIndirectEmp || 0) === 1;
+
+                var nameHtml = row.FullName || 'N/A';
+                var rowClass = "employee-row";
+                console.log(row)
+                // [SỬA LẠI NHÃN Ở ĐÂY DỰA VÀO EmployeeTypeID]
+                var eTypeID = parseInt(row.IsDirect);
+                if (isNaN(eTypeID)) eTypeID = 1;
+
+                if (eTypeID === 0) {
+                    nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> %KhoiGT_OTMess% </span>`;
+                    rowClass += " bg-primary-subtle";
+                } else if (eTypeID === 1 || eTypeID === 2) {
+                    nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> %KhoiTT_OTMess%</span>`;
+                }
+
+                if (isExtra) {
+                    rowClass += " bg-light";
+                }
+
+                var hrsDisplay = "";
+
+                var displayF = f ? f : '%Off_OTMess%';
+                var displayT = t ? t : '%Off_OTMess%';
+
+                if (hasModified) {
+                    riskCount++;
+                    rowClass += " row-warning_OTNIVS bg-warning-subtle";
+                    hrsDisplay = `<span class="text-danger fw-bold">+0h</span><br><span class="badge bg-danger mt-1" style="font-size:0.65rem;" title="%RejectOT_OTMess%">%RejectOT_OTMess%</span>`;
+                } else if (isRisk) {
+                    riskCount++;
+                    rowClass += " row-warning_OTNIVS";
+                    var riskText = hrs === 0 ? "0h (%ShiftMismatch_OTMess%)" : limitType;
+                    hrsDisplay = `<span class="text-danger fw-bold">+${hrs.toFixed(1)}h</span><br><span class="text-danger fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="text-danger small" style="font-size:0.7rem;"><i class="bi bi-exclamation-triangle-fill"></i> ${riskText}</span>`;
+                } else {
+                    var colorHr = hrs === 0 ? 'text-secondary' : 'text-primary';
+                    hrsDisplay = `<span class="${colorHr} fw-bold">+${hrs.toFixed(1)}h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`;
+                    if (hrs === 0) hrsDisplay += `<br><span class="text-success small" style="font-size:0.7rem;"><i class="bi bi-person-check-fill"></i> %Present0h_OTMess%</span>`;
+                }
+
+                var consecDays = row.ConsecutiveDays || 0;
+                var holWorked = row.WorkedHolidays || 0;
+
+                var tempHtml = `
+                        <tr class="${rowClass}" data-date="${dateStr}" data-emp="${row.EmployeeID}">
+                   <td class="text-muted fw-bold align-middle">${idx + 1}</td>
+                            <td class="fw-bold text-primary align-middle">${row.EmployeeID}</td>
+       <td class="text-start fw-bold align-middle">${nameHtml}</td>
+
+                            <td class="align-middle text-center bg-light border-end border-start">${shiftDisplayHtml}</td>
+                            <td class="align-middle fw-bold ${displayF === '%Off_OTMess%' ? 'text-danger' : 'text-success'}">${displayF}</td>
+                          <td class="align-middle fw-bold text-danger">${displayT}</td>
+                            <td class="col-holiday-only align-middle text-center fw-bold text-danger" style="${displayStyle}">${consecDays} %Days_OTRegister%</td>
+                            <td class="col-holiday-only align-middle text-center fw-bold text-warning" style="color: #d97706!important; ${displayStyle}">${holWorked} %Days_OTRegister%</td>
+                            <td class="small text-end pe-2 align-middle">${hrsDisplay}</td>
+                            <td class="align-middle"><i class="bi bi-lock-fill text-muted" style="opacity:0.3" title="%ReadOnly_OTRegister%"></i></td>
+                        </tr>
+                    `;
+                tbody.append(tempHtml);
+            });
+        });
+
+        $('#sumEmpCount').text(activeEmps.size);
+        $('#sumOTHours').text(grandTotalHours.toFixed(1));
+        $('#summarySection').show();
+
+        if (riskCount > 0) {
+            $('#switchOver100hWrapper').removeClass('d-none');
+            $('#lblOver100hCount').html(`%FilterWarning_OTRegister% (<span class="badge bg-danger rounded-pill">${riskCount}</span>)`);
+            $('#switchOver100h').prop('checked', false);
+        } else {
+            $('#switchOver100hWrapper').addClass('d-none');
+        }
+        $('#tableFooter').show();
+    }
+    function updateFormStatusBanner(status, curLvl = 1, mData = null) {
+        var banner = $('#formStatusBanner'), txt = $('#formStatusText');
+        banner.removeClass('d-none alert-info border-info text-primary alert-warning border-warning text-dark alert-success border-success text-success alert-danger border-danger text-danger');
+        IS_FORM_LOCKED = IS_VIEW_MODE || (status > 0);
+
+        if (status === 0) { banner.addClass('alert-info border-info text-primary'); txt.text('%DraftForm_OTRegister%'); }
+        else if (status === 1) { banner.addClass('alert-warning border-warning text-dark'); txt.html('%WaitingApprove_OTRegister% <i class="bi bi-hourglass-split"></i>'); }
+        else if (status === 2) { banner.addClass('alert-success border-success text-success'); txt.html('%Approved_OTRegister% <i class="bi bi-check-circle-fill"></i>'); }
+        else if (status === 3) { banner.addClass('alert-danger border-danger text-danger'); txt.html('%Rejected_OTRegister% <i class="bi bi-x-circle-fill"></i>'); }
+        else if (status === 4) { banner.addClass('alert-secondary border-secondary text-muted'); txt.html('%CancelledForm_OTRegister%'); }
+        else if (status === 5) { banner.addClass('alert-warning border-warning text-dark'); txt.html('%RequestingCancel_OTRegister% <i class="bi bi-exclamation-circle"></i>'); }
+
+        $('#approver1, #approver2, #approver3, #approver4, #globalRemark').prop('disabled', IS_FORM_LOCKED);
+        if (IS_FORM_LOCKED) {
+            $('#btnSubmitForm').hide();
+
+            var app1 = mData ? mData.Approver_1 : $('#approver1').val();
+
+            // Mở khóa HỦY TRỰC TIẾP nếu:
+            // - Đơn đang chờ Cấp 1
+            // - Đơn đang chờ Cấp 2 VÀ Cấp 1 được gán là Khác (SKIP)
+            var canCancelDirect = false;
+            if (status === 1) {
+                if (curLvl === 1) canCancelDirect = true;
+                if (curLvl === 2 && app1 === 'SKIP') canCancelDirect = true;
+            }
+
+            if (canCancelDirect) {
+                $('#btnCancelMaster').removeClass('d-none');
+                $('#txtCancelMaster').text('%CancelFormBtn_OTRegister%');
+            } else if (status === 2 || status === 1) { // Mọi trường hợp còn lại đang chạy luồng duyệt -> Xin Hủy
+                $('#btnCancelMaster').removeClass('d-none');
+                $('#txtCancelMaster').text('%RequestCancelFormBtn_OTRegister%');
+            } else {
+                $('#btnCancelMaster').addClass('d-none');
+            }
+        } else {
+            $('#btnSubmitForm').show(); $('#btnCancelMaster').addClass('d-none');
+        }
+    }
+
+    function renderTableHTML(sqlData, startDate, endDate, typeReg) {
+        var tbody = $('#tableBody'); tbody.empty();
+        if (!sqlData || sqlData.length === 0) {
+            var isDiv = $('#select-group option:selected').data('isdiv') || 0;
+            var emptyMsg = isDiv == 1 ? "%PlsClickAddEmpToSelect%" : "%NoEmployeeData_OTRegister%";
+            tbody.html(`<tr><td colspan="10" class="text-danger py-5 text-center fw-bold">${emptyMsg}</td></tr>`);
+
+            $('#tableFooter').show();
+            return;
+        }
+
+        var empList = []; EMP_DICT = {}; SHIFT_DICT = {};
+
+        sqlData.forEach(row => {
+            if (!EMP_DICT[row.EmployeeID]) {
+                EMP_DICT[row.EmployeeID] = {
+                    name: row.FullName || 'N/A',
+                    baseOT: row.BaseOT_Before || 0,
+                    empType: row.EmployeeTypeID,
+                    posId: row.PositionID,
+                    isDirect: parseInt(row.IsDirect || 1),
+                    isExtra: parseInt(row.IsExtraEmp || 0) === 1,
+                    isIndirect: parseInt(row.IsIndirectEmp || 0) === 1
+                };
+                empList.push(row.EmployeeID);
+            }
+            if (row.ScheduleDate) SHIFT_DICT[`${row.EmployeeID}_${moment(row.ScheduleDate).format('YYYY-MM-DD')}`] = row;
+        });
+
+        var globalFrom = $('#globalFromTime').val(), globalTo = $('#globalToTime').val();
+        var curr = startDate.clone(), hasValidDayOverall = false;
+        var displayStyle = (typeReg == 2) ? '' : 'display:none;';
+
+        while (curr.isSameOrBefore(endDate)) {
+            var dateStr = curr.format('YYYY-MM-DD');
+            var hasDataForDate = false;
+            var tempHtml = "";
+            var idx = 0;
+
+            empList.forEach(empId => {
+                var emp = EMP_DICT[empId];
+                var shiftData = SHIFT_DICT[`${empId}_${dateStr}`];
+
+                var savedF = shiftData ? extractTime(shiftData.Saved_OTFrom) : "";
+                var savedT = shiftData ? extractTime(shiftData.Saved_OTTo) : "";
+                var hasSavedData = (savedF !== "" && savedT !== "");
+
+                var hStatus = 0;
+                if (shiftData && shiftData.HolidayStatus !== undefined && shiftData.HolidayStatus !== null) {
+                    hStatus = parseInt(shiftData.HolidayStatus);
+                }
+
+                var isHolidayValid = true;
+                if (typeReg == 1 && hStatus > 0) isHolidayValid = false;
+                if (typeReg == 2 && hStatus == 0) isHolidayValid = false;
+                if (!isHolidayValid) return;
+
+                var existingRow = $(`#tableBody tr.employee-row[data-date="${dateStr}"][data-emp="${empId}"]`);
+                if (existingRow.length > 0) return;
+
+                var bs = extractTime(shiftData.OTBeforeStart);
+                var be = extractTime(shiftData.OTBeforeEnd);
+                var as = extractTime(shiftData.OTAfterStart);
+                var ae = extractTime(shiftData.OTAfterEnd);
+                var ws = extractTime(shiftData.WorkStart) || be || '--:--';
+                var we = extractTime(shiftData.WorkEnd) || as || '--:--';
+                var shiftID = shiftData.ShiftID;
+                var shiftName = shiftData.ShiftName || "%NoShift_OTRegister%";
+
+                var allowLateFlag = String(shiftData.IsAllowLate).trim().toUpperCase();
+                var maternityIcon = '';
+                if (allowLateFlag === "0" || allowLateFlag === "1" || allowLateFlag === "TRUE" || allowLateFlag === "FALSE") {
+                    maternityIcon = ` <i class="bi bi-person-hearts text-danger" title="%MaternityChildcareMode%"></i>`;
+                }
+
+                var shiftDisplayHtml = `<div class="fw-bold text-dark">${shiftName}${maternityIcon}</div>`;
+                if (ws && we && ws !== '--:--' && we !== '--:--') shiftDisplayHtml += `<div class="text-primary mt-1" style="font-size:0.75rem;"><i class="bi bi-clock"></i> ${ws} - ${we}</div>`;
+
+                if (!shiftData.ShiftID && typeReg == '1') {
+                    shiftDisplayHtml = `<span class="badge bg-light text-danger border border-danger shadow-sm px-2 py-1">${shiftName}</span>`;
+                } else if (typeReg == '2') {
+                    shiftName = "%HolidayType_OTRegister%";
+                    shiftDisplayHtml = `<span class="badge bg-light text-dark border shadow-sm px-2 py-1">${shiftName}</span>`;
+                }
+
+                var statusBadge = `<span class="badge_OTNIVS status-pending">${hasSavedData ? '%Saved_OTRegister%' : '%NotFilled_OTRegister%'}</span>`;
+                if (hasSavedData) statusBadge = `<span class="badge_OTNIVS status-registered">%Saved_OTRegister%</span>`;
+                shiftDisplayHtml += `<div class="mt-2">${statusBadge}</div>`;
+
+                var btnAction = IS_FORM_LOCKED ? '' : `<button class="btn-action-del" onclick="clearRowInput(this, '${empId}')" title="%Delete_OTRegister%"><i class="bi bi-trash"></i></button>`;
+
+                var shiftAttr = `data-shiftid="${shiftID}" data-bs="${bs}" data-be="${be}" data-as="${as}" data-ae="${ae}" data-ws="${ws}" data-we="${we}" data-emptype="${shiftData.EmployeeTypeID || 1}" data-posid="${shiftData.PositionID || ''}" data-allowlate="${shiftData.IsAllowLate === null ? 'null' : shiftData.IsAllowLate}"`;
+                var dbAttrs = `data-dbhrs="${shiftData.OTHours || 0}" data-isrisk="${shiftData.IsExceed || 0}" data-limit="${shiftData.LimitType || ''}" data-currenttotal="${shiftData.CurrentTotalOT || 0}" data-saved-f="${savedF}" data-saved-t="${savedT}" data-isextra="${emp.isExtra ? 1 : 0}" data-isindirect="${emp.isIndirect ? 1 : 0}"`;
+
+                var valFrom = IS_FORM_LOCKED ? savedF : (savedF || globalFrom);
+                var valTo = IS_FORM_LOCKED ? savedT : (savedT || globalTo);
+
+                var inputHtmlFrom = `<input type="text" autocomplete="off" class="compact-input time-cell-input inp-from" value="${valFrom}" placeholder="HH:mm" maxlength="5" ${IS_FORM_LOCKED ? 'disabled' : ''} data-emp="${empId}" ${shiftAttr} oninput="handleTimeInput(this)" onblur="validateTimeInput(this)">`;
+                var inputHtmlTo = `<input type="text" autocomplete="off" class="compact-input time-cell-input inp-to" value="${valTo}" placeholder="HH:mm" maxlength="5" ${IS_FORM_LOCKED ? 'disabled' : ''} data-emp="${empId}" oninput="handleTimeInput(this)" onblur="validateTimeInput(this)">`;
+
+                var nameHtml = emp.name;
+                var rowClass = "hoverable-row employee-row";
+
+                var eTypeID = parseInt(emp.isDirect);
+                if (isNaN(eTypeID)) eTypeID = 1;
+
+
+                if (eTypeID === 0) {
+                    nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> %KhoiGT_OTMess% </span>`;
+                    rowClass += " bg-primary-subtle";
+                } else if (eTypeID === 1 || eTypeID === 2) {
+                    nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> %KhoiTT_OTMess% </span>`;
+                }
+
+                if (emp.isExtra) {
+                    rowClass += " bg-light";
+                }
+
+                var consecDays = shiftData ? (shiftData.ConsecutiveDays || 0) : 0;
+                var holWorked = shiftData ? (shiftData.WorkedHolidays || 0) : 0;
+
+                var newRowHtml = `
+                        <tr class="${rowClass}" data-date="${dateStr}" data-emp="${empId}" data-baseot="${emp.baseOT}" data-readonly="${IS_FORM_LOCKED}" data-groupid="${shiftData.GroupTeamID || ''}" ${dbAttrs}>
+                            <td class="text-muted fw-bold align-middle">${++idx}</td>
+                            <td class="fw-bold text-primary align-middle">${empId}</td>
+                            <td class="text-start fw-bold align-middle">${nameHtml}</td>
+                            <td class="align-middle text-center bg-light border-end border-start">${shiftDisplayHtml}</td>
+                            <td class="align-middle" style="width: 120px;">${inputHtmlFrom}</td>
+                            <td class="align-middle" style="width: 120px;">${inputHtmlTo}</td>
+                            <td class="col-holiday-only align-middle text-center fw-bold text-danger" style="${displayStyle}">${consecDays}</td>
+                            <td class="col-holiday-only align-middle text-center fw-bold text-warning" style="color: #d97706!important; ${displayStyle}">${holWorked}</td>
+                            <td class="ot-daily-calc small text-end pe-2 align-middle"></td>
+                            <td class="align-middle">${btnAction}</td>
+                        </tr>
+                    `;
+
+                var targetHeaderRow = $(`#tableBody tr.date-header-row`).filter(function () {
+                    return $(this).text().indexOf(curr.format('DD/MM/YYYY')) > -1;
+                }).first();
+
+                if (targetHeaderRow.length === 0) {
+                    $('#tableBody').append(`
+                            <tr class="date-header-row" onclick="toggleDateGroup('${dateStr}', this)" title="%ToggleRow_OTRegister%">
+    <td colspan="10" class="text-start p-0">
+                                    <div class="d-flex justify-content-between align-items-center w-100" style="padding: 10px 15px;">
+                    <span><i class="bi bi-calendar2-check-fill me-2"></i> ${getVietnameseDay(curr)}, %Day_OTRegister% ${curr.format('DD/MM/YYYY')}</span>
+                   <i class="bi bi-chevron-down toggle-icon"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                    targetHeaderRow = $('#tableBody tr.date-header-row').last();
+                }
+                targetHeaderRow.after(newRowHtml);
+                hasDataForDate = true;
+            });
+
+            if (hasDataForDate) hasValidDayOverall = true;
+            curr.add(1, 'days');
+        }
+
+        if (!hasValidDayOverall) {
+            var isDiv = $('#select-group option:selected').data('isdiv') || 0;
+            var emptyMsg = isDiv == 1 ? "%PlsClickAddEmpToSelect%" : "%NoValidOTData%";
+            tbody.html(`<tr><td colspan="10" class="text-danger py-5 text-center fw-bold">${emptyMsg}</td></tr>`);
+        }
+
+        cleanUpEmptyDates();
+        calculateAllOTWarning();
+        $('#tableFooter').show();
+    }
+
+    function searchEmployee() {
+        var keyword = $('#searchEmpInput').val().toLowerCase();
+        $('.employee-row').each(function () {
+            var tr = $(this), name = tr.find('td:eq(2)').text().toLowerCase(), code = tr.find('td:eq(1)').text().toLowerCase();
+            if (name.indexOf(keyword) > -1 || code.indexOf(keyword) > -1) tr.show(); else tr.hide();
+        });
+        $('.date-header-row').each(function () {
+            var header = $(this); var rows = header.nextUntil('.date-header-row');
+            if (rows.filter(':visible').length > 0) {
+                header.show(); header.find('.toggle-icon').removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+            } else header.hide();
+        });
+    }
+
+    function filterOver100hData() {
+        var isChecked = $('#switchOver100h').is(':checked');
+        if (isChecked) {
+            $('.employee-row').each(function () {
+                var tr = $(this);
+                if (tr.hasClass('row-warning_OTNIVS')) tr.show(); else tr.hide();
+            });
+        } else {
+            $('#searchEmpInput').val('');
+            $('.employee-row').show();
+        }
+
+        $('.date-header-row').each(function () {
+            var header = $(this); var rows = header.nextUntil('.date-header-row');
+            if (rows.filter(':visible').length > 0) {
+                header.show(); header.find('.toggle-icon').removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+            } else header.hide();
+        });
+    }
+
+    function clearRowInput(btn, empId) {
+        var tr = $(btn).closest('tr');
+        var f = tr.find('.inp-from').val(), t = tr.find('.inp-to').val();
+        if (f || t) {
+            tr.find('.inp-from, .inp-to').val('');
+            tr.find('.badge_OTNIVS').replaceWith(`<span class="badge_OTNIVS status-pending">%Deleted_OTRegister%</span>`);
+            calculateAllOTWarning();
+        } else {
+            tr.fadeOut(200, function () { $(this).remove(); calculateAllOTWarning(); });
+        }
+    }
+
+    function calculateAllOTWarning() {
+        if (IS_VIEW_MODE) return;
+
+        var empSet = new Set();
+        $('#tableBody tr.employee-row').each(function () { empSet.add($(this).data('emp')); });
+        var typeReg = $('#hiddenTypeRegister').val();
+        var grandTotalHours = 0;
+        var activeEmpSet = new Set();
+        var countOverLimit = 0;
+        var hasZeroHr = false;
+
+        empSet.forEach(empId => {
+            var currDate = GLOBAL_FROM_DATE.clone();
+            var empInfo = EMP_DICT[empId];
+            var isDirect = empInfo ? parseInt(empInfo.isDirect) : 1;
+            var posId = empInfo ? empInfo.posId : "";
+            var otLimit = getOTLimit(isDirect, posId);
+
+            var monthDeltas = {};
+
+            while (currDate.isSameOrBefore(GLOBAL_TO_DATE)) {
+                var dateStr = currDate.format('YYYY-MM-DD');
+                var monthKey = `${empId}_${currDate.format('YYYY-MM')}`;
+
+                if (monthDeltas[monthKey] === undefined) {
+                    monthDeltas[monthKey] = 0;
+                }
+
+                var uiRow = $(`#tableBody tr.employee-row[data-emp="${empId}"][data-date="${dateStr}"]`);
+
+                if (uiRow.length > 0) {
+                    var elF = uiRow.find('.inp-from');
+                    var elT = uiRow.find('.inp-to');
+                    var f = elF.val(), t = elT.val();
+                    var calcCell = uiRow.find('.ot-daily-calc');
+
+                    var sqlBaseOT = parseFloat(uiRow.attr('data-baseot')) || 0;
+                    var baseBeforeShift = sqlBaseOT + monthDeltas[monthKey];
+                    uiRow.attr('data-submit-basetotal', baseBeforeShift);
+
+                    var hrs = 0;
+                    var isOverLimit = false;
+                    var limitText = "";
+                    var isZero = false;
+
+                    var originalDbHrs = parseFloat(uiRow.attr('data-dbhrs')) || 0;
+
+                    if (f && t) {
+                        var savedF = uiRow.attr('data-saved-f');
+                        var savedT = uiRow.attr('data-saved-t');
+
+                        if (f === savedF && t === savedT && savedF !== "" && savedT !== "") {
+                            hrs = originalDbHrs;
+                            var isRiskDB = parseInt(uiRow.attr('data-isrisk')) || 0;
+                            limitText = (uiRow.attr('data-limit') || `Vượt ${otLimit} Giờ`);
+
+                            grandTotalHours += hrs;
+                            activeEmpSet.add(empId);
+                            isZero = (hrs === 0);
+                            isOverLimit = (isRiskDB === 1) || ((baseBeforeShift + hrs) > otLimit);
+                            if (isZero) hasZeroHr = true;
+                        }
+                        else {
+                            var bs = elF.attr('data-bs'), be = elF.attr('data-be'), as = elF.attr('data-as'), ae = elF.attr('data-ae');
+                            var ws = elF.attr('data-ws'), we = elF.attr('data-we');
+                            var isAllowLate = elF.attr('data-allowlate');
+
+                            var shiftData = SHIFT_DICT[`${empId}_${dateStr}`];
+                            var isHol = false;
+                            var shiftCode = '';
+
+                            if (shiftData) {
+                                if (shiftData.HolidayStatus !== undefined && shiftData.HolidayStatus !== null) {
+                                    isHol = parseInt(shiftData.HolidayStatus) > 0;
+                                }
+                                shiftCode = shiftData.ShiftName || shiftData.ShiftName || '';
+                            }
+
+                            hrs = calculateOTHours(f, t, ws, we, bs, be, as, ae, typeReg, (isDirect === 1 ? 1 : 0), isHol, isAllowLate, empInfo.empType, shiftCode);
+
+                            grandTotalHours += hrs;
+                            activeEmpSet.add(empId);
+
+                            isZero = (hrs === 0);
+                            isOverLimit = ((baseBeforeShift + hrs) > otLimit);
+                            limitText = `Vượt ${otLimit} Giờ`;
+                            if (isZero) hasZeroHr = true;
+                        }
+
+                        var runningDisplay = baseBeforeShift + hrs;
+                        var displayHtml = `<span class="${isZero ? 'text-danger' : 'text-primary'} fw-bold">+${hrs.toFixed(1)}h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${currDate.format('M')}: ${runningDisplay.toFixed(1)}h</span>`;
+
+                        if (isZero || isOverLimit) {
+                            uiRow.addClass('row-warning_OTNIVS');
+                            if (isZero) displayHtml += `<br><span class="text-danger small"><i class="bi bi-exclamation-circle-fill"></i> 0h </span>`;
+                            if (isOverLimit) {
+                                displayHtml += `<br><span class="text-danger small"><i class="bi bi-exclamation-triangle-fill"></i> ${limitText}</span>`;
+                                countOverLimit++;
+                            }
+                        } else {
+                            uiRow.removeClass('row-warning_OTNIVS');
+                        }
+
+                        calcCell.html(displayHtml);
+
+                        if (!IS_FORM_LOCKED && uiRow.find('.badge_OTNIVS').text() !== 'Đã Lưu') {
+                            uiRow.find('.badge_OTNIVS').replaceWith(`<span class="badge_OTNIVS status-registered">Đang soạn</span>`);
+                        }
+                    } else {
+                        calcCell.empty(); uiRow.removeClass('row-warning_OTNIVS');
+                    }
+
+                    monthDeltas[monthKey] += (hrs - originalDbHrs);
+
+                    uiRow.attr('data-submit-isexceed', isOverLimit ? 1 : 0);
+                    uiRow.attr('data-submit-limittype', isOverLimit ? limitText : '');
+                    uiRow.attr('data-submit-hrs', hrs);
+                }
+                currDate.add(1, 'days');
+            }
+        });
+
+        if (activeEmpSet.size > 0 || grandTotalHours > 0) {
+            $('#sumEmpCount').text(activeEmpSet.size);
+            $('#sumOTHours').text(grandTotalHours.toFixed(1));
+            $('#summarySection').show();
+        } else {
+            $('#summarySection').hide();
+        }
+
+        if (countOverLimit > 0 || hasZeroHr) {
+            $('#switchOver100hWrapper').removeClass('d-none');
+            $('#lblOver100hCount').html(`Lọc Cảnh báo (<span class="badge bg-danger rounded-pill">${countOverLimit}</span>)`);
+        } else {
+            $('#switchOver100hWrapper').addClass('d-none');
+            $('#switchOver100h').prop('checked', false);
+        }
+    }
+    function toggleHisTypeFilter(btn, val) {
+        if ($(btn).hasClass('active')) {
+            $(btn).removeClass('active');
+            HIS_TYPE_FILTER = 0;
+        } else {
+            $('.filter-type-btn').removeClass('active');
+            $(btn).addClass('active');
+
+            HIS_TYPE_FILTER = val;
+        }
+        applyHistoryFilter();
+    }
+
+    function loadHistoryData() {
+        var fDate = $('#hisFromDate').val(), tDate = $('#hisToDate').val();
+        if (fDate.length !== 10 || tDate.length !== 10) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormat_OTRegister%!" });
+        var start = moment(fDate, 'DD/MM/YYYY'), end = moment(tDate, 'DD/MM/YYYY');
+        if (!start.isValid() || !end.isValid() || start.isAfter(end)) return uiManager.showAlert({ type: "warning", message: "%InvalidDateRange_OTRegister%!" });
+
+        var status = $('#hisStatus').val();
+        $('#historyBody').html('<tr><td colspan="8" class="text-center py-4"><div class="spinner-border text-primary"></div></td></tr>');
+        $('#paginationHistory').empty();
+
+        AjaxHPAParadise({
+            data: { name: "API_GetOTRegistrationHistory", param: ["LoginID", LoginID, "FromDate", start.format('YYYY-MM-DD'), "ToDate", end.format('YYYY-MM-DD'), "Status", status] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    RAW_HISTORY_LIST = parsedRes.data[0];
+                    applyHistoryFilter();
+                } else {
+                    RAW_HISTORY_LIST = [];
+                    GLOBAL_HISTORY_LIST = [];
+                    $('#historyBody').html('<tr><td colspan="8" class="text-center py-4 text-muted">%NoData_OTMess%.</td></tr>');
+                }
+            }
+        });
+    }
+
+    function applyHistoryFilter() {
+        var riskList = [];
+        var normalList = [];
+
+        RAW_HISTORY_LIST.forEach(row => {
+            if (HIS_TYPE_FILTER !== 0 && row.TypeRegister != HIS_TYPE_FILTER) return;
+
+            if (row.HasRisk_Over100h > 0) {
+                row.isRisk = true;
+                riskList.push(row);
+            } else {
+                row.isRisk = false;
+                normalList.push(row);
+            }
+        });
+
+        GLOBAL_HISTORY_LIST = riskList.concat(normalList);
+
+        if (GLOBAL_HISTORY_LIST.length > 0) {
+            renderHistoryPage(1);
+        } else {
+            $('#historyBody').html('<tr><td colspan="8" class="text-center py-4 text-muted">%NoMatchingData_OTMess%.</td></tr>');
+            $('#paginationHistory').empty();
+        }
+    }
+
+    function renderHistoryPage(page) {
+        CURRENT_PAGE_HISTORY = page;
+        var startIdx = (page - 1) * PAGE_SIZE_HISTORY;
+        var endIdx = startIdx + PAGE_SIZE_HISTORY;
+        var pageData = GLOBAL_HISTORY_LIST.slice(startIdx, endIdx);
+        var tbody = $('#historyBody'); tbody.empty();
+
+        pageData.forEach(function (row) {
+            var st = parseInt(row.Approve_Status), stBadge = '';
+            if (st === 0) return;
+
+            if (st === 1) stBadge = '<span class="badge bg-warning text-dark">%PendingStatus_OTRegister%</span>';
+            else if (st === 2) stBadge = '<span class="badge bg-success">%ApprovedStatus_OTRegister%</span>';
+            else if (st === 3) stBadge = '<span class="badge bg-danger">%RejectedStatus_OTRegister%</span>';
+            else if (st === 4) stBadge = '<span class="badge bg-secondary">%CancelledStatus_OTRegister%</span>';
+            else if (st === 5) stBadge = '<span class="badge bg-warning text-dark">%CancelRequestStatus_OTRegister%</span>';
+
+            var typeTxt = row.TypeRegister == 1
+                ? '<span class="badge bg-success-subtle text-success border border-success px-2 py-1">%NormalDay_OTRegister%</span>'
+                : '<span class="badge bg-danger-subtle text-danger border border-danger px-2 py-1">%Holiday_OTRegister%</span>';
+            var period = moment(row.OTDateFrom).format('DD/MM') + ' - ' + moment(row.OTDateTo).format('DD/MM/YYYY');
+            var curLvl = parseInt(row.Current_Approved_Level || 1);
+
+            function getStatusBadgeHtml(name, levelToCheck, approverId) {
+                if (approverId === 'SKIP') return `<span class="badge bg-info text-dark mt-1"><i class="bi bi-fast-forward-fill"></i> %OtherSkip_OTRegister% </span>`;
+                if (!name || name === "null" || name.trim() === "") return '-';
+
+                let html = `<span class="fw-bold text-dark">${name}</span>`;
+                let badgeOK = `<br><span class="text-success fw-bold" style="font-size:0.75rem;"><i class="bi bi-check-circle-fill"></i> %HasApproved_OTRegister%</span>`;
+                let badgeNO = `<br><span class="text-danger fw-bold" style="font-size:0.75rem;"><i class="bi bi-x-circle-fill"></i> %Rejected_OTRegister%</span>`;
+                let badgeWait = `<br><span class="badge bg-warning text-dark mt-1"><i class="bi bi-hourglass-split"></i> %WaitingApprove_OTRegister%</span>`;
+                let badgeWaitCancel = `<br><span class="badge bg-warning text-dark mt-1"><i class="bi bi-hourglass-split"></i> %WaitingApproveCancel_OTMess%</span>`;
+
+                if (st === 2) { html += badgeOK; }
+                else if (st === 3) {
+                    if (levelToCheck < curLvl) html += badgeOK;
+                    else if (levelToCheck === curLvl) html += badgeNO;
+                } else if (st === 1 || st === 5) {
+                    if (levelToCheck < curLvl) html += badgeOK;
+                    else if (levelToCheck === curLvl) html += (st === 1) ? badgeWait : badgeWaitCancel;
+                } else if (st === 4) {
+                    if (curLvl === 1) return html;
+                    if (levelToCheck <= curLvl) html += badgeOK;
+                }
+                return html;
+            }
+
+            var app1Html = getStatusBadgeHtml(row.Approver1_Name, 1, row.Approver_1);
+            var app2Html = getStatusBadgeHtml(row.Approver2_Name, 2, row.Approver_2);
+            var app3Html = getStatusBadgeHtml(row.Approver3_Name, 3, row.Approver_3);
+            var app4Html = row.TypeRegister == 2 ? getStatusBadgeHtml(row.Approver4_Name, 4, row.Approver_4) : '<span class="text-muted fst-italic">N/A</span>';
+
+            var rowClass = row.isRisk ? '' : '';
+            tbody.append(`<tr class="${rowClass}"><td class="fw-bold">${period}</td><td>${row.GroupName}<br><div class="mt-1">${typeTxt}</div></td><td>${stBadge}</td><td class="small">${app1Html}</td><td class="small">${app2Html}</td><td class="small">${app3Html}</td><td class="small">${app4Html}</td><td class="small">${moment(row.CreateTime).format('DD/MM/YYYY HH:mm')}</td><td><button class="btn btn-sm btn-outline-primary fw-bold" onclick="viewDetails('${row.Identity_ID}')">%View_OTMess%</button></td></tr>`);
+        });
+        renderPaginationHistory();
+    }
+
+    function renderPaginationHistory() {
+        var totalPages = Math.ceil(GLOBAL_HISTORY_LIST.length / PAGE_SIZE_HISTORY);
+        var pag = $('#paginationHistory'); pag.empty();
+        if (totalPages <= 1) return;
+
+        var html = `<ul class="pagination pagination-sm mb-0 shadow-sm">`;
+        html += `<li class="page-item ${CURRENT_PAGE_HISTORY === 1 ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderHistoryPage(1); return false;" title="%FirstPage_OTMess%"><i class="bi bi-chevron-double-left"></i></a></li>`;
+        html += `<li class="page-item ${CURRENT_PAGE_HISTORY === 1 ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderHistoryPage(${CURRENT_PAGE_HISTORY - 1}); return false;"><i class="bi bi-chevron-left"></i></a></li>`;
+
+        var startPage = Math.max(1, CURRENT_PAGE_HISTORY - 4);
+        var endPage = Math.min(totalPages, startPage + 9);
+        if (endPage - startPage < 9) {
+            startPage = Math.max(1, endPage - 9);
+        }
+
+        for (var i = startPage; i <= endPage; i++) {
+            var isAct = i === CURRENT_PAGE_HISTORY;
+            var activeClass = isAct ? 'active' : '';
+            var bgStyle = isAct ? 'style="background-color:var(--primary-color); border-color:var(--primary-color); color:#fff;"' : 'class="text-dark"';
+            html += `<li class="page-item ${activeClass}"><a class="page-link" ${bgStyle} href="#" onclick="renderHistoryPage(${i}); return false;">${i}</a></li>`;
+        }
+
+        html += `<li class="page-item ${CURRENT_PAGE_HISTORY === totalPages ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderHistoryPage(${CURRENT_PAGE_HISTORY + 1}); return false;"><i class="bi bi-chevron-right"></i></a></li>`;
+        html += `<li class="page-item ${CURRENT_PAGE_HISTORY === totalPages ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderHistoryPage(${totalPages}); return false;" title="%LastPage_OTMess%"><i class="bi bi-chevron-double-right"></i></a></li>`;
+
+        html += `</ul>`;
+        pag.html(html);
+    }
+
+    function submitData() {
+        var groupId = $('#select-group').val();
+        var isDiv = $('#select-group option:selected').data('isdiv') == 1;
+        var typeReg = $('#hiddenTypeRegister').val() || 1;
+        var dateFromStr = $('#dateFrom').val();
+        var dateToStr = $('#dateTo').val();
+
+        if (!CURRENT_IDENTITY_ID) {
+            CURRENT_IDENTITY_ID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        var app1 = $('#approver1').val(), app2 = $('#approver2').val(), app3 = $('#approver3').val(), app4 = $('#approver4').val();
+
+        if (!app1) return uiManager.showAlert({ type: "warning", message: "%RequireLevel1_OTRegister%" });
+        if (!app2) return uiManager.showAlert({ type: "warning", message: "%RequireLevel2_OTRegister%" });
+
+        if (app1 === 'SKIP' && app2 === 'SKIP' && !app3) {
+            return uiManager.showAlert({ type: "warning", message: "Phải có người duyệt Cấp 3 khi bỏ qua Cấp 1 và Cấp 2!" });
+        }
+        if (app3 === 'SKIP' || app4 === 'SKIP') {
+            return uiManager.showAlert({ type: "warning", message: "%Validate_LastLevel_Other_OTMess%" });
+        }
+        if (typeReg == '1' && !app3) return uiManager.showAlert({ type: "warning", message: "Normal Day requires Level 3!" });
+        if (typeReg == '2' && !app4) return uiManager.showAlert({ type: "warning", message: "Holiday requires Level 4!" });
+
+        var globalRemark = $('#globalRemark').val().trim();
+        if (!globalRemark) {
+            $('#globalRemark').focus();
+            return uiManager.showAlert({ type: "warning", message: "%RequireGlobalRemark_OTRegister%" });
+        }
+
+        var dataList = [];
+        var hasZeroHr = false;
+        var totalHrs = 0;
+
+        $('#tableBody tr.employee-row').each(function () {
+            var tr = $(this);
+            var empId = tr.data('emp');
+
+            if (tr.data('readonly') === false) {
+                var f = tr.find('.inp-from').val(), t = tr.find('.inp-to').val();
+                if (f && t) {
+                    var currentHrs = parseFloat(tr.attr('data-submit-hrs')) || 0;
+                    if (currentHrs === 0) hasZeroHr = true;
+                    totalHrs += currentHrs;
+
+                    var baseBeforeShift = parseFloat(tr.attr('data-submit-basetotal')) || 0;
+                    var isExceed = parseInt(tr.attr('data-submit-isexceed')) || 0;
+                    var limitType = tr.attr('data-submit-limittype') || '';
+
+                    var rowTargetId = isDiv ? groupId : (tr.attr('data-groupid') || groupId);
+                    var isExtra = parseInt(tr.attr('data-isextra')) || 0;
+                    var isIndirect = parseInt(tr.attr('data-isindirect')) || 0;
+                    if (isDiv) isIndirect = 1;
+
+                    var colConsecDays = 0, colWorkedHol = 0;
+                    if (typeReg == '2') {
+                        var textConsec = tr.find('.col-holiday-only').eq(0).text();
+                        var textHol = tr.find('.col-holiday-only').eq(1).text();
+                        colConsecDays = parseInt(textConsec.replace(/\D/g, '')) || 0;
+                        colWorkedHol = parseInt(textHol.replace(/\D/g, '')) || 0;
+                    }
+
+                    dataList.push({
+                        EmployeeID: empId,
+                        OTDate: tr.data('date'),
+                        ShiftID: tr.find('.inp-from').attr('data-shiftid'),
+                        OTFrom: f,
+                        OTTo: t,
+                        OTHours: currentHrs,
+                        IsExceed: isExceed,
+                        CurrentTotalOT: baseBeforeShift,
+                        LimitType: limitType,
+                        TargetID: rowTargetId,
+                        IsExtraEmp: isExtra,
+                        ConsecutiveDays: colConsecDays,
+                        WorkedHolidays: colWorkedHol,
+                        IsIndirectEmp: isIndirect
+                    });
+                }
+            }
+        });
+
+        if (dataList.length === 0) return uiManager.showAlert({ type: "warning", message: "%EmptyFormError_OTRegister%" });
+
+        var fDate = moment(dateFromStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var tDate = moment(dateToStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+        showConfirmPopup({
+            title: "%ConfirmSubmitTitle_OTRegister%",
+            message: "%ConfirmSubmitMessage_OTRegister%",
+            icon: "bi-send-check",
+            onYes: function () {
+                var btn = $('#btnSubmitForm'); var orgTxt = btn.html(); btn.html('%ProcessingData_OTRegister%').prop('disabled', true);
+                AjaxHPAParadise({
+                    data: {
+                        name: "API_SubmitOTRegistration",
+                        param: [
+                            "Identity_ID", CURRENT_IDENTITY_ID,
+                            "TargetID", groupId,
+                            "RegisterBy", LoginID,
+                            "LanguageID", LanguageID,
+                            "TypeRegister", typeReg,
+                            "OTDateFrom", fDate,
+                            "OTDateTo", tDate,
+                            "Approver1", app1,
+                            "Approver2", app2,
+                            "Approver3", app3,
+                            "Approver4", app4,
+                            "Remark", globalRemark,
+                            "JSONData", JSON.stringify(dataList),
+                            "IsDivision", isDiv ? 1 : 0
+                        ]
+                    },
+                    success: function (res) {
+                        btn.html(orgTxt).prop('disabled', false);
+                        var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                        if (parsedRes.result === "success") {
+                            uiManager.showAlert({ type: "success", message: "%SubmitSuccess_OTRegister%" });
+                            viewDetails(CURRENT_IDENTITY_ID);
+                        } else uiManager.showAlert({ type: "error", message: "%Error_OTRegister%: " + parsedRes.reason });
+                    },
+                    error: function () { btn.html(orgTxt).prop('disabled', false); uiManager.showAlert({ type: "error", message: "%ServerConnectionError_OTRegister%" }); }
+                });
+            }
+        });
+    }
+    function requestCancelMaster() {
+        if (!CURRENT_IDENTITY_ID) return;
+
+        var btnText = $('#txtCancelMaster').text();
+        var isDirectCancel = (btnText.indexOf('Xin Hủy') === -1 && btnText.indexOf('Request Cancel') === -1);
+
+        showConfirmPopup({
+            title: "%ConfirmCancelTitle_OTRegister%",
+            message: isDirectCancel ? "%ConfirmCancelMsg_OTRegister%" : "%ConfirmCancelReqMsg_OTRegister%",
+            icon: "bi-trash",
+            onYes: function () {
+                AjaxHPAParadise({
+                    data: { name: "API_CancelMasterOT", param: ["Identity_ID", CURRENT_IDENTITY_ID, "LoginID", LoginID, "LanguageID", LanguageID] },
+                    success: function (res) {
+                        var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                        if (parsedRes.result === "success") {
+                            uiManager.showAlert({ type: "success", message: "%ProcessedSuccess_OTRegister%" });
+                            viewDetails(CURRENT_IDENTITY_ID);
+                        }
+                        else uiManager.showAlert({ type: "error", message: parsedRes.reason });
+                    }
+                });
+            }
+        });
+    }
+
+
+    var TIME_OPTIONS = [];
+    for (let h = 0; h < 24; h++) {
+        for (let m = 0; m < 60; m += 5) {
+            TIME_OPTIONS.push(`${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`);
+        }
+    }
+
+    var currentSmartInput = null;
+
+
+    if ($('#smartTimePicker').length === 0) {
+        $('body').append('<div id="smartTimePicker" class="smart-timepicker-container"></div>');
+    }
+
+    // 1. Lắng nghe Focus/Click: Bôi đen text và xổ FULL danh sách
+    $(document).on('focus click', 'input.inp-from, input.inp-to, .global-time-input', function (e) {
+        if ($(this).is(':disabled') || $(this).prop('readonly')) return;
+        currentSmartInput = this;
+
+        $(this).select(); // Quét xanh toàn bộ chữ để gõ đè dễ dàng
+        renderSmartTimePicker(this, true);
+    });
+
+
+    // 2. Lắng nghe Input (Gõ phím): Lọc danh sách theo chữ đang gõ
+    $(document).on('input', 'input.inp-from, input.inp-to, .global-time-input', function () {
+        currentSmartInput = this;
+        renderSmartTimePicker(this, false); // false = Lọc theo value user nhập
+    });
+
+    // 3. Ẩn picker khi click ra ngoài
+    $(document).on('blur', 'input.inp-from, input.inp-to, .global-time-input', function () {
+        var el = this;
+        setTimeout(() => {
+            if (currentSmartInput === el) {
+                $('#smartTimePicker').hide();
+            }
+            validateTimeInput(el);
+        }, 200);
+    });
+
+    $(document).on('mousedown', '.time-option-item', function (e) {
+        e.preventDefault(); // Giữ focus cho input
+        if (currentSmartInput) {
+            var selectedTime = $(this).text().trim();
+            $(currentSmartInput).val(selectedTime);
+            $('#smartTimePicker').hide();
+            validateTimeInput(currentSmartInput); // Chạy format HH:mm và tự động tính lại OT
+        }
+    });
+
+    $('.table-scroll-container').on('scroll', function () {
+        $('#smartTimePicker').hide();
+    });
+
+
+    function renderSmartTimePicker(inputEl, showAll) {
+        var val = $(inputEl).val().replace(':', '');
+        var filtered = TIME_OPTIONS;
+
+        if (!showAll && val.length > 0) {
+            filtered = TIME_OPTIONS.filter(t => t.replace(':', '').includes(val));
+        }
+
+        if (filtered.length === 0) {
+            $('#smartTimePicker').hide();
+            return;
+        }
+
+        var html = '';
+        filtered.forEach(t => {
+            html += `<div class="time-option-item"><i class="bi bi-clock"></i> ${t}</div>`;
+        });
+
+        $('#smartTimePicker').html(html).show();
+
+        // Đo đạc tọa độ của input để gắn cái khung Picker nằm ngay bên dưới đít input
+        var offset = $(inputEl).offset();
+        $('#smartTimePicker').css({
+            top: offset.top + $(inputEl).outerHeight() + 2,
+            left: offset.left,
+            width: $(inputEl).outerWidth() < 100 ? 100 : $(inputEl).outerWidth()
+        });
+
+        // (Lựa chọn thêm): Tự động scroll tới vị trí giờ hiện tại đang có trong ô
+        if (showAll && val.length >= 4) {
+            var formattedVal = `${val.substring(0, 2)}:${val.substring(2, 4)}`;
+            var matchedItem = $('#smartTimePicker .time-option-item').filter(function () {
+                return $(this).text().trim() === formattedVal;
+            });
+            if (matchedItem.length) {
+                $('#smartTimePicker').scrollTop(
+                    matchedItem.position().top + $('#smartTimePicker').scrollTop() - 50
+                );
+            }
+        }
+    }
+
+    $(document).on('paste', '#searchExtraEmpInput', function (e) {
+        e.preventDefault(); // Chặn hành vi dán mặc định
+
+        var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+        var parts = text.split(/[\n\r\t\s,;]+/);
+
+        var cleanParts = parts.map(p => p.trim()).filter(p => p.length > 0);
+
+        if (cleanParts.length > 0) {
+            var currentVal = $(this).val().trim();
+
+            var combinedVal = currentVal ? currentVal + ';' + cleanParts.join(';') : cleanParts.join(';');
+
+            var uniqueParts = [...new Set(combinedVal.split(';').filter(p => p))];
+            var finalString = uniqueParts.join(';');
+
+            $(this).val(finalString);
+
+            setTimeout(searchExtraEmp, 100);
+        }
+    });
+
+    $(document).on('click', '.extra-emp-row-item', function (e) {
+        if ($(e.target).is('input[type="checkbox"]')) {
+            setTimeout(checkItemBulkExtra, 50);
+            return;
+        }
+
+        var chk = $(this).find('.chk-extra-emp');
+        if (chk.length && !chk.prop('disabled')) {
+            // Đảo trạng thái Checkbox
+            chk.prop('checked', !chk.prop('checked'));
+            checkItemBulkExtra();
+        }
+    });
+
+    window.checkItemBulkExtra = function () {
+        var total = $('.chk-extra-emp:not(:disabled)').length;
+        var checked = $('.chk-extra-emp:not(:disabled):checked').length;
+        $('#chkAllExtra').prop('checked', total > 0 && total === checked);
+
+        $('.extra-emp-row-item').each(function () {
+            var cb = $(this).find('.chk-extra-emp');
+            if (cb.length && cb.prop('checked')) {
+                $(this).addClass('table-success');
+            } else {
+                $(this).removeClass('table-success');
+            }
+        });
+    };
+
+    window.toggleAllExtraEmp = function () {
+        var isChecked = $('#chkAllExtra').is(':checked');
+        $('.chk-extra-emp:not(:disabled):visible').prop('checked', isChecked);
+        checkItemBulkExtra(); // Gọi hàm quét màu
+    };
+    window.clearRowInput = function (btn, empId) {
+        var tr = $(btn).closest('tr');
+        tr.fadeOut(200, function () {
+            $(this).remove();
+            calculateAllOTWarning();
+            cleanUpEmptyDates();
+        });
+    };
+
+    window.cleanUpEmptyDates = function () {
+        $('.date-header-row').each(function () {
+            var header = $(this);
+
+            var rows = header.nextUntil('.date-header-row', '.employee-row');
+            if (rows.length === 0) {
+                header.fadeOut(200, function () { $(this).remove(); });
+            }
+        });
+    };
+</script>

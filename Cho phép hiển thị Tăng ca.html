@@ -1,0 +1,388 @@
+<style>
+    .container_OTConfirm {
+        background-color: var(--background-color-container__Window, var(--bs-body-bg));
+        color: var(--text-color, var(--bs-body-color));
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--bs-border-color);
+    }
+
+    .table-container_OTConfirm {
+        max-height: 60vh;
+        overflow-y: auto;
+        border-radius: 12px;
+        border: 1px solid var(--bs-border-color);
+        background-color: var(--background-color, var(--bs-body-bg));
+    }
+
+    .table_OTConfirm {
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table_OTConfirm thead th {
+        background-color: var(--bs-tertiary-bg) !important;
+        color: var(--bs-emphasis-color) !important;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 1rem 1.2rem;
+        border-bottom: 2px solid var(--bs-border-color) !important;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .table_OTConfirm tbody td {
+        padding: 0.8rem 1.2rem;
+        border-bottom: 1px dashed var(--bs-border-color) !important;
+        vertical-align: middle;
+        background-color: transparent !important;
+        transition: background-color 0.2s ease;
+    }
+
+    .table_OTConfirm tbody tr:hover td {
+        background-color: var(--background-color-hover, rgba(var(--bs-primary-rgb), 0.04)) !important;
+    }
+
+    .table_OTConfirm tbody tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    .locked-row_OTConfirm td {
+        background-color: var(--bs-secondary-bg) !important;
+        opacity: 0.65;
+    }
+
+    /* Icons and Badges */
+    .date-icon_OTConfirm {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 1.15rem;
+    }
+
+    .status-badge_OTConfirm {
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Checkbox Customization */
+    .checkbox-wrapper_OTConfirm {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .form-check-input_OTConfirm {
+        width: 1.3rem;
+        height: 1.3rem;
+        cursor: pointer;
+        border-radius: 4px !important;
+        border: 2px solid var(--bs-secondary);
+        transition: all 0.2s;
+        margin-top: 0;
+    }
+
+    .form-check-input_OTConfirm:checked {
+        background-color: var(--bs-success);
+        border-color: var(--bs-success);
+    }
+
+    .form-check-input_OTConfirm:disabled {
+        opacity: 0.5;
+    }
+
+    /* Lock Button */
+    .lock-btn_OTConfirm {
+        cursor: pointer;
+        font-size: 1.2rem;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        background: transparent;
+    }
+
+    .lock-btn_OTConfirm:hover {
+        background-color: rgba(var(--bs-dark-rgb, 0, 0, 0), 0.05);
+        transform: scale(1.1);
+    }
+
+    .lock-btn_OTConfirm.is-locked {
+        color: var(--bs-danger);
+        background-color: rgba(var(--bs-danger-rgb, 220, 53, 69), 0.1);
+    }
+
+    .lock-btn_OTConfirm.is-unlocked {
+        color: var(--bs-secondary);
+    }
+
+    /* Skeleton */
+    .skeleton-box_OTConfirm {
+        height: 18px;
+        background: linear-gradient(90deg, var(--bs-secondary-bg) 25%, var(--bs-tertiary-bg) 50%, var(--bs-secondary-bg) 75%);
+        background-size: 200% 100%;
+        animation: loading_OTConfirm 1.5s infinite;
+        border-radius: 4px;
+    }
+
+    @keyframes loading_OTConfirm {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+</style>
+
+<div class="container-fluid container_OTConfirm p-4 my-3">
+    <!-- Header -->
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom"
+        style="border-color: var(--bs-border-color) !important;">
+        <div class="bg-success bg-opacity-10 text-success p-2 rounded-3 me-3 d-flex align-items-center justify-content-center shadow-sm"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-calendar2-check-fill fs-4"></i>
+        </div>
+        <div>
+            <h4 class="mb-1 fw-bold text-success">Quản Lý Tăng Ca</h4>
+            <div class="text-muted small fw-medium">Bảng xác nhận ngày công tăng ca nhân viên</div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="row g-3 align-items-end mb-4">
+        <div class="col-auto">
+            <label class="form-label small text-muted fw-semibold mb-1">Tháng / Năm</label>
+            <div class="input-group shadow-sm" style="border-radius: 8px; overflow: hidden;">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i
+                        class="bi bi-calendar3"></i></span>
+                <select class="form-select border-start-0 ps-0" id="month_OTConfirm" style="box-shadow: none;"></select>
+                <select class="form-select" id="year_OTConfirm" style="box-shadow: none;"></select>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-primary d-flex align-items-center shadow-sm px-3" id="btnLoad_OTConfirm"
+                style="border-radius: 8px;">
+                <i class="bi bi-arrow-repeat me-2"></i> Làm mới
+            </button>
+        </div>
+        <div class="col-auto ms-auto">
+            <button class="btn btn-success d-flex align-items-center shadow-sm px-4 fw-medium" id="btnSave_OTConfirm"
+                style="border-radius: 8px;">
+                <i class="bi bi-cloud-check-fill me-2 fs-5"></i> Lưu Trạng Thái
+            </button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container_OTConfirm shadow-sm">
+        <table class="table table_OTConfirm">
+            <thead>
+                <tr>
+                    <th width="35%">
+                        <i class="bi bi-calendar-date text-muted me-1"></i> Ngày Ghi Nhận
+                    </th>
+                    <th width="25%">
+                        <div class="form-check d-flex align-items-center mb-0">
+                            <input class="form-check-input form-check-input_OTConfirm mt-0 me-2" type="checkbox"
+                                id="all_OTConfirm">
+                            <label class="form-check-label fw-bold text-primary" for="all_OTConfirm"
+                                style="cursor: pointer;">Chọn tất cả</label>
+                        </div>
+                    </th>
+                    <th width="25%" class="text-center">
+                        <i class="bi bi-info-circle text-muted me-1"></i> Tiến Độ
+                    </th>
+                    <th width="15%" class="text-center">
+                        <i class="bi bi-shield-lock text-muted me-1"></i> Khóa
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="body_OTConfirm"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let dataList_OTConfirm = [];
+
+    $(document).ready(function () {
+        initUI_OTConfirm();
+        $('#btnLoad_OTConfirm').click(loadData_OTConfirm);
+        $('#btnSave_OTConfirm').click(confirmAction_OTConfirm);
+        $('#all_OTConfirm').change(function () { toggleAll_OTConfirm(this.checked); });
+        loadData_OTConfirm();
+    });
+
+    const initUI_OTConfirm = () => {
+        const now = new Date();
+        const $m = $('#month_OTConfirm'), $y = $('#year_OTConfirm');
+        for (let i = 1; i <= 12; i++) $m.append(`<option value="${i}" ${i === now.getMonth() + 1 ? 'selected' : ''}>Tháng ${i}</option>`);
+        for (let i = now.getFullYear() - 1; i <= now.getFullYear() + 2; i++) $y.append(`<option value="${i}" ${i === now.getFullYear() ? 'selected' : ''}>Năm ${i}</option>`);
+    };
+
+    const formatDate_OTConfirm = (dateStr) => {
+        const d = new Date(dateStr);
+        const dd = d.getDate().toString().padStart(2, '0');
+        const mm = (d.getMonth() + 1).toString().padStart(2, '0');
+        const yyyy = d.getFullYear();
+        return `${dd}/${mm}/${yyyy}`;
+    };
+
+    const skeleton_OTConfirm = () => {
+        let html = '';
+        for (let i = 0; i < 5; i++) {
+            html += `<tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="skeleton-box_OTConfirm me-3" style="width: 40px; height: 40px; border-radius: 10px;"></div>
+                        <div class="skeleton-box_OTConfirm" style="width: 100px;"></div>
+                    </div>
+                </td>
+                <td><div class="skeleton-box_OTConfirm" style="width: 60%"></div></td>
+                <td class="text-center"><div class="skeleton-box_OTConfirm mx-auto" style="width: 70%; border-radius: 20px;"></div></td>
+                <td class="text-center"><div class="skeleton-box_OTConfirm mx-auto" style="width: 36px; height: 36px; border-radius: 50%;"></div></td>
+            </tr>`;
+        }
+        $('#body_OTConfirm').html(html);
+    };
+
+    const loadData_OTConfirm = async () => {
+        skeleton_OTConfirm();
+        const m = $('#month_OTConfirm').val(), y = $('#year_OTConfirm').val();
+
+        let res = await AjaxHPAParadiseAsync({
+            data: { name: "sp_LoadOvertimeConfirmation", param: ["Month", m, "Year", y] }
+        });
+
+        if (res) {
+            dataList_OTConfirm = JSON.parse(res).data[0];
+            render_OTConfirm();
+        } else {
+            uiManager.showAlert({ type: "warning", message: "Không thể tải dữ liệu!" });
+            $('#body_OTConfirm').empty();
+        }
+    };
+
+    const render_OTConfirm = () => {
+        const $b = $('#body_OTConfirm').empty();
+        if (!dataList_OTConfirm || dataList_OTConfirm.length === 0) {
+            $b.append('<tr><td colspan="4" class="text-center text-muted py-5"><i class="bi bi-inbox fs-2 d-block mb-2 text-secondary"></i>Không có dữ liệu</td></tr>');
+            return;
+        }
+
+        dataList_OTConfirm.forEach((item, idx) => {
+            const isDone = item.IsDone == 1, isLocked = item.IsLocked == 1;
+
+            const dateStr = formatDate_OTConfirm(item.LogDate);
+
+            // Xử lý badging màu sắc hiện đại
+            const badgeClass = isDone ? 'bg-success bg-opacity-10 text-success border border-success border-opacity-25' : 'bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25';
+            const badgeIcon = isDone ? 'bi-check-circle-fill' : 'bi-hourglass-split';
+            const badgeText = isDone ? 'Đã xác nhận' : 'Chờ xác nhận';
+
+            const dateIconColor = isDone ? 'bg-success bg-opacity-10 text-success' : 'bg-primary bg-opacity-10 text-primary';
+            const dateIconClass = isDone ? 'bi-calendar-check' : 'bi-calendar-event';
+
+            $b.append(`<tr class="${isLocked ? 'locked-row_OTConfirm' : ''}">
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="date-icon_OTConfirm ${dateIconColor} me-3 shadow-sm">
+                            <i class="bi ${dateIconClass}"></i>
+                        </div>
+                        <span class="fw-semibold" style="font-size: 0.95rem; color: var(--bs-emphasis-color);">${dateStr}</span>
+                    </div>
+                </td>
+                <td>
+                    <label class="checkbox-wrapper_OTConfirm mb-0">
+                        <input class="form-check-input form-check-input_OTConfirm mt-0 row-check_OTConfirm shadow-sm" type="checkbox" data-idx="${idx}" ${isDone ? 'checked' : ''} ${isLocked ? 'disabled' : ''}>
+                        <span class="${isDone ? 'text-success fw-bold' : 'text-muted fw-medium'}">${isDone ? 'Đồng ý duyệt' : 'Chưa duyệt'}</span>
+                    </label>
+                </td>
+                <td class="text-center">
+                    <span class="status-badge_OTConfirm ${badgeClass} shadow-sm">
+                        <i class="bi ${badgeIcon}"></i> ${badgeText}
+                    </span>
+                </td>
+                <td class="text-center">
+                    <div class="lock-btn_OTConfirm ${isLocked ? 'is-locked shadow-sm' : 'is-unlocked'}" data-idx="${idx}" title="${isLocked ? 'Mở khóa' : 'Khóa'}">
+                        <i class="bi ${isLocked ? 'bi-lock-fill' : 'bi-unlock'}"></i>
+                    </div>
+                </td>
+            </tr>`);
+        });
+
+        $('.row-check_OTConfirm').change(function () {
+            const idx = $(this).data('idx');
+            dataList_OTConfirm[idx].IsDone = this.checked ? 1 : 0;
+            updateCheckAll_OTConfirm();
+            render_OTConfirm();
+        });
+
+        $('.lock-btn_OTConfirm').click(function () {
+            const idx = $(this).data('idx');
+            dataList_OTConfirm[idx].IsLocked = dataList_OTConfirm[idx].IsLocked == 1 ? 0 : 1;
+            render_OTConfirm();
+        });
+
+        updateCheckAll_OTConfirm();
+    };
+
+    const toggleAll_OTConfirm = (val) => {
+        dataList_OTConfirm.forEach(item => { if (item.IsLocked != 1) item.IsDone = val ? 1 : 0; });
+        render_OTConfirm();
+    };
+
+    const updateCheckAll_OTConfirm = () => {
+        const available = dataList_OTConfirm.filter(i => i.IsLocked != 1);
+        $('#all_OTConfirm').prop('checked', available.length > 0 && available.every(i => i.IsDone == 1));
+    };
+
+    const confirmAction_OTConfirm = () => {
+        showConfirmPopup({
+            title: "Lưu dữ liệu",
+            message: "Bạn có chắc chắn muốn lưu danh sách tăng ca này không?",
+            icon: "bi-check-circle",
+            onYes: () => saveData_OTConfirm()
+        });
+    };
+
+    const saveData_OTConfirm = async () => {
+        skeleton_OTConfirm();
+
+        const payload = dataList_OTConfirm.map(item => ({
+            LogDate: item.LogDate.split('T')[0],
+            IsDone: item.IsDone,
+            IsLocked: item.IsLocked
+        }));
+
+        let res = await AjaxHPAParadiseAsync({
+            data: { name: "sp_SaveOvertimeConfirmation", param: ["JsonData", JSON.stringify(payload)] }
+        });
+
+        if (res) {
+            uiManager.showAlert({ type: "success", message: "Lưu thành công!" });
+            loadData_OTConfirm();
+        } else {
+            uiManager.showAlert({ type: "error", message: "Lưu thất bại!" });
+            render_OTConfirm();
+        }
+    };
+</script>

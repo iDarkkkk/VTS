@@ -1,0 +1,1681 @@
+<style>
+    :root {
+        --primary-app: #198754;
+        --bg-app: #f8fafc;
+        --card-app: #ffffff;
+        --border-app: #e2e8f0;
+        --text-app: #334155;
+        --text-mute-app: #64748b;
+    }
+
+    .wrapper_ExceedAppv {
+        font-family: 'Segoe UI', sans-serif !important;
+        font-size: 0.85rem;
+        color: var(--text-app);
+        background-color: var(--bg-app);
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    .card_ExceedAppv {
+        background: var(--card-app);
+        border-radius: 12px;
+        border: 1px solid var(--border-app);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        margin-bottom: 20px;
+    }
+
+    .card-header_ExceedAppv {
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border-app);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-body_ExceedAppv {
+        padding: 20px;
+    }
+
+    .nav-tabs-custom_ExceedAppv .nav-link {
+        color: var(--text-mute-app);
+        font-weight: 600;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        cursor: pointer;
+    }
+
+    .nav-tabs-custom_ExceedAppv .nav-link.active {
+        color: var(--primary-app);
+        border-bottom-color: var(--primary-app);
+        background: transparent;
+    }
+
+    .table-responsive-custom_ExceedAppv {
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+        border-top: 1px solid var(--border-app);
+    }
+
+    .table-wrap_ExceedAppv {
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
+    .table_ExceedAppv {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 0;
+        background: #fff;
+        table-layout: auto;
+    }
+
+    .table_ExceedAppv th,
+    .table_ExceedAppv td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--border-app);
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table_ExceedAppv th {
+        background: #f8fafc;
+        color: var(--text-mute-app);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        border-bottom: 2px solid var(--border-app);
+        white-space: nowrap;
+    }
+
+    .table_ExceedAppv tbody tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    .badge-st_ExceedAppv {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .st-1_ExceedAppv {
+        background: #fef9c3;
+        color: #b45309;
+        border: 1px solid #fde047;
+    }
+
+    .st-2_ExceedAppv {
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    .st-3_ExceedAppv {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    .st-4_ExceedAppv {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+    }
+
+    .input-flt_ExceedAppv {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border-app);
+        font-weight: 600;
+        color: var(--text-app);
+    }
+
+    .input-flt_ExceedAppv:focus {
+        border-color: var(--primary-app);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
+    }
+
+    .date-wrap_ExceedAppv {
+        position: relative;
+        width: 100%;
+    }
+
+    .date-wrap_ExceedAppv input[type="text"] {
+        padding-right: 30px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .date-wrap_ExceedAppv i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-mute-app);
+        pointer-events: none;
+        font-size: 1rem;
+    }
+
+    .date-wrap_ExceedAppv input[type="date"] {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 35px;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Flow UI 3 Cấp */
+    .flow-wrapper_ExceedAppv {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        padding: 10px 10%;
+    }
+
+    .flow-node_ExceedAppv {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .flow-node-name_ExceedAppv {
+        min-height: 40px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 0 5px;
+    }
+
+    .avt-wrapper_ExceedAppv {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .flow-line_ExceedAppv {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background-color: var(--border-app);
+        transform: translateY(-50%);
+        z-index: 0;
+        transition: background-color 0.4s;
+    }
+
+    .flow-line_ExceedAppv.active {
+        background: linear-gradient(90deg, #198754 0%, #4ade80 50%, #198754 100%);
+        background-size: 200% 100%;
+        animation: flowApprove 1.5s linear infinite;
+        box-shadow: 0 0 5px rgba(25, 135, 84, 0.4);
+    }
+
+    .avt-img_ExceedAppv {
+        position: relative;
+        z-index: 1;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--border-app);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: var(--border-app);
+        transition: all 0.3s;
+    }
+
+    .avt-img_ExceedAppv.done {
+        border-color: #198754;
+        color: #198754;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        background: #dcfce7;
+    }
+
+    .avt-img_ExceedAppv.reject {
+        border-color: #ef4444;
+        color: #ef4444;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        background: #fef2f2;
+    }
+
+    .avt-img_ExceedAppv.pending {
+        border-color: #f59e0b;
+        color: #f59e0b;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        background: #fffbeb;
+    }
+
+    .avt-img_ExceedAppv.skipped {
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+        border-style: dashed;
+        background: #e0f2fe;
+    }
+
+    .remark-box_ExceedAppv {
+        font-size: 0.8rem;
+        background: #f8fafc;
+        border: 1px dashed var(--border-app);
+        padding: 8px;
+        border-radius: 6px;
+        margin-top: 15px;
+        width: 90%;
+        color: var(--text-app);
+        text-align: center;
+    }
+
+    #viewList_ExceedAppv,
+    #viewDetail_ExceedAppv {
+        transition: opacity 0.3s ease;
+    }
+
+    .interactive-header_ExceedAppv {
+        cursor: pointer;
+        transition: background-color 0.2s;
+        user-select: none;
+    }
+
+    .interactive-header_ExceedAppv:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .toggle-icon_ExceedAppv {
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-icon_ExceedAppv.collapsed {
+        transform: rotate(-90deg);
+    }
+
+    .form-check-input-custom_ExceedAppv {
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        border: 2px solid #cbd5e1;
+        transition: all 0.2s;
+    }
+
+    .form-check-input-custom_ExceedAppv:checked {
+        background-color: var(--primary-app);
+        border-color: var(--primary-app);
+    }
+
+    #bulkActionBar_ExceedAppv {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1050;
+        width: 95%;
+        max-width: 900px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+        display: none;
+        padding: 15px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .bulk-count-box_ExceedAppv {
+        background-color: var(--primary-app);
+        color: white;
+        border-radius: 8px;
+        padding: 10px 20px;
+        min-width: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modern-textarea_ExceedAppv {
+        border-radius: 8px;
+        border: 1px solid var(--border-app);
+        resize: none;
+        font-size: 0.9rem;
+        background-color: var(--bg-body);
+        padding: 12px 15px;
+        min-height: 60px;
+    }
+
+    .modern-textarea_ExceedAppv:focus {
+        border-color: var(--primary-app);
+        box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.2);
+        outline: none;
+        background-color: #fff;
+    }
+
+    .bulk-actions_ExceedAppv {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .btn-bulk_ExceedAppv {
+        flex: 1;
+        font-weight: 700;
+        padding: 12px 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s;
+        border: none;
+    }
+
+    .btn-bulk-reject_ExceedAppv {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-bulk-reject_ExceedAppv:hover {
+        background-color: #bb2d3b;
+        color: white;
+    }
+
+    .btn-bulk-approve_ExceedAppv {
+        background-color: var(--primary-app);
+        color: white;
+    }
+
+    .btn-bulk-approve_ExceedAppv:hover {
+        filter: brightness(0.9);
+        color: white;
+    }
+
+    @media (min-width: 768px) {
+        .bulk-actions_ExceedAppv {
+            width: auto;
+            flex-direction: row;
+            min-width: 320px;
+        }
+    }
+
+    #globalBulkLoader_ExceedAppv {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+    }
+
+    .bulk-loader-box_ExceedAppv {
+        background: var(--card-app);
+        padding: 30px 40px;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-app);
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .bulk-progress-bar_ExceedAppv {
+        height: 8px;
+        border-radius: 4px;
+        background-color: var(--bg-body);
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin: 20px 0 15px 0;
+        border: 1px solid var(--border-app);
+    }
+
+    .bulk-progress-fill_ExceedAppv {
+        height: 100%;
+        background: linear-gradient(90deg, #198754, #4ade80);
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+
+    /* Dashboard Split Styles */
+    .dash-card_ExceedAppv {
+        background: #fff;
+        border: 1px solid var(--border-app);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .dash-header_ExceedAppv {
+        background: #f8fafc;
+        padding: 10px 15px;
+        font-weight: 700;
+        color: var(--text-app);
+        border-bottom: 1px solid var(--border-app);
+        font-size: 0.85rem;
+    }
+
+    .dash-body_ExceedAppv {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex: 1;
+    }
+
+    .dash-stat-item_ExceedAppv {
+        text-align: center;
+    }
+
+    .dash-stat-num_ExceedAppv {
+        font-size: 1.6rem;
+        font-weight: 800;
+        line-height: 1;
+        font-family: Consolas, monospace;
+    }
+
+    .dash-stat-label_ExceedAppv {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-mute-app);
+        margin-top: 5px;
+        letter-spacing: 0.5px;
+    }
+
+    .dash-list-container_ExceedAppv {
+        max-height: 140px;
+        overflow-y: auto;
+        padding: 0;
+    }
+</style>
+</head>
+
+<body>
+    <div class="wrapper_ExceedAppv">
+        <div class="">
+            <div id="viewList_ExceedAppv">
+                <div class="row g-3 mb-3" id="dashboardSummaryArea_ExceedAppv" style="display: none;">
+                    <div class="col-12">
+                        <div class="dash-card_ExceedAppv shadow-sm border-success">
+                            <div
+                                class="dash-header_ExceedAppv bg-success-subtle text-success border-bottom border-success d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-pie-chart-fill me-2"></i>%TotalSummaryFiltered_OTMess%</span>
+                            </div>
+                            <div
+                                class="dash-body_ExceedAppv py-3 d-flex flex-wrap justify-content-around gap-2 text-center">
+                                <div class="dash-stat-item_ExceedAppv">
+                                    <div class="dash-stat-num_ExceedAppv text-dark" id="dashTotalForms_ExceedAppv">0
+                                    </div>
+                                    <div class="dash-stat-label_ExceedAppv">%Form_OTMess%</div>
+                                </div>
+                                <div class="dash-stat-item_ExceedAppv">
+                                    <div class="dash-stat-num_ExceedAppv text-danger" id="dashTotalEmp_ExceedAppv">0
+                                    </div>
+                                    <div class="dash-stat-label_ExceedAppv">%ExceedEmp_OTMess%</div>
+                                </div>
+                                <div class="dash-stat-item_ExceedAppv">
+                                    <div class="dash-stat-num_ExceedAppv text-warning" style="color: #d97706!important;"
+                                        id="dashTotalHrs_ExceedAppv">0</div>
+                                    <div class="dash-stat-label_ExceedAppv">%TotalOTHours_OTMess%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="dash-card_ExceedAppv shadow-sm border-success h-100">
+                            <div
+                                class="dash-header_ExceedAppv text-success d-flex justify-content-between bg-success-subtle border-success">
+                                <span><i class="bi bi-calendar2-week-fill me-2"></i>%NormalDay_OTMess%</span>
+                                <span class="badge bg-success" id="dashGroupCountNormal_ExceedAppv">0
+                                    %Group_OTMess%</span>
+                            </div>
+                            <div class="dash-list-container_ExceedAppv m-0">
+                                <table class="table table-sm table-hover table-borderless mb-0 text-center"
+                                    style="font-size: 0.8rem; margin: 0;">
+                                    <thead class="table-success text-success"
+                                        style="position: sticky; top: 0; z-index: 1;">
+                                        <tr>
+                                            <th class="text-start ps-3">%Group_OTMess%</th>
+                                            <th>%FormUnit_OTMess%</th>
+                                            <th>%Emp_OTMess%</th>
+                                            <th>%TotalHours_OTMess%</th>
+                                            <th>%Status_OTMess%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashGroupListNormal_ExceedAppv"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="dash-card_ExceedAppv shadow-sm border-danger h-100">
+                            <div
+                                class="dash-header_ExceedAppv text-danger d-flex justify-content-between bg-danger-subtle border-danger">
+                                <span><i class="bi bi-calendar2-x-fill me-2"></i>%Holiday_OTMess%</span>
+                                <span class="badge bg-danger" id="dashGroupCountHoliday_ExceedAppv">0
+                                    %Group_OTMess%</span>
+                            </div>
+                            <div class="dash-list-container_ExceedAppv m-0">
+                                <table class="table table-sm table-hover table-borderless mb-0 text-center"
+                                    style="font-size: 0.8rem; margin: 0;">
+                                    <thead class="table-danger text-danger"
+                                        style="position: sticky; top: 0; z-index: 1;">
+                                        <tr>
+                                            <th class="text-start ps-3">%Group_OTMess%</th>
+                                            <th>%FormUnit_OTMess%</th>
+                                            <th>%Emp_OTMess%</th>
+                                            <th>%TotalHours_OTMess%</th>
+                                            <th>%Status_OTMess%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashGroupListHoliday_ExceedAppv"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card_ExceedAppv shadow-sm">
+                    <div class="card-body_ExceedAppv py-3">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-xl-3 col-lg-3 col-md-6">
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;">%Status_OTMess%</label>
+                                <select id="fltStatus_ExceedAppv"
+                                    class="form-select input-flt_ExceedAppv text-start text-primary">
+                                    <option value="-1">%All_OTMess%</option>
+                                    <option value="1" selected>%Pending_OTMess%</option>
+                                    <option value="2">%Approved_OTMess%</option>
+                                    <option value="3">%Rejected_OTMess%</option>
+                                    <option value="4">%Cancelled_OTMess%</option>
+                                    <option value="5">%OnlyCancelReq_OTMess%</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6">
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;">%FromDate_OTMess%</label>
+                                <div class="date-wrap_ExceedAppv">
+                                    <input type="text" id="fltFromDate_ExceedAppv"
+                                        class="input-flt_ExceedAppv w-100 text-primary" placeholder="DD/MM/YYYY"
+                                        maxlength="10" oninput="formatDateInput_ExceedAppv(this)">
+                                    <i class="bi bi-calendar-date"></i>
+                                    <input type="date" onchange="syncDate_ExceedAppv(this, '#fltFromDate_ExceedAppv')">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6">
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;">%ToDate_OTMess%</label>
+                                <div class="date-wrap_ExceedAppv">
+                                    <input type="text" id="fltToDate_ExceedAppv"
+                                        class="input-flt_ExceedAppv w-100 text-primary" placeholder="DD/MM/YYYY"
+                                        maxlength="10" oninput="formatDateInput_ExceedAppv(this)">
+                                    <i class="bi bi-calendar-date"></i>
+                                    <input type="date" onchange="syncDate_ExceedAppv(this, '#fltToDate_ExceedAppv')">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 text-end d-flex gap-2">
+                                <button class="btn btn-light border w-100 fw-bold shadow-sm"
+                                    style="height: 35px; font-size: 0.85rem;" onclick="initPortal_ExceedAppv()">
+                                    <i class="bi bi-arrow-clockwise"></i> %ThisMonth_OTMess%
+                                </button>
+                                <button class="btn btn-primary w-100 fw-bold shadow-sm"
+                                    style="height: 35px; font-size: 0.85rem; background-color: var(--primary-app); border:none;"
+                                    onclick="loadApprovalList_ExceedAppv()">
+                                    <i class="bi bi-search"></i> %FilterBtn_OTMess%
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 d-flex align-items-center gap-2 flex-wrap">
+                                <span class="fw-bold text-muted small"><i class="bi bi-funnel"></i>
+                                    %QuickFilter_OTMess%</span>
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-success rounded-pill fw-bold filter-type-btn px-3"
+                                    data-val="1"
+                                    onclick="toggleQuickTypeFilter_ExceedAppv(this, 1)">%NormalDay_OTMess%</button>
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-danger rounded-pill fw-bold filter-type-btn px-3"
+                                    data-val="2"
+                                    onclick="toggleQuickTypeFilter_ExceedAppv(this, 2)">%Holiday_OTMess%</button>
+                                <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-diagram-3"></i>
+                                    %GroupLabel_OTMess%</span>
+                                <select id="quickGroupFilter_ExceedAppv"
+                                    class="form-select form-select-sm d-inline-block w-auto rounded-pill fw-bold border-secondary text-secondary"
+                                    onchange="applyClientSideFilters_ExceedAppv()">
+                                    <option value="ALL">%AllGroup_OTMess%</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card_ExceedAppv shadow-sm">
+                    <div class="card-header_ExceedAppv py-2 bg-light border-bottom">
+                        <h6 class="m-0 fw-bold text-dark"><i
+                                class="bi bi-list-task text-primary me-2"></i>%ExceedAppvList_OTMess% <span
+                                class="badge bg-secondary ms-2" id="lblTotalRecords_ExceedAppv">0
+                                %FormUnit_OTMess%</span></h6>
+                        <div id="selectedCountUI_ExceedAppv" class="fw-bold text-primary"
+                            style="font-size: 0.8rem; display: none;">%Selecting_OTMess% <span
+                                id="lblSelectedCount_ExceedAppv">0</span></div>
+                    </div>
+                    <div class="table-responsive-custom_ExceedAppv position-relative border-0 rounded-0">
+                        <div class="table-wrap_ExceedAppv" style="max-height: 55vh;">
+                            <table class="table_ExceedAppv table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px;"><input
+                                                class="form-check-input form-check-input-custom_ExceedAppv"
+                                                type="checkbox" id="chkAll_ExceedAppv"
+                                                onchange="toggleAllBulk_ExceedAppv()"></th>
+                                        <th style="width: 40px;">#</th>
+                                        <th class="text-start" style="width: 25%;">%FormGroup_OTMess%</th>
+                                        <th class="text-start" style="width: 20%;">%TimeType_OTMess%</th>
+                                        <th style="width: 15%;">%Status_OTMess%</th>
+                                        <th class="text-start" style="width: 22%;">%ApprovalProgress_OTMess%</th>
+                                        <th style="width: 15%;"><i class="bi bi-gear-fill"></i> %Action_OTMess%</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listBody_ExceedAppv">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-5 text-muted">%ClickFilterToLoad_OTMess%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="pagination_ExceedAppv" class="d-flex justify-content-end p-2 bg-light border-top">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bulkActionBar_ExceedAppv">
+                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                        <div class="bulk-count-box_ExceedAppv shadow-sm flex-shrink-0">
+                            <div class="fs-3 fw-bolder" id="bulkCountTxt_ExceedAppv" style="line-height: 1;">0</div>
+                            <div class="text-uppercase fw-bold mt-1"
+                                style="font-size: 0.7rem; letter-spacing: 0.5px; opacity: 0.9;">%SelectedForms_OTMess%
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 w-100">
+                            <textarea class="form-control modern-textarea_ExceedAppv" id="bulkRemarkInput_ExceedAppv"
+                                rows="2" placeholder="%BulkRemarkPlaceholder_OTMess%"></textarea>
+                        </div>
+                        <div class="bulk-actions_ExceedAppv flex-shrink-0">
+                            <button class="btn btn-bulk_ExceedAppv btn-bulk-reject_ExceedAppv"
+                                onclick="executeBulkApproval_ExceedAppv('REJECT')">
+                                <i class="bi bi-x-lg"></i> %RejectBtn_OTMess%
+                            </button>
+                            <button class="btn btn-bulk_ExceedAppv btn-bulk-approve_ExceedAppv"
+                                onclick="executeBulkApproval_ExceedAppv('APPROVE')">
+                                <i class="bi bi-check2-all"></i> %ApproveAllBtn_OTMess%
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="viewDetail_ExceedAppv" style="display: none;">
+                <div class="card_ExceedAppv shadow-sm">
+                    <div class="card-header_ExceedAppv bg-light py-2 border-bottom">
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="btn btn-sm btn-outline-secondary fw-bold px-3 shadow-sm bg-white"
+                                onclick="backToList_ExceedAppv()"><i class="bi bi-arrow-left me-1"></i>
+                                %Back_OTMess%</button>
+                            <div>
+                                <h6 class="m-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                                    %ExceedFormLabel_OTMess% <span id="lblDetID_ExceedAppv" class="text-primary"></span>
+                                    <span class="badge bg-primary px-2 py-1 ms-2" style="font-size: 0.65rem;"
+                                        id="lblViewType_ExceedAppv"></span>
+                                </h6>
+                                <div class="text-muted mt-1" style="font-size: 0.75rem;">
+                                    <i class="bi bi-person-circle"></i> %CreatorShort_OTMess% <span
+                                        id="lblDetCreator_ExceedAppv" class="fw-bold"></span>
+                                    <span class="mx-2">|</span>
+                                    <i class="bi bi-clock-history"></i> %ConfirmTime_OTMess% <span
+                                        id="lblDetCreateTime_ExceedAppv" class="fw-bold text-dark"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <div id="lblDetStatus_ExceedAppv" class="badge-st_ExceedAppv fs-6"></div>
+                        </div>
+                    </div>
+                    <div class="card-body_ExceedAppv bg-white border-bottom py-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="fw-bold text-muted text-uppercase"
+                                style="font-size:0.75rem; white-space:nowrap;"><i
+                                    class="bi bi-chat-quote-fill me-1"></i> %LeaderRemark_OTMess%</div>
+                            <div class="p-2 bg-light rounded border w-100"
+                                style="font-style: italic; font-size: 0.85rem;" id="lblDetRemark_ExceedAppv">
+                                %NoRemarkDot_OTMess%</div>
+                        </div>
+                    </div>
+                    <div class="card-body_ExceedAppv py-0 bg-white border-bottom">
+                        <div class="d-flex justify-content-between align-items-center interactive-header_ExceedAppv py-2"
+                            onclick="toggleFlow_ExceedAppv()">
+                            <h6 class="fw-bold text-muted text-uppercase m-0" style="font-size:0.8rem;"><i
+                                    class="bi bi-diagram-3-fill me-1"></i>%ApprovalFlow3_OTMess%</h6>
+                            <button class="btn btn-sm btn-light border fw-bold px-2 py-0" style="font-size: 0.8rem;"
+                                id="btnToggleFlow_ExceedAppv"><i class="bi bi-chevron-up"></i></button>
+                        </div>
+                        <div class="flow-wrapper_ExceedAppv pb-3" id="flowWrapperContainer_ExceedAppv"></div>
+                    </div>
+                    <div
+                        class="card-body_ExceedAppv py-2 bg-light d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <h6 class="fw-bold text-dark text-uppercase m-0" style="font-size:0.85rem;"><i
+                                class="bi bi-table text-primary me-2"></i>%ExceedEmpList_OTMess%</h6>
+                        <div class="input-group input-group-sm shadow-sm" style="max-width: 250px;">
+                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                            <input type="text" id="searchEmpDetailInput_ExceedAppv" class="form-control"
+                                placeholder="%SearchEmpExceedPlaceholder_OTMess%"
+                                onkeyup="searchEmployeeDetail_ExceedAppv()">
+                        </div>
+                    </div>
+                    <div class="table-responsive-custom_ExceedAppv border-0 rounded-0 border-bottom">
+                        <div class="table-wrap_ExceedAppv" style="max-height: 50vh;">
+                            <table class="table_ExceedAppv">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px; background: #f8fafc;">#</th>
+                                        <th style="width: 90px; background: #f8fafc;">%EmpCode_OTMess%</th>
+                                        <th class="text-start" style="background: #f8fafc;">%FullName_OTMess%</th>
+                                        <th style="background: #f8fafc;">%ExceedType_OTMess%</th>
+                                        <th style="background: #f8fafc;">%AccOTHours_OTMess%</th>
+                                        <th style="background: #f8fafc;">%PlanOTHours_OTMess%</th>
+                                        <th style="background: #f8fafc; color:var(--primary-app);">%TotalOTHours_OTMess%
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailBody_ExceedAppv"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer p-3 bg-white" id="actionArea_ExceedAppv"
+                        style="border-radius: 0 0 12px 12px;">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-lg-8 col-md-7">
+                                <input type="text" class="form-control border-primary" id="approveRemark_ExceedAppv"
+                                    placeholder="%FeedbackRejectPlaceholder_OTMess%">
+                            </div>
+                            <div class="col-lg-4 col-md-5 d-flex gap-2">
+                                <button class="btn btn-danger fw-bold shadow-sm flex-fill"
+                                    id="btnReject_Action_ExceedAppv"
+                                    onclick="processSingleApproval_ExceedAppv('REJECT')">
+                                    <i class="bi bi-x-circle-fill me-1"></i> %RejectBtn_OTMess%
+                                </button>
+                                <button class="btn btn-success fw-bold shadow-sm flex-fill"
+                                    id="btnApprove_Action_ExceedAppv"
+                                    onclick="processSingleApproval_ExceedAppv('APPROVE')">
+                                    <i class="bi bi-check-circle-fill me-1"></i> %ConfirmBtn_OTMess%
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="globalBulkLoader_ExceedAppv" class="d-none">
+            <div class="bulk-loader-box_ExceedAppv">
+                <div class="spinner-border mb-3" style="width: 3.5rem; height: 3.5rem; color: var(--primary-app);"
+                    role="status"></div>
+                <h5 class="fw-bolder mb-1 text-dark" style="font-size: 1.1rem;">%ProcessingData_OTMess%</h5>
+                <div class="bulk-progress-bar_ExceedAppv">
+                    <div class="bulk-progress-fill_ExceedAppv" id="bulkProgressBar_ExceedAppv"></div>
+                </div>
+                <div id="bulkProcessText_ExceedAppv" class="text-muted fw-bold" style="font-size: 0.85rem;">
+                    %InitProcess_OTMess%</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <script>
+        var CURRENT_VIEW_ID_ExceedAppv = null;
+        var CURRENT_VIEW_STATUS_ExceedAppv = null;
+        var SELECTED_BULK_IDS_ExceedAppv = [];
+        var RAW_API_DATA_ExceedAppv = [];
+        var FILTERED_LIST_ExceedAppv = [];
+        var CURRENT_PAGE_ExceedAppv = 1;
+        var PAGE_SIZE_ExceedAppv = 10;
+        var QUICK_TYPE_FILTER_ExceedAppv = 0;
+        var LAST_PENDING_COUNT_ExceedAppv = -1;
+        function waitLibrariesAndInit_ExceedAppv() {
+            if (typeof jQuery !== 'undefined' && typeof moment !== 'undefined' && typeof uiManager !== 'undefined') initPortal_ExceedAppv();
+            else setTimeout(waitLibrariesAndInit_ExceedAppv, 50);
+        }
+        waitLibrariesAndInit_ExceedAppv();
+
+        function initPortal_ExceedAppv() {
+            var frD = moment().subtract(1, 'months').startOf('month').date(15);
+            var toD = moment().endOf('month');
+
+            $('#fltFromDate_ExceedAppv').val(frD.format('DD/MM/YYYY'));
+            $('#fltFromDate_ExceedAppv').siblings('input[type="date"]').val(frD.format('YYYY-MM-DD'));
+
+            $('#fltToDate_ExceedAppv').val(toD.format('DD/MM/YYYY'));
+            $('#fltToDate_ExceedAppv').siblings('input[type="date"]').val(toD.format('YYYY-MM-DD'));
+
+            $('#fltStatus_ExceedAppv').val('1');
+            QUICK_TYPE_FILTER_ExceedAppv = 0;
+            $('.filter-type-btn').removeClass('active');
+            $('#quickGroupFilter_ExceedAppv').val('ALL');
+
+            loadApprovalList_ExceedAppv();
+            setTimeout(checkNewExceedOTFormsCount, 5000);
+        }
+        var isCheckingRealtimeExceed = false;
+        function checkNewExceedOTFormsCount() {
+            if (!$('#viewList_ExceedAppv').is(':visible') || SELECTED_BULK_IDS_ExceedAppv.length > 0) {
+                setTimeout(checkNewExceedOTFormsCount, 5000);
+                return;
+            }
+            if (isCheckingRealtimeExceed) return;
+            isCheckingRealtimeExceed = true;
+
+            AjaxHPAParadise({
+                data: { name: "API_OTExceed_Count", param: ["LoginID", LoginID] },
+                success: function (res) {
+                    isCheckingRealtimeExceed = false;
+                    setTimeout(checkNewExceedOTFormsCount, 5000);
+
+                    var pRes = (typeof res === 'string') ? JSON.parse(res) : res;
+                    if (pRes && pRes.data && pRes.data[0] && pRes.data[0][0] !== undefined) {
+                        var currentCount = parseInt(pRes.data[0][0].PendingCount || 0);
+
+                        if (LAST_PENDING_COUNT_ExceedAppv === -1) {
+                            LAST_PENDING_COUNT_ExceedAppv = currentCount;
+                        } else if (currentCount !== LAST_PENDING_COUNT_ExceedAppv) {
+                            console.log("Số lượng đơn thay đổi (" + LAST_PENDING_COUNT_ExceedAppv + " -> " + currentCount + "). Reloading...");
+                            LAST_PENDING_COUNT_ExceedAppv = currentCount;
+                            fetchNewDataAndInject_ExceedAppv();
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi kiểm tra số lượng đơn realtime:", error);
+                    isCheckingRealtimeExceed = false;
+                    setTimeout(checkNewExceedOTFormsCount, 5000);
+                }
+            });
+        }
+
+        function fetchNewDataAndInject_ExceedAppv() {
+            var fStr = $('#fltFromDate_ExceedAppv').val();
+            var tStr = $('#fltToDate_ExceedAppv').val();
+
+            if (fStr.length !== 10 || tStr.length !== 10) return;
+
+            var fDate = moment(fStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var tDate = moment(tStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var statusVal = parseInt($('#fltStatus_ExceedAppv').val());
+
+            var apiStatus = (statusVal === 1) ? -1 : statusVal;
+
+            var savedGroup = $('#quickGroupFilter_ExceedAppv').val();
+
+            AjaxHPAParadise({
+                data: { name: "API_OTExceedAppv_GetList", param: ["LoginID", LoginID, "FromDate", fDate, "ToDate", tDate, "Status", apiStatus, "TypeRegister", -1] },
+                success: function (res) {
+                    var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                    if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0] && parsedRes.data[0].length > 0) {
+                        var rawData = parsedRes.data[0];
+
+                        if (statusVal === 1) {
+                            rawData = rawData.filter(r => parseInt(r.Approve_Status) === 1 || parseInt(r.Approve_Status) === 5);
+                        }
+
+                        RAW_API_DATA_ExceedAppv = rawData;
+
+                        extractGroupDropdown_ExceedAppv(RAW_API_DATA_ExceedAppv);
+                        $('#quickGroupFilter_ExceedAppv').val(savedGroup);
+
+                        applyClientSideFilters_ExceedAppv();
+
+                        uiManager.showAlert({ type: "info", message: "Danh sách đơn đã được tự động cập nhật mới nhất!" });
+                    } else {
+                        RAW_API_DATA_ExceedAppv = [];
+                        FILTERED_LIST_ExceedAppv = [];
+                        extractGroupDropdown_ExceedAppv([]);
+                        applyClientSideFilters_ExceedAppv();
+                        uiManager.showAlert({ type: "info", message: "Danh sách đơn đã được tự động cập nhật mới nhất!" });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi tải lại dữ liệu mới realtime:", error);
+                }
+            });
+        }
+        function formatDateInput_ExceedAppv(el) {
+            var v = el.value.replace(/\D/g, '');
+            if (v.length > 8) v = v.slice(0, 8);
+            if (v.length >= 5) el.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+            else if (v.length >= 3) el.value = v.slice(0, 2) + '/' + v.slice(2);
+            else el.value = v;
+            if (el.value.length === 10) {
+                var m = moment(el.value, 'DD/MM/YYYY');
+                if (m.isValid()) $(el).siblings('input[type="date"]').val(m.format('YYYY-MM-DD'));
+            }
+        }
+
+        function syncDate_ExceedAppv(picker, targetId) {
+            var val = $(picker).val();
+            if (val) { $(targetId).val(moment(val).format('DD/MM/YYYY')); }
+        }
+
+        // --- LOGIC PHÂN TRANG & BULK CHECKBOX ---
+        function resetBulkUI_ExceedAppv() {
+            SELECTED_BULK_IDS_ExceedAppv = [];
+            $('#chkAll_ExceedAppv').prop('checked', false);
+            $('#bulkActionBar_ExceedAppv').slideUp(200);
+            $('#bulkRemarkInput_ExceedAppv').val('');
+            $('#selectedCountUI_ExceedAppv').hide();
+        }
+
+        function toggleAllBulk_ExceedAppv() {
+            var isChecked = $('#chkAll_ExceedAppv').is(':checked');
+            $('.chk-bulk-item_ExceedAppv:not(:disabled)').prop('checked', isChecked);
+            updateBulkCount_ExceedAppv();
+        }
+
+        window.checkItemBulk_ExceedAppv = function () {
+            var total = $('.chk-bulk-item_ExceedAppv:not(:disabled)').length;
+            var checked = $('.chk-bulk-item_ExceedAppv:checked').length;
+            $('#chkAll_ExceedAppv').prop('checked', (total > 0 && total === checked));
+            updateBulkCount_ExceedAppv();
+        }
+
+        function updateBulkCount_ExceedAppv() {
+            SELECTED_BULK_IDS_ExceedAppv = [];
+            $('.chk-bulk-item_ExceedAppv:checked').each(function () {
+                SELECTED_BULK_IDS_ExceedAppv.push($(this).val());
+            });
+
+            $('#bulkCountTxt_ExceedAppv').text(SELECTED_BULK_IDS_ExceedAppv.length);
+            $('#lblSelectedCount_ExceedAppv').text(SELECTED_BULK_IDS_ExceedAppv.length);
+
+            if (SELECTED_BULK_IDS_ExceedAppv.length > 0) {
+                var hasCancelRequest = false;
+                SELECTED_BULK_IDS_ExceedAppv.forEach(id => {
+                    var row = RAW_API_DATA_ExceedAppv.find(r => r.Identity_ID === id);
+                    if (row && row.Approve_Status == 5) hasCancelRequest = true;
+                });
+
+                if (hasCancelRequest) {
+                    $('.btn-bulk-approve_ExceedAppv').html('<i class="bi bi-trash-fill"></i> %BULK_AGREE_CANCEL_OTMess%');
+                    $('.btn-bulk-reject_ExceedAppv').html('<i class="bi bi-arrow-return-left"></i> %BULK_REJECT_CANCEL_OTMess%');
+                } else {
+                    $('.btn-bulk-approve_ExceedAppv').html('<i class="bi bi-check2-all"></i> %ApproveAllBtn_OTMess%');
+                    $('.btn-bulk-reject_ExceedAppv').html('<i class="bi bi-x-lg"></i> %RejectBtn_OTMess%');
+                }
+                $('#bulkActionBar_ExceedAppv').slideDown(250);
+                $('#selectedCountUI_ExceedAppv').show();
+            }
+            else {
+                $('#bulkActionBar_ExceedAppv').slideUp(250);
+                $('#selectedCountUI_ExceedAppv').hide();
+            }
+        }
+
+        window.executeBulkApproval_ExceedAppv = function (actionType) {
+            if (SELECTED_BULK_IDS_ExceedAppv.length === 0) return;
+            var remark = $('#bulkRemarkInput_ExceedAppv').val().trim();
+            if (actionType === 'REJECT' && remark === "") return uiManager.showAlert({ type: "warning", message: "%RequireBulkRemarkReject_OTMess%" });
+
+            var hasCancelRequest = false;
+            SELECTED_BULK_IDS_ExceedAppv.forEach(id => {
+                var row = RAW_API_DATA_ExceedAppv.find(r => r.Identity_ID === id);
+                if (row && row.Approve_Status == 5) hasCancelRequest = true;
+            });
+
+            var actionText = actionType === 'APPROVE' ? "%BULK_APPROVE_OTMess%" : "%BULK_REJECT_OTMess%";
+            if (hasCancelRequest) actionText = actionType === 'APPROVE' ? "%BULK_AGREE_CANCEL_OTMess%" : "%BULK_REJECT_CANCEL_OTMess%";
+            var txtClass = actionType === 'APPROVE' ? "text-success" : "text-danger";
+
+            showConfirmPopup({
+                title: actionText,
+                message: `%SystemWillRun_OTMess%<b class="fs-5 ${txtClass}">${SELECTED_BULK_IDS_ExceedAppv.length}</b>%SelectedFormsConfirm_OTMess%`,
+                icon: actionType === 'APPROVE' ? "bi-check-all" : "bi-x-octagon",
+                onYes: function () {
+                    $('#globalBulkLoader_ExceedAppv').removeClass('d-none');
+                    $('#bulkProgressBar_ExceedAppv').css('width', '50%');
+                    $('#bulkProcessText_ExceedAppv').text(`%ProcessingData_OTMess%`);
+                    
+                    var allIds = SELECTED_BULK_IDS_ExceedAppv.join(',');
+
+                    AjaxHPAParadise({
+                        data: { name: "API_OTExceed_Action_Bulk", param: ["Identity_IDs", allIds, "LoginID", LoginID, "Action", actionType, "Remark", remark] },
+                        success: function (res) {
+                            $('#bulkProgressBar_ExceedAppv').css('width', '100%');
+                            $('#bulkProcessText_ExceedAppv').text("%BulkProcessCompleted_OTMess%");
+                            $('#globalBulkLoader_ExceedAppv').addClass('d-none');
+                            resetBulkUI_ExceedAppv();
+                            loadApprovalList_ExceedAppv();
+                            uiManager.showAlert({ type: "success", message: `%ProcessSuccessPrefix_OTMess%${SELECTED_BULK_IDS_ExceedAppv.length}%RequestUnitExclamation_OTMess%` });
+                        },
+                        error: function () {
+                            $('#globalBulkLoader_ExceedAppv').addClass('d-none');
+                            uiManager.showAlert({ type: "error", message: "Lỗi kết nối khi duyệt hàng loạt!" });
+                        }
+                    });
+                }
+            });
+        }
+
+        function toggleQuickTypeFilter_ExceedAppv(btn, val) {
+            if ($(btn).hasClass('active')) {
+                $(btn).removeClass('active');
+                QUICK_TYPE_FILTER_ExceedAppv = 0;
+            } else {
+                $('.filter-type-btn').removeClass('active');
+                $(btn).addClass('active');
+                QUICK_TYPE_FILTER_ExceedAppv = val;
+            }
+            applyClientSideFilters_ExceedAppv();
+        }
+
+        // --- BÓC TÁCH LOGIC DASHBOARD LÀM 3 PHẦN ---
+        function applyClientSideFilters_ExceedAppv() {
+            var selectedGroup = $('#quickGroupFilter_ExceedAppv').val();
+
+            var tempFiltered = [];
+            var dsTotalForms = 0, sumAllE = 0, sumAllH = 0;
+
+            var statsNormal = {};
+            var statsHoliday = {};
+
+            RAW_API_DATA_ExceedAppv.forEach(row => {
+                var rowType = row.TypeRegister || 1;
+                if (QUICK_TYPE_FILTER_ExceedAppv !== 0 && rowType != QUICK_TYPE_FILTER_ExceedAppv) return;
+                if (selectedGroup !== 'ALL' && row.GroupName !== selectedGroup) return;
+
+                dsTotalForms++;
+                var empCount = parseInt(row.TotalEmployees || 0);
+                var hrsCount = parseFloat(row.TotalHours || 0);
+
+                sumAllE += empCount;
+                sumAllH += hrsCount;
+
+                var gName = row.GroupName || 'Khác';
+                var targetStats = (rowType == 1) ? statsNormal : statsHoliday;
+
+                if (!targetStats[gName]) {
+                    targetStats[gName] = { forms: 0, emps: 0, hrs: 0, statuses: new Set() };
+                }
+                targetStats[gName].forms++;
+                targetStats[gName].emps += empCount;
+                targetStats[gName].hrs += hrsCount;
+                targetStats[gName].statuses.add(parseInt(row.Approve_Status));
+
+                tempFiltered.push(row);
+            });
+
+            FILTERED_LIST_ExceedAppv = tempFiltered;
+
+            var htmlNormal = '';
+            for (var g in statsNormal) {
+                var st = statsNormal[g];
+                var stHtml = '';
+                st.statuses.forEach(s => {
+                    if (s === 1) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%PendingShort_OTMess%</span>';
+                    else if (s === 2) stHtml += '<span class="badge bg-success ms-1 mt-1">%ApprovedShort_OTMess%</span>';
+                    else if (s === 3) stHtml += '<span class="badge bg-danger ms-1 mt-1">%Rejected_OTMess%</span>';
+                    else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%CancelShort_OTMess%</span>';
+                    else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
+                });
+                htmlNormal += `
+                  <tr>
+                      <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
+                      <td class="text-center fw-bold align-middle">${st.forms}</td>
+                      <td class="text-center fw-bold text-danger align-middle">${st.emps}</td>
+
+                      <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
+                      <td class="text-center align-middle">${stHtml}</td>
+                  </tr>
+              `;
+            }
+
+            var htmlHoliday = '';
+            for (var g in statsHoliday) {
+                var st = statsHoliday[g];
+                var stHtml = '';
+                st.statuses.forEach(s => {
+                    if (s === 1) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%PendingShort_OTMess%</span>';
+                    else if (s === 2) stHtml += '<span class="badge bg-success ms-1 mt-1">%ApprovedShort_OTMess%</span>';
+                    else if (s === 3) stHtml += '<span class="badge bg-danger ms-1 mt-1">%Rejected_OTMess%</span>';
+                    else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%CancelShort_OTMess%</span>';
+                    else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
+                });
+                htmlHoliday += `
+                  <tr>
+                      <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
+                      <td class="text-center fw-bold align-middle">${st.forms}</td>
+                      <td class="text-center fw-bold text-danger align-middle">${st.emps}</td>
+                      <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
+                      <td class="text-center align-middle">${stHtml}</td>
+                  </tr>
+              `;
+            }
+
+            if (Object.keys(statsNormal).length > 0 || Object.keys(statsHoliday).length > 0) {
+                $('#dashboardSummaryArea_ExceedAppv').show();
+                $('#dashTotalForms_ExceedAppv').text(dsTotalForms);
+                $('#dashTotalEmp_ExceedAppv').text(sumAllE);
+                $('#dashTotalHrs_ExceedAppv').text(sumAllH.toFixed(1));
+
+                $('#dashGroupCountNormal_ExceedAppv').text(Object.keys(statsNormal).length + " %Group_OTMess%");
+                $('#dashGroupListNormal_ExceedAppv').html(htmlNormal || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+
+                $('#dashGroupCountHoliday_ExceedAppv').text(Object.keys(statsHoliday).length + " %Group_OTMess%");
+                $('#dashGroupListHoliday_ExceedAppv').html(htmlHoliday || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+            } else {
+                $('#dashboardSummaryArea_ExceedAppv').hide();
+            }
+
+            $('#lblTotalRecords_ExceedAppv').text(dsTotalForms + " %FormUnit_OTMess%");
+            if (FILTERED_LIST_ExceedAppv.length > 0) {
+                renderTablePage_ExceedAppv(1);
+            } else {
+                $('#listBody_ExceedAppv').html('<tr><td colspan="7" class="text-center py-5 text-muted fw-bold">%NoMatchingData_OTMess%</td></tr>');
+                $('#pagination_ExceedAppv').empty();
+            }
+        }
+
+        function extractGroupDropdown_ExceedAppv(dataArr) {
+            var groupSet = new Set();
+            dataArr.forEach(r => groupSet.add(r.GroupName));
+
+            var ddl = $('#quickGroupFilter_ExceedAppv');
+            var curVal = ddl.val();
+            ddl.empty().append('<option value="ALL">%AllGroup_OTMess%</option>');
+            Array.from(groupSet).sort().forEach(g => {
+                ddl.append(`<option value="${g}">${g}</option>`);
+            });
+            if (groupSet.has(curVal)) ddl.val(curVal);
+        }
+
+        function loadApprovalList_ExceedAppv() {
+            var fStr = $('#fltFromDate_ExceedAppv').val();
+            var tStr = $('#fltToDate_ExceedAppv').val();
+
+            if (fStr.length !== 10 || tStr.length !== 10) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormat_OTMess%" });
+
+            var fDate = moment(fStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var tDate = moment(tStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var statusVal = parseInt($('#fltStatus_ExceedAppv').val());
+
+            var apiStatus = (statusVal === 1) ? -1 : statusVal;
+
+            resetBulkUI_ExceedAppv();
+            $('#listBody_ExceedAppv').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>');
+            $('#pagination_ExceedAppv').empty();
+            $('#dashboardSummaryArea_ExceedAppv').hide();
+
+            AjaxHPAParadise({
+                data: { name: "API_OTExceedAppv_GetList", param: ["LoginID", LoginID, "FromDate", fDate, "ToDate", tDate, "Status", apiStatus, "TypeRegister", -1] },
+                success: function (res) {
+                    var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                    if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                        var rawData = parsedRes.data[0];
+
+                        if (statusVal === 1) {
+                            rawData = rawData.filter(r => parseInt(r.Approve_Status) === 1 || parseInt(r.Approve_Status) === 5);
+                        }
+
+                        RAW_API_DATA_ExceedAppv = rawData;
+                        extractGroupDropdown_ExceedAppv(RAW_API_DATA_ExceedAppv);
+                        applyClientSideFilters_ExceedAppv();
+                    } else {
+                        RAW_API_DATA_ExceedAppv = [];
+                        FILTERED_LIST_ExceedAppv = [];
+                        extractGroupDropdown_ExceedAppv([]);
+                        applyClientSideFilters_ExceedAppv();
+                    }
+                }
+            });
+        }
+
+        function renderTablePage_ExceedAppv(page) {
+            CURRENT_PAGE_ExceedAppv = page;
+            var startIdx = (page - 1) * PAGE_SIZE_ExceedAppv;
+            var endIdx = startIdx + PAGE_SIZE_ExceedAppv;
+            var pageData = FILTERED_LIST_ExceedAppv.slice(startIdx, endIdx);
+            var tbody = $('#listBody_ExceedAppv'); tbody.empty();
+
+            var idx = startIdx;
+            pageData.forEach(function (row) {
+                idx++;
+                var st = parseInt(row.Approve_Status);
+                var stBadge = '';
+
+                if (st === 1) stBadge = '<span class="badge-st_ExceedAppv st-1_ExceedAppv"><i class="bi bi-hourglass-split"></i> %Pending_OTMess%</span>';
+                else if (st === 2) stBadge = '<span class="badge-st_ExceedAppv st-2_ExceedAppv"><i class="bi bi-check-all"></i> %Approved_OTMess%</span>';
+                else if (st === 3) stBadge = '<span class="badge-st_ExceedAppv st-3_ExceedAppv"><i class="bi bi-x-circle"></i> %Rejected_OTMess%</span>';
+                else if (st === 4) stBadge = '<span class="badge-st_ExceedAppv st-4_ExceedAppv">%Cancelled_OTMess%</span>';
+                else if (st === 5) stBadge = '<span class="badge-st_ExceedAppv st-1_ExceedAppv"><i class="bi bi-exclamation-circle me-1"></i> %RequestCancel_OTMess%</span>';
+
+                var safeType = row.TypeRegister || 1;
+                var isDiv = (row.IsDivision == 1);
+
+                var typeTxt = safeType == 1 ? "<span class='badge bg-success-subtle border border-success text-success px-2 py-1'>%NormalDay_OTMess%</span>" : "<span class='badge bg-danger-subtle border border-danger text-danger px-2 py-1'>%Holiday_OTMess%</span>";
+                var divTxt = isDiv ? "<span class='badge bg-primary-subtle border border-primary text-primary px-2 py-1 ms-1'>%OfficeBlock_OTMess%</span>" : "<span class='badge bg-secondary-subtle border border-secondary text-secondary px-2 py-1 ms-1'>Direct</span>";
+
+                var typeComboHtml = `<div class="d-flex align-items-center mt-1">${typeTxt}${divTxt}</div>`;
+                var period = moment(row.OTDate).format('DD/MM/YYYY');
+
+                // [LOGIC MỚI] Đếm số cấp động
+                var validApprovers = [row.Approver_1, row.Approver_2, row.Approver_3, row.Approver_4, row.Approver_5].filter(id => id && String(id).trim() !== '' && String(id).toLowerCase() !== 'null');
+                var maxLvl = validApprovers.length;
+                if (maxLvl === 0) maxLvl = 5;
+
+                var curLvl = parseInt(row.Current_Approved_Level);
+                var progressHtml = "";
+
+                if (st === 2) progressHtml = `<div class="text-success small fw-bold"><i class="bi bi-check-circle-fill"></i> %Completed_OTMess% (${maxLvl}/${maxLvl})</div>`;
+                else if (st === 4) progressHtml = `<div class="text-muted small"><i class="bi bi-dash-circle"></i> %CancelledStatus_OTMess%</div>`;
+                else if (st === 3) progressHtml = `<div class="text-danger small fw-bold"><i class="bi bi-x-circle-fill"></i> %HasBeenRejected_OTMess%</div>`;
+                else progressHtml = `<div class="text-warning small fw-bold" style="color:#d97706!important;"><i class="bi bi-arrow-right-circle-fill"></i> %WaitingForLevel_OTMess% ${curLvl}/${maxLvl}</div>`;
+
+                var btnHtml = '';
+                var checkboxHtml = '';
+                var isChecked = SELECTED_BULK_IDS_ExceedAppv.includes(row.Identity_ID) ? 'checked' : '';
+
+                var isMyTurn = (row.IsMyTurnToApprove == 1);
+                if (isMyTurn) {
+                    btnHtml = `<button class="btn btn-sm text-white w-100 fw-bold shadow-sm" style="background-color: var(--primary-app);" onclick="openDetail_ExceedAppv('${row.Identity_ID}', true)"><i class="bi bi-pencil-square"></i> %Process_OTMess%</button>`;
+                    checkboxHtml = `<input class="form-check-input form-check-input-custom_ExceedAppv chk-bulk-item_ExceedAppv" type="checkbox" value="${row.Identity_ID}" onchange="checkItemBulk_ExceedAppv()" ${isChecked}>`;
+                    if (st === 1) stBadge = '<span class="badge-st_ExceedAppv st-1_ExceedAppv pulse-warning"><i class="bi bi-exclamation-circle-fill me-1"></i> %YourTurn_OTMess%</span>';
+                    if (st === 5) stBadge = '<span class="badge-st_ExceedAppv st-1_ExceedAppv pulse-warning"><i class="bi bi-exclamation-circle-fill me-1"></i> %CancelYourTurn_OTMess%</span>';
+                } else {
+                    btnHtml = `<button class="btn btn-sm btn-outline-secondary w-100 fw-bold" onclick="openDetail_ExceedAppv('${row.Identity_ID}', false)"><i class="bi bi-eye"></i> %View_OTMess%</button>`;
+                    checkboxHtml = `<i class="bi bi-lock-fill text-muted" style="opacity: 0.2;" title="%CannotOperate_OTMess%"></i>`;
+                }
+
+                var tEmp = ('TotalEmployees' in row) ? row.TotalEmployees : '0';
+                var tHrs = ('TotalHours' in row) ? parseFloat(row.TotalHours || 0).toFixed(1) : '0';
+
+                var summaryBadge = `
+                    <div class="mt-2 d-flex gap-1" style="font-size:0.75rem;">
+                        <span class="badge bg-danger-subtle border border-danger text-danger px-2"><i class="bi bi-exclamation-triangle-fill"></i> ${tEmp} %ExceedMark_OTMess%</span>
+                        <span class="badge bg-warning-subtle border border-warning text-warning-emphasis px-2"><i class="bi bi-clock-history"></i> ${tHrs}h</span>
+                    </div>
+                `;
+                var creatorName = row.CreatorName || row.RegisterBy || 'N/A';
+
+                tbody.append(`
+                    <tr>
+                        <td>${checkboxHtml}</td>
+                        <td class="text-muted fw-bold">${idx}</td>
+                        <td class="text-start">
+                            <div class="fw-bold text-primary">${creatorName}</div>
+                            <div class="text-muted fw-bold mt-1" style="font-size:0.75rem;"><i class="bi bi-tags-fill me-1"></i>${row.GroupName}</div>
+                            ${summaryBadge}
+                        </td>
+                        <td class="text-start">
+                            <div class="fw-bold text-dark">${period}</div>
+                            ${typeComboHtml}
+                        </td>
+                        <td>${stBadge}</td>
+                        <td class="text-start bg-light rounded">${progressHtml}</td>
+                        <td>${btnHtml}</td>
+                    </tr>
+                `);
+            });
+
+            if (typeof window.syncCheckAllState_ExceedAppv === 'function') window.syncCheckAllState_ExceedAppv();
+            renderPaginationUI_ExceedAppv();
+        }
+
+        function renderPaginationUI_ExceedAppv() {
+            var totalPages = Math.ceil(FILTERED_LIST_ExceedAppv.length / PAGE_SIZE_ExceedAppv);
+            var pag = $('#pagination_ExceedAppv'); pag.empty();
+            if (totalPages <= 1) return;
+
+            var html = `<ul class="pagination pagination-sm mb-0 shadow-sm">`;
+            html += `<li class="page-item ${CURRENT_PAGE_ExceedAppv === 1 ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderTablePage_ExceedAppv(1); return false;" title="%FirstPage_OTMess%"><i class="bi bi-chevron-double-left"></i></a></li>`;
+            html += `<li class="page-item ${CURRENT_PAGE_ExceedAppv === 1 ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderTablePage_ExceedAppv(${CURRENT_PAGE_ExceedAppv - 1}); return false;"><i class="bi bi-chevron-left"></i></a></li>`;
+
+            var startPage = Math.max(1, CURRENT_PAGE_ExceedAppv - 4);
+            var endPage = Math.min(totalPages, startPage + 9);
+            if (endPage - startPage < 9) startPage = Math.max(1, endPage - 9);
+
+            for (var i = startPage; i <= endPage; i++) {
+                var activeClass = i === CURRENT_PAGE_ExceedAppv ? 'active' : '';
+                var style = i === CURRENT_PAGE_ExceedAppv ? 'style="background-color: var(--primary-app); border-color: var(--primary-app); color: white;"' : 'class="text-dark"';
+                html += `<li class="page-item ${activeClass}"><a class="page-link" ${style} href="#" onclick="renderTablePage_ExceedAppv(${i}); return false;">${i}</a></li>`;
+            }
+
+            html += `<li class="page-item ${CURRENT_PAGE_ExceedAppv === totalPages ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderTablePage_ExceedAppv(${CURRENT_PAGE_ExceedAppv + 1}); return false;"><i class="bi bi-chevron-right"></i></a></li>`;
+            html += `<li class="page-item ${CURRENT_PAGE_ExceedAppv === totalPages ? 'disabled' : ''}"><a class="page-link text-dark" href="#" onclick="renderTablePage_ExceedAppv(${totalPages}); return false;" title="%LastPage_OTMess%"><i class="bi bi-chevron-double-right"></i></a></li>`;
+            html += `</ul>`;
+            pag.html(html);
+        }
+
+        function toggleFlow_ExceedAppv() {
+            var body = $('#flowWrapperContainer_ExceedAppv');
+            var btn = $('#btnToggleFlow_ExceedAppv');
+            if (body.is(':visible')) {
+                body.slideUp(250);
+                btn.html('<i class="bi bi-chevron-down"></i>');
+            } else {
+                body.slideDown(250);
+                btn.html('<i class="bi bi-chevron-up"></i>');
+            }
+        }
+
+        function searchEmployeeDetail_ExceedAppv() {
+            var keyword = $('#searchEmpDetailInput_ExceedAppv').val().toLowerCase();
+            $('#detailBody_ExceedAppv tr').each(function () {
+                var tr = $(this), name = tr.find('td:eq(2)').text().toLowerCase(), code = tr.find('td:eq(1)').text().toLowerCase();
+                if (name.indexOf(keyword) > -1 || code.indexOf(keyword) > -1) tr.show(); else tr.hide();
+            });
+        }
+
+        window.openDetail_ExceedAppv = function (id, isMyTurn) {
+            CURRENT_VIEW_ID_ExceedAppv = id;
+            $('#approveRemark_ExceedAppv').val('');
+            $('#searchEmpDetailInput_ExceedAppv').val('');
+
+            $('#viewList_ExceedAppv').hide();
+            $('#viewDetail_ExceedAppv').fadeIn(300);
+            $('#detailBody_ExceedAppv').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-info"></div></td></tr>');
+
+            $('#flowWrapperContainer_ExceedAppv').show();
+            if (isMyTurn) $('#actionArea_ExceedAppv').show();
+            else $('#actionArea_ExceedAppv').hide();
+
+            AjaxHPAParadise({
+                data: { name: "API_OTExceed_GetByID", param: ["Identity_ID", id] },
+                success: function (res) {
+                    var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+
+                    if (parsedRes.result === "success" && parsedRes.data && parsedRes.data.length >= 2) {
+                        var mData = parsedRes.data[0][0];
+                        var detData = parsedRes.data[1];
+
+                        if (mData) {
+                            var st = parseInt(mData.Approve_Status);
+                            CURRENT_VIEW_STATUS_ExceedAppv = st;
+
+                            var dMom = moment(mData.OTDate);
+                            $('#lblDetID_ExceedAppv').text(mData.Identity_ID.substring(0, 8));
+                            $('#lblDetCreator_ExceedAppv').text((mData.CreatorName || mData.RegisterBy) + ' (' + (mData.GroupName || 'N/A') + ')');
+                            $('#lblDetCreateTime_ExceedAppv').text(moment(mData.CreateTime).format('DD/MM/YYYY HH:mm'));
+
+                            var retrievedType = mData.TypeRegister || 1;
+                            var isDiv = (mData.IsDivision == 1);
+                            var divBadge = isDiv ? '<span class="badge bg-primary ms-2"><i class="bi bi-building"></i> %OfficeBlock_OTMess%</span>' : '<span class="badge bg-secondary ms-2"><i class="bi bi-gear-fill"></i> Direct</span>';
+
+                            if (retrievedType == 2) {
+                                $('#lblViewType_ExceedAppv').html(`%Holiday_OTMess% ${divBadge}`).removeClass('bg-success bg-danger').addClass('bg-danger');
+                            } else {
+                                $('#lblViewType_ExceedAppv').html(`%NormalDay_OTMess% ${divBadge}`).removeClass('bg-success bg-danger').addClass('bg-success');
+                            }
+
+                            $('#lblDetRemark_ExceedAppv').html(mData.Remark ? `<b class="text-primary">"${mData.Remark}"</b>` : '<span class="text-muted">%NoCreatorRemark_OTMess%</span>');
+
+                            var badge = $('#lblDetStatus_ExceedAppv');
+                            badge.removeClass();
+                            if (st === 1) badge.addClass('badge-st_ExceedAppv st-1_ExceedAppv px-3 py-2').html('<i class="bi bi-hourglass-split me-1"></i> %Pending_OTMess%');
+                            else if (st === 2) badge.addClass('badge-st_ExceedAppv st-2_ExceedAppv px-3 py-2').html('<i class="bi bi-check-all me-1"></i> %ApproveCompleted_OTMess%');
+                            else if (st === 3) badge.addClass('badge-st_ExceedAppv st-3_ExceedAppv px-3 py-2').html('<i class="bi bi-x-circle me-1"></i> %Rejected_OTMess%');
+                            else if (st === 4) badge.addClass('badge-st_ExceedAppv st-4_ExceedAppv px-3 py-2').html('<i class="bi bi-dash-circle me-1"></i> %Cancelled_OTMess%');
+                            else if (st === 5) badge.addClass('badge-st_ExceedAppv st-1_ExceedAppv px-3 py-2').html('<i class="bi bi-exclamation-circle me-1"></i> %RequestingCancel_OTMess%');
+
+                            if (st === 5) {
+                                if (isMyTurn) {
+                                    $('#btnApprove_Action_ExceedAppv').removeClass('btn-success').addClass('btn-danger').html('<i class="bi bi-trash-fill me-1"></i> %AgreeCancel_OTMess%');
+                                    $('#btnReject_Action_ExceedAppv').removeClass('btn-danger').addClass('btn-secondary').html('<i class="bi bi-arrow-return-left me-1"></i> %RejectCancel_OTMess%');
+                                }
+                            } else {
+                                if (isMyTurn) {
+                                    $('#btnApprove_Action_ExceedAppv').removeClass('btn-danger').addClass('btn-success').html('<i class="bi bi-check-circle-fill me-1"></i> %ConfirmApproveBtn_OTMess%');
+                                    $('#btnReject_Action_ExceedAppv').removeClass('btn-secondary').addClass('btn-danger').html('<i class="bi bi-x-circle-fill me-1"></i> %RejectBtn_OTMess%');
+                                }
+                            }
+
+                            var listRow = RAW_API_DATA_ExceedAppv.find(r => r.Identity_ID === id);
+                            if (listRow) {
+                                mData.Approver1_Name = mData.Approver1_Name || listRow.Approver1_Name;
+                                mData.Approver2_Name = mData.Approver2_Name || listRow.Approver2_Name;
+                                mData.Approver3_Name = mData.Approver3_Name || listRow.Approver3_Name;
+                            }
+
+                            renderFlowDiagramDetail_ExceedAppv(mData);
+                            renderDetailTable_ExceedAppv(detData);
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderFlowDiagramDetail_ExceedAppv(data) {
+            var wrap = $('#flowWrapperContainer_ExceedAppv'); wrap.empty();
+
+            // [ĐÃ FIX]: Lọc mảng 4 cấp
+            var validApprovers = [data.Approver_1, data.Approver_2, data.Approver_3, data.Approver_4].filter(id => id && String(id).trim() !== '' && String(id).toLowerCase() !== 'null');
+            var maxLevel = validApprovers.length;
+            if (maxLevel === 0) maxLevel = 4;
+
+            var curLvl = parseInt(data.Current_Approved_Level);
+            var status = parseInt(data.Approve_Status);
+
+            var nodes = [
+                { id: data.Approver_1, name: data.Approver1_Name, remark: data.ApproverRemark_1, date: data.ApproveDate_1, label: "%Level1_OTMess%" },
+                { id: data.Approver_2, name: data.Approver2_Name, remark: data.ApproverRemark_2, date: data.ApproveDate_2, label: "%Level2_OTMess%" },
+                { id: data.Approver_3, name: data.Approver3_Name, remark: data.ApproverRemark_3, date: data.ApproveDate_3, label: "%Level3_OTMess%" },
+                { id: data.Approver_4, name: data.Approver4_Name, remark: data.ApproverRemark_4, date: data.ApproveDate_4, label: "%Level4_ExceedOT%" }
+            ];
+
+            for (let i = 0; i < maxLevel; i++) {
+                let n = nodes[i];
+
+                if (n.id === 'SKIP') {
+                    let lineHtml = (i < maxLevel - 1) ? `<div class="flow-line_ExceedAppv active"></div>` : '';
+                    wrap.append(`
+                    <div class="flow-node_ExceedAppv">
+                        <label class="fw-bold text-dark mb-0">${n.label}</label>
+                        <div class="flow-node-name_ExceedAppv text-info fw-bold"><small>%OtherSkip_OTMess%</small></div>
+                        <div class="avt-wrapper_ExceedAppv">
+                            ${lineHtml}
+                            <div class="avt-img_ExceedAppv skipped shadow-sm"><i class="bi bi-fast-forward-fill"></i></div>
+                     </div>
+                        <div class="remark-box_ExceedAppv bg-info-subtle border-info text-info-emphasis fw-bold">%SystemSkip_OTMess%</div>
+                    </div>
+                `);
+                    continue;
+                }
+
+                let hasActed = (n.date && n.date !== "" && n.date !== "null" && n.date !== null);
+                let isDone = false, isReject = false, isCurrent = false;
+
+                if (hasActed) {
+                    if (status === 3 && curLvl === (i + 1)) isReject = true;
+                    else isDone = true;
+                } else {
+                    if ((status === 1 || status === 5) && curLvl === (i + 1)) isCurrent = true;
+                }
+                if ((status === 2 || status === 4) && i < maxLevel) isDone = true;
+
+                let iconClass = "bi-person-fill";
+                let avtClass = "avt-img_ExceedAppv";
+                let lineClass = "flow-line_ExceedAppv";
+
+                // [GÁN MÀU PASTEL THEO CẤP]
+                if (i === 2 && !isDone && !isReject && !isCurrent) avtClass += " text-lvl3 border-lvl3";
+                if (i === 3 && !isDone && !isReject && !isCurrent) avtClass += " text-lvl4 border-lvl4";
+
+                let remarkHtml = "";
+
+                if (isDone) {
+                    iconClass = "bi-check-lg"; avtClass += " done"; lineClass += " active";
+                    let actText = (status === 4 || status === 5) ? "%ApprovedCancel_OTMess%" : "%HasApproved_OTMess%";
+                    let remarkText = n.remark ? `<hr class="my-1 border-secondary" style="opacity:0.2;">"${n.remark}"` : '';
+                    remarkHtml = `<div class="remark-box_ExceedAppv"><span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> ${actText}</span><br><span class="text-muted" style="font-size:0.7rem;">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${remarkText}</div>`;
+                } else if (isReject) {
+                    iconClass = "bi-x-lg"; avtClass += " reject";
+                    let remarkText = n.remark ? `<hr class="my-1 border-secondary" style="opacity:0.2;">"${n.remark}"` : '';
+                    remarkHtml = `<div class="remark-box_ExceedAppv"><span class="text-danger fw-bold"><i class="bi bi-x-circle-fill"></i> %Rejected_OTMess%</span><br><span class="text-muted" style="font-size:0.7rem;">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${remarkText}</div>`;
+                } else if (isCurrent) {
+                    iconClass = "bi-hourglass-split"; avtClass += " pending";
+                    let waitText = (status === 5) ? "%WaitingApproveCancel_OTMess%" : "%WaitingApprove_OTMess%";
+                    remarkHtml = `<div class="remark-box_ExceedAppv shadow-sm"><span class="text-warning fw-bold" style="color: #d97706 !important;">${waitText}</span></div>`;
+                } else {
+                    remarkHtml = `<div class="remark-box_ExceedAppv" style="opacity: 0.4;">%NotYourTurn_OTMess%</div>`;
+                }
+
+                let lineHtml = (i < maxLevel - 1) ? `<div class="${lineClass}"></div>` : '';
+                let displayApprover = n.id ? (n.name ? `${n.name}` : n.id) : 'N/A';
+
+                wrap.append(`
+                <div class="flow-node_ExceedAppv">
+                    <label class="fw-bold text-dark mb-0">${n.label}</label>
+                    <div class="flow-node-name_ExceedAppv text-primary fw-bold"><small>${displayApprover}</small></div>
+                    <div class="avt-wrapper_ExceedAppv">
+                        ${lineHtml}
+                        <div class="${avtClass} shadow-sm"><i class="bi ${iconClass}"></i></div>
+                    </div>
+                    ${remarkHtml}
+                </div>
+            `);
+            }
+        }
+        function renderDetailTable_ExceedAppv(detData) {
+            var tbody = $('#detailBody_ExceedAppv'); tbody.empty();
+            if (!detData || detData.length === 0) {
+                tbody.html('<tr><td colspan="7" class="text-muted py-5 text-center fw-bold">%NoValidOTData_OTMess%</td></tr>');
+                return;
+            }
+
+            detData.forEach((row, idx) => {
+                var limitTypeBadge = `<span class="fw-bold text-danger" style="font-size:0.8rem;">${row.LimitType}</span>`;
+                var tCurrent = parseFloat(row.CurrentTotalOT).toFixed(1);
+                var tPlanned = parseFloat(row.PlannedOT_Hours).toFixed(1);
+                var tTotal = (parseFloat(row.CurrentTotalOT) + parseFloat(row.PlannedOT_Hours)).toFixed(1);
+
+                var nameHtml = row.FullName || 'N/A';
+                var eTypeID = parseInt(row.IsDirect);
+                if (isNaN(eTypeID)) eTypeID = 1;
+
+                var rowClass = "emp-row-det";
+                var customStyle = "";
+
+                if (eTypeID === 0) {
+                    nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> %KhoiGT_OTMess%</span>`;
+                    rowClass += " bg-primary-subtle";
+                } else if (eTypeID === 1 || eTypeID === 2) {
+                    nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> %KhoiTT_OTMess%</span>`;
+                }
+
+                // Làm nổi bật màu nền nếu là nhân viên thêm chéo
+                var isExtra = parseInt(row.IsExtraEmp || 0) === 1;
+                if (isExtra) {
+                    customStyle = `style="background-color: #e0f2fe !important;"`;
+                }
+
+                var isAllowLate = row.IsAllowLate !== undefined ? row.IsAllowLate : 'NONE';
+                var allowLateFlag = String(isAllowLate).trim().toUpperCase();
+                if (allowLateFlag === "0" || allowLateFlag === "1" || allowLateFlag === "TRUE" || allowLateFlag === "FALSE") {
+                    let txtChD = (allowLateFlag === "1" || allowLateFlag === "TRUE") ? 'Đi Trễ' : 'Về Sớm';
+                    nameHtml += `<br><span class="badge text-danger border border-danger mt-1 shadow-sm" style="font-size: 0.65rem; background-color: #fce7f3;"><i class="bi bi-person-hearts" title="%MaternityChildcareMode%"></i> Chế Độ (${txtChD})</span>`;
+                }
+
+                tbody.append(`
+                  <tr class="${rowClass}" ${customStyle}>
+                      <td class="text-muted fw-bold">${idx + 1}</td>
+                      <td class="fw-bold text-primary">${row.EmployeeID}</td>
+                      <td class="text-start fw-bold text-primary">${nameHtml}</td>
+                      <td>${limitTypeBadge}</td>
+                      <td class="fw-bold text-secondary">${tCurrent}h</td>
+                      <td class="fw-bold text-warning" style="color: #d97706!important;">+ ${tPlanned}h</td>
+                      <td class="text-primary fw-bold">${tTotal}h</td>
+                  </tr>
+              `);
+            });
+        }
+
+        window.processSingleApproval_ExceedAppv = function (actionType) {
+            var remark = $('#approveRemark_ExceedAppv').val().trim();
+            if (actionType === 'REJECT' && remark === "") return uiManager.showAlert({ type: "warning", message: "%RequireRemarkReject_OTMess%" });
+
+            var titleAction = actionType === 'APPROVE' ? "%APPROVE_OTMess%" : "%RejectBtn_OTMess%";
+            if (CURRENT_VIEW_STATUS_ExceedAppv === 5) {
+                titleAction = actionType === 'APPROVE' ? "%AGREE_CANCEL_OTMess%" : "%REJECT_CANCEL_REQ_OTMess%";
+            }
+            var txtClass = actionType === 'APPROVE' ? "text-success" : "text-danger";
+
+            showConfirmPopup({
+                title: titleAction,
+                message: `%ConfirmPrefix_OTMess%<b class="${txtClass}">${titleAction}</b>%ConfirmSuffix_OTMess%`,
+                icon: actionType === 'APPROVE' ? "bi-check-circle" : "bi-x-circle",
+                onYes: function () {
+                    $('#globalBulkLoader_ExceedAppv').removeClass('d-none');
+                    $('#bulkProgressBar_ExceedAppv').css('width', '50%');
+                    $('#bulkProcessText_ExceedAppv').text(`%ProcessingData_OTMess%`);
+
+                    AjaxHPAParadise({
+                        data: { name: "API_OTExceed_Action", param: ["Identity_ID", CURRENT_VIEW_ID_ExceedAppv, "LoginID", LoginID, "Action", actionType, "Remark", remark] },
+                        success: function (res) {
+                            var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                            if (parsedRes.result === "success") {
+                                $('#bulkProgressBar_ExceedAppv').css('width', '100%');
+                                $('#bulkProcessText_ExceedAppv').text(`%Completed_OTMess%`);
+                                setTimeout(() => {
+                                    $('#globalBulkLoader_ExceedAppv').addClass('d-none');
+                                    uiManager.showAlert({ type: "success", message: parsedRes.reason });
+                                    backToList_ExceedAppv();
+                                }, 800);
+                            } else {
+                                $('#globalBulkLoader_ExceedAppv').addClass('d-none');
+                                uiManager.showAlert({ type: "error", message: parsedRes.reason });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function backToList_ExceedAppv() {
+            $('#viewDetail_ExceedAppv').hide();
+            $('#viewList_ExceedAppv').fadeIn(300);
+            CURRENT_VIEW_ID_ExceedAppv = null;
+            CURRENT_VIEW_STATUS_ExceedAppv = null;
+            loadApprovalList_ExceedAppv();
+        }
+    </script>

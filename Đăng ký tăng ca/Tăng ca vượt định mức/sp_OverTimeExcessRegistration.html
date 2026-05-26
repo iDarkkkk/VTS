@@ -1,0 +1,1320 @@
+<style>
+    :root {
+        --primary-app: #198754;
+        --bg-app: #f8fafc;
+        --card-app: #ffffff;
+        --border-app: #e2e8f0;
+        --text-app: #334155;
+        --text-mute-app: #64748b;
+    }
+
+    .wrapper_ExceedOT {
+        font-family: 'Segoe UI', sans-serif !important;
+        font-size: 0.85rem;
+        color: var(--text-app);
+        background-color: var(--bg-app);
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    .card_ExceedOT {
+        background: var(--card-app);
+        border-radius: 12px;
+        border: 1px solid var(--border-app);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        margin-bottom: 20px;
+    }
+
+    .card-header_ExceedOT {
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border-app);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-body_ExceedOT {
+        padding: 20px;
+    }
+
+    .nav-tabs-custom_ExceedOT .nav-link {
+        color: var(--text-mute-app);
+        font-weight: 600;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        cursor: pointer;
+    }
+
+    .nav-tabs-custom_ExceedOT .nav-link.active {
+        color: var(--primary-app);
+        border-bottom-color: var(--primary-app);
+        background: transparent;
+    }
+
+    .table-wrap_ExceedOT {
+        max-height: 60vh;
+        overflow-y: auto;
+        border-radius: 0;
+        border-top: 1px solid var(--border-app);
+        border-bottom: 1px solid var(--border-app);
+    }
+
+    .table_ExceedOT {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 0;
+        background: #fff;
+    }
+
+    .table_ExceedOT th,
+    .table_ExceedOT td {
+        padding: 10px 6px;
+        border-bottom: 1px solid var(--border-app);
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table_ExceedOT th {
+        background: #f8fafc;
+        color: var(--text-mute-app);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        border-bottom: 2px solid var(--border-app);
+        white-space: nowrap;
+    }
+
+    .table_ExceedOT tbody tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    .badge-st_ExceedOT {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .st-1_ExceedOT {
+        background: #fef9c3;
+        color: #b45309;
+        border: 1px solid #fde047;
+    }
+
+    .st-2_ExceedOT {
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    .st-3_ExceedOT {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    .st-4_ExceedOT {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+    }
+
+    .input-flt_ExceedOT {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--border-app);
+        font-weight: 600;
+        color: var(--text-app);
+    }
+
+    .input-flt_ExceedOT:focus {
+        border-color: var(--primary-app);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .section-label_ExceedOT {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-mute-app);
+        margin-bottom: 6px;
+        display: block;
+        letter-spacing: 0.5px;
+    }
+
+    .date-wrapper_ExceedOT {
+        position: relative;
+        width: 100%;
+    }
+
+    .date-wrapper_ExceedOT input[type="text"] {
+        padding-right: 30px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .date-wrapper_ExceedOT i {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-mute-app);
+        pointer-events: none;
+        font-size: 1rem;
+    }
+
+    .date-wrapper_ExceedOT input[type="date"] {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 35px;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Flow UI 3 Cấp */
+    .flow-wrapper_ExceedOT {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        padding: 10px 10%;
+        margin-bottom: 15px;
+    }
+
+    .flow-node_ExceedOT {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .flow-node-name_ExceedOT {
+        min-height: 40px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 0 5px;
+    }
+
+    .avt-wrapper_ExceedOT {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 8px 0;
+    }
+
+    .flow-line_ExceedOT {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 3px;
+        background-color: var(--border-app);
+        transform: translateY(-50%);
+        z-index: 0;
+        transition: background-color 0.4s;
+    }
+
+    .flow-line_ExceedOT.active {
+        background: linear-gradient(90deg, #198754 0%, #4ade80 50%, #198754 100%);
+        background-size: 200% 100%;
+        animation: flowApprove_ExceedOT 1.5s linear infinite;
+        box-shadow: 0 0 5px rgba(25, 135, 84, 0.4);
+    }
+
+    .avt-img_ExceedOT {
+        position: relative;
+        z-index: 1;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid var(--border-app);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: var(--border-app);
+        transition: all 0.3s;
+    }
+
+    .avt-img_ExceedOT.done {
+        border-color: #198754;
+        color: #198754;
+        box-shadow: 0 0 10px rgba(25, 135, 84, 0.3);
+        background: #dcfce7;
+    }
+
+    .avt-img_ExceedOT.reject {
+        border-color: #ef4444;
+        color: #ef4444;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        background: #fef2f2;
+    }
+
+    .avt-img_ExceedOT.pending {
+        border-color: #f59e0b;
+        color: #f59e0b;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        background: #fffbeb;
+    }
+
+    .avt-img_ExceedOT.skipped {
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+        border-style: dashed;
+        background: #e0f2fe;
+    }
+
+    .remark-box_ExceedOT {
+        font-size: 0.8rem;
+        background: #f8fafc;
+        border: 1px dashed var(--border-app);
+        padding: 8px;
+        border-radius: 6px;
+        margin-top: 15px;
+        width: 90%;
+        color: var(--text-app);
+        text-align: center;
+    }
+
+    .loader-overlay_ExceedOT {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        backdrop-filter: blur(2px);
+    }
+
+    /* Dashboard Styles */
+    .dash-card_ExceedOT {
+        background: #fff;
+        border: 1px solid var(--border-app);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .dash-header_ExceedOT {
+        background: #f8fafc;
+        padding: 10px 15px;
+        font-weight: 700;
+        color: var(--text-app);
+        border-bottom: 1px solid var(--border-app);
+        font-size: 0.85rem;
+    }
+
+    .dash-body_ExceedOT {
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex: 1;
+    }
+
+    .dash-stat-item_ExceedOT {
+        text-align: center;
+    }
+
+    .dash-stat-num_ExceedOT {
+        font-size: 1.6rem;
+        font-weight: 800;
+        line-height: 1;
+        font-family: Consolas, monospace;
+    }
+
+    .dash-stat-label_ExceedOT {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-mute-app);
+        margin-top: 5px;
+        letter-spacing: 0.5px;
+    }
+
+    .dash-list-container_ExceedOT {
+        max-height: 140px;
+        overflow-y: auto;
+        padding: 0;
+    }
+</style>
+
+<div class="wrapper_ExceedOT">
+    <div class="">
+
+        <div id="mainTabsContainer_ExceedOT">
+            <ul class="nav nav-tabs nav-tabs-custom_ExceedOT mb-3" id="otExceedTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-create_ExceedOT" data-bs-toggle="tab"
+                        data-bs-target="#pane-create_ExceedOT" type="button" onclick="resetToCreateMode_ExceedOT()"><i
+                            class="bi bi-pencil-square me-1"></i> %CreateNewForm_ExceedOT%</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-history_ExceedOT" data-bs-toggle="tab"
+                        data-bs-target="#pane-history_ExceedOT" type="button" onclick="loadHistoryData_ExceedOT()"><i
+                            class="bi bi-clock-history me-1"></i> %CreationHistory_ExceedOT%</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="pane-create_ExceedOT">
+
+                    <div class="card_ExceedOT shadow-sm" id="step1Filter_ExceedOT">
+                        <div
+                            class="card-header_ExceedOT py-2 bg-light border-bottom d-flex justify-content-between align-items-center">
+                            <div class="fw-bold text-muted"><i class="bi bi-search me-1"></i>
+                                %ScanExceedEmpPlan_ExceedOT%</div>
+                        </div>
+                        <div class="card-body_ExceedOT p-3">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-lg-4 col-md-5">
+                                    <label class="section-label_ExceedOT"><i class="bi bi-people-fill me-1"></i>
+                                        %GroupDivision_OTConfirm%</label>
+                                    <select class="form-select form-select-sm shadow-sm fw-bold"
+                                        id="groupSelect_ExceedOT" style="border-radius: 6px;"></select>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <label class="section-label_ExceedOT"><i class="bi bi-calendar-event me-1"></i>
+                                        %SelectOTDate_ExceedOT%</label>
+                                    <div class="date-wrapper_ExceedOT shadow-sm">
+                                        <input type="text" class="input-flt_ExceedOT w-100 text-primary"
+                                            id="dateFilter_ExceedOT" placeholder="DD/MM/YYYY" maxlength="10"
+                                            oninput="formatDateInput_ExceedOT(this)">
+                                        <i class="bi bi-calendar-date"></i>
+                                        <input type="date" onchange="syncDate_ExceedOT(this, '#dateFilter_ExceedOT')">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-3 text-end">
+                                    <button class="btn btn-sm text-white w-100 fw-bold shadow-sm"
+                                        style="background-color: var(--primary-app); height: 32px;"
+                                        onclick="loadEligibleData_ExceedOT()">
+                                        <i class="bi bi-person-bounding-box me-1"></i> %ScanDataBtn_ExceedOT%
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card_ExceedOT position-relative" id="mainSection_ExceedOT" style="display: none;">
+                        <div id="loader_ExceedOT" class="loader-overlay_ExceedOT d-none">
+                            <div class="spinner-border" style="color: var(--primary-app);" role="status"></div>
+                            <div class="mt-2 fw-bold text-muted">%Processing_ExceedOT%</div>
+                        </div>
+
+                        <div class="flow-wrapper_ExceedOT mt-3" id="approverSection_ExceedOT">
+                            <div class="flow-node_ExceedOT" id="node1_ExceedOT">
+                                <label class="small fw-bold mb-1 text-muted"><i class="bi bi-person-badge"></i>
+                                    %Level1_ExceedOT%</label>
+                                <select class="form-select form-select-sm shadow-sm mx-auto w-100 mb-1"
+                                    id="app1_ExceedOT" onchange="updateFlowUI_ExceedOT()"></select>
+                                <div class="avt-wrapper_ExceedOT">
+                                    <div class="flow-line_ExceedOT" id="line1_ExceedOT"></div>
+                                    <div class="avt-img_ExceedOT shadow-sm" id="avt1_ExceedOT"><i
+                                            class="bi bi-person-fill"></i></div>
+                                </div>
+                                <div class="small text-center mt-1 w-100 d-none" id="remark1_ExceedOT"></div>
+                            </div>
+                            <div class="flow-node_ExceedOT" id="node2_ExceedOT">
+                                <label class="small fw-bold mb-1 text-muted"><i class="bi bi-person-badge"></i>
+                                    %Level2_ExceedOT%</label>
+                                <select class="form-select form-select-sm shadow-sm mx-auto w-100 mb-1"
+                                    id="app2_ExceedOT" onchange="updateFlowUI_ExceedOT()"></select>
+                                <div class="avt-wrapper_ExceedOT">
+                                    <div class="flow-line_ExceedOT" id="line2_ExceedOT"></div>
+                                    <div class="avt-img_ExceedOT shadow-sm" id="avt2_ExceedOT"><i
+                                            class="bi bi-person-fill"></i></div>
+                                </div>
+                                <div class="small text-center mt-1 w-100 d-none" id="remark2_ExceedOT"></div>
+                            </div>
+                            <div class="flow-node_ExceedOT" id="node3_ExceedOT">
+                                <label class="small fw-bold mb-1 text-muted"><i class="bi bi-person-badge"></i>
+                                    %Level3_ExceedOT%</label>
+                                <select class="form-select form-select-sm shadow-sm mx-auto w-100 mb-1"
+                                    id="app3_ExceedOT" onchange="updateFlowUI_ExceedOT()"></select>
+                                <div class="avt-wrapper_ExceedOT">
+                                    <div class="avt-img_ExceedOT shadow-sm" id="avt3_ExceedOT"><i
+                                            class="bi bi-person-fill"></i></div>
+                                </div>
+                                <div class="small text-center mt-1 w-100 d-none" id="remark3_ExceedOT"></div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="card-header_ExceedOT bg-light border-top d-flex justify-content-between align-items-center py-2 flex-wrap gap-2">
+                            <h6 class="m-0 fw-bold text-dark"><i class="bi bi-person-fill-exclamation me-2"
+                                    style="color:var(--primary-app);"></i> %ExceedList_ExceedOT%</h6>
+                            <div class="input-group input-group-sm shadow-sm" style="max-width: 200px;">
+                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                                <input type="text" id="searchEmpInput_ExceedOT" class="form-control"
+                                    placeholder="%SearchEmpPlaceholder_ExceedOT%" onkeyup="searchEmployee_ExceedOT()">
+                            </div>
+                        </div>
+
+                        <div class="table-wrap_ExceedOT border-bottom">
+                            <table class="table_ExceedOT table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40px; background: #f8fafc;">#</th>
+                                        <th style="width: 90px; background: #f8fafc;">%EmpCode_ExceedOT%</th>
+                                        <th class="text-start" style="background: #f8fafc;">%FullName_ExceedOT%</th>
+                                        <th style="background: #f8fafc;">%ExceedType_ExceedOT%</th>
+                                        <th style="background: #f8fafc;">%AccumulatedOT_ExceedOT%</th>
+                                        <th style="background: #f8fafc;">%PlannedOT_ExceedOT%</th>
+                                        <th style="background: #f8fafc; color:var(--primary-app);">
+                                            %TotalOTHours_ExceedOT%</th>
+                                        <th style="width: 40px; background: #f8fafc;" class="col-action_ExceedOT"><i
+                                                class="bi bi-trash-fill text-danger" title="%Remove_ExceedOT%"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody_ExceedOT"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer bg-white p-3" id="footerAction_ExceedOT">
+                            <div class="row align-items-center">
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control form-control-sm border-primary"
+                                        id="remark_ExceedOT" placeholder="%ExceedReasonPlaceholder_ExceedOT%">
+                                </div>
+                                <div class="col-md-3 text-end d-flex gap-2">
+                                    <button class="btn btn-primary btn-sm w-100 fw-bold shadow-sm"
+                                        id="btnSubmit_ExceedOT" onclick="submitData_ExceedOT()"
+                                        style="background-color: var(--primary-app); border: none;">
+                                        <i class="bi bi-send-check-fill me-1"></i> %SendRegisterBtn_ExceedOT%
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pane-history_ExceedOT">
+                    <div class="card_ExceedOT shadow-sm">
+                        <div class="card-body_ExceedOT p-3">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-lg-3 col-md-6">
+                                    <label class="section-label_ExceedOT"><i class="bi bi-calendar-event me-1"></i>
+                                        %FromDate_ExceedOT%</label>
+                                    <div class="date-wrapper_ExceedOT shadow-sm">
+                                        <input type="text" id="hisFromDate_ExceedOT"
+                                            class="input-flt_ExceedOT w-100 text-primary" placeholder="DD/MM/YYYY"
+                                            maxlength="10" oninput="formatDateInput_ExceedOT(this)">
+                                        <i class="bi bi-calendar-date"></i>
+                                        <input type="date" onchange="syncDate_ExceedOT(this, '#hisFromDate_ExceedOT')">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <label class="section-label_ExceedOT"><i class="bi bi-calendar-event me-1"></i>
+                                        %ToDate_ExceedOT%</label>
+                                    <div class="date-wrapper_ExceedOT shadow-sm">
+                                        <input type="text" id="hisToDate_ExceedOT"
+                                            class="input-flt_ExceedOT w-100 text-primary" placeholder="DD/MM/YYYY"
+                                            maxlength="10" oninput="formatDateInput_ExceedOT(this)">
+                                        <i class="bi bi-calendar-date"></i>
+                                        <input type="date" onchange="syncDate_ExceedOT(this, '#hisToDate_ExceedOT')">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-8">
+                                    <label class="section-label_ExceedOT"><i class="bi bi-list-check me-1"></i>
+                                        %StatusLabel_ExceedOT%</label>
+                                    <select id="hisStatus_ExceedOT" class="form-select form-select-sm shadow-sm fw-bold"
+                                        style="border-radius: 6px; height: 35px;">
+                                        <option value="-1">-- %All_ExceedOT% --</option>
+                                        <option value="1">%Pending_ExceedOT%</option>
+                                        <option value="2">%Approved_ExceedOT%</option>
+                                        <option value="3">%Rejected_ExceedOT%</option>
+                                        <option value="4">%Cancelled_ExceedOT%</option>
+                                        <option value="5">%RequestCancel_ExceedOT%</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-4">
+                                    <button class="btn text-white btn-sm w-100 fw-bold shadow-sm"
+                                        style="background-color: var(--primary-app); height: 35px; border-radius: 6px;"
+                                        onclick="loadHistoryData_ExceedOT()">
+                                        <i class="bi bi-search me-1"></i> %FilterBtn_ExceedOT%
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-wrap_ExceedOT border-top rounded-0 border-bottom">
+                            <table class="table_ExceedOT table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>%OTDate_ExceedOT%</th>
+                                        <th>%GroupType_ExceedOT%</th>
+                                        <th>%StatusCol_ExceedOT%</th>
+                                        <th>%Level1_ExceedOT%</th>
+                                        <th>%Level2_ExceedOT%</th>
+                                        <th>%Level3_ExceedOT%</th>
+                                        <th>%ActionCol_ExceedOT%</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyBody_ExceedOT">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted small">
+                                            %PressFilterToSearch_ExceedOT%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="paginationHistory_ExceedOT"
+                            class="d-flex justify-content-end p-2 bg-light rounded-bottom"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="viewDetailContainer_ExceedOT" style="display: none;">
+            <div class="card_ExceedOT shadow-sm">
+                <div class="card-header_ExceedOT bg-light py-2 border-bottom">
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-sm btn-outline-secondary fw-bold px-3 shadow-sm bg-white"
+                            onclick="backToList_ExceedOT()"><i class="bi bi-arrow-left me-1"></i>
+                            %BackBtn_ExceedOT%</button>
+                        <div>
+                            <h6 class="m-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                                %ExceedFormLabel_ExceedOT% <span id="lblDetID_Clean_ExceedOT"
+                                    class="text-primary"></span>
+                                <span class="badge bg-primary px-2 py-1 ms-2" style="font-size: 0.65rem;"
+                                    id="lblViewType_Clean_ExceedOT"></span>
+                            </h6>
+                            <div class="text-muted mt-1" style="font-size: 0.75rem;">
+                                <i class="bi bi-person-circle"></i> Leader: <span id="lblDetCreator_Clean_ExceedOT"
+                                    class="fw-bold"></span>
+                                <span class="mx-2">|</span>
+                                <i class="bi bi-clock-history"></i> %ConfirmTime_ExceedOT% <span
+                                    id="lblDetCreateTime_Clean_ExceedOT" class="fw-bold text-dark"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <div id="lblDetStatus_ExceedOT_Clean" class="badge-st_ExceedOT fs-6"></div>
+                    </div>
+                </div>
+
+                <div class="card-body_ExceedOT bg-white border-bottom py-2">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="fw-bold text-muted text-uppercase" style="font-size:0.75rem; white-space:nowrap;"><i
+                                class="bi bi-chat-quote-fill me-1"></i> %LeaderRemarkLabel_ExceedOT%</div>
+                        <div class="p-2 bg-light rounded border w-100" style="font-style: italic; font-size: 0.85rem;"
+                            id="lblDetRemark_ExceedOT_Clean">%NoRemark_ExceedOT%</div>
+                    </div>
+                </div>
+
+                <div class="card-body_ExceedOT py-0 bg-white border-bottom">
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <h6 class="fw-bold text-muted text-uppercase m-0" style="font-size:0.8rem;"><i
+                                class="bi bi-diagram-3-fill me-1"></i>%ApprovalFlow_ExceedOT%</h6>
+                    </div>
+                    <div class="flow-wrapper_ExceedOT pb-3" id="flowWrapperContainer_ExceedOT_Clean"></div>
+                </div>
+
+                <div
+                    class="card-body_ExceedOT py-2 bg-light d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <h6 class="fw-bold text-dark text-uppercase m-0" style="font-size:0.85rem;"><i
+                            class="bi bi-table text-primary me-2"></i>%ExceedEmpList_ExceedOT%</h6>
+                    <div class="input-group input-group-sm shadow-sm" style="max-width: 250px;">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" id="searchEmpDetailInput_ExceedOT" class="form-control"
+                            placeholder="%SearchEmpPlaceholder_ExceedOT%" onkeyup="searchEmployeeDetail_ExceedOT()">
+                    </div>
+                </div>
+
+                <div class="table-responsive-custom_ExceedOT border-0 rounded-0 border-bottom">
+                    <div class="table-wrap_ExceedOT" style="max-height: 50vh;">
+                        <table class="table_ExceedOT">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px; background: #f8fafc;">#</th>
+                                    <th style="width: 90px; background: #f8fafc;">%EmpCode_ExceedOT%</th>
+                                    <th class="text-start" style="background: #f8fafc;">%FullName_ExceedOT%</th>
+                                    <th style="background: #f8fafc;">%ExceedType_ExceedOT%</th>
+                                    <th style="background: #f8fafc;">%AccumulatedOT_ExceedOT%</th>
+                                    <th style="background: #f8fafc;">%PlannedOT_ExceedOT%</th>
+                                    <th style="background: #f8fafc; color:var(--primary-app);">%TotalOTHours_ExceedOT%
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailBody_ExceedOT"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-footer p-3 bg-white" id="actionArea_ExceedOT" style="border-radius: 0 0 12px 12px;">
+                    <div class="row align-items-center">
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-sm border-primary"
+                                id="approveRemark_ExceedOT" placeholder="Nhập ý kiến phản hồi...">
+                        </div>
+                        <div class="col-md-3 text-end d-flex gap-2">
+                            <button class="btn btn-danger btn-sm w-100 fw-bold shadow-sm d-none"
+                                id="btnCancelDetail_ExceedOT" onclick="requestCancelMaster_ExceedOT()">
+                                <i class="bi bi-trash-fill me-1"></i> %RequestCancelBtn_ExceedOT%
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="loader_Global_ExceedOT" class="d-none"
+        style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="spinner-border" style="color: var(--primary-app); width: 3rem; height: 3rem;" role="status"></div>
+        <div class="mt-3 fw-bold text-dark fs-5">%LoadingData_ExceedOT%</div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script>
+    var CURRENT_ID_ExceedOT = null;
+    var CURRENT_STATUS_ExceedOT = null;
+    var IS_VIEW_MODE_ExceedOT = false;
+    var ACTIVE_EMPLOYEES_ExceedOT = [];
+
+    var GLOBAL_HISTORY_ExceedOT = [];
+    var CURRENT_PAGE_ExceedOT = 1;
+    var PAGE_SIZE_ExceedOT = 10;
+
+    function getEmpNameFallback_ExceedOT(empId) {
+        if (!empId || empId === 'SKIP' || empId === 'null') return '';
+        var opt = $('#app1_ExceedOT option[value="' + empId + '"]');
+        if (opt.length > 0 && opt.text() !== '-- %Select_ExceedOT% --') return opt.text();
+        opt = $('#app2_ExceedOT option[value="' + empId + '"]');
+        if (opt.length > 0 && opt.text() !== '-- %Select_ExceedOT% --') return opt.text();
+        return '';
+    }
+
+    function waitInit_ExceedOT() {
+        if (typeof jQuery !== 'undefined' && typeof moment !== 'undefined') initForm_ExceedOT();
+        else setTimeout(waitInit_ExceedOT, 50);
+    }
+    waitInit_ExceedOT();
+
+    function initForm_ExceedOT() {
+        var tD = moment();
+        $('#dateFilter_ExceedOT').val(tD.format('DD/MM/YYYY'));
+        $('#dateFilter_ExceedOT').siblings('input[type="date"]').val(tD.format('YYYY-MM-DD'));
+
+        $('#hisToDate_ExceedOT').val(tD.format('DD/MM/YYYY'));
+        $('#hisToDate_ExceedOT').siblings('input[type="date"]').val(tD.format('YYYY-MM-DD'));
+
+        var fD = moment().subtract(1, 'months');
+        $('#hisFromDate_ExceedOT').val(fD.format('DD/MM/YYYY'));
+        $('#hisFromDate_ExceedOT').siblings('input[type="date"]').val(fD.format('YYYY-MM-DD'));
+
+        loadGroups_ExceedOT();
+        loadApprovers_ExceedOT();
+    }
+
+    function formatDateInput_ExceedOT(el) {
+        var v = el.value.replace(/\D/g, '');
+        if (v.length > 8) v = v.slice(0, 8);
+        if (v.length >= 5) el.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+        else if (v.length >= 3) el.value = v.slice(0, 2) + '/' + v.slice(2);
+        else el.value = v;
+
+        if (el.value.length === 10) {
+            var m = moment(el.value, 'DD/MM/YYYY');
+            if (m.isValid()) $(el).siblings('input[type="date"]').val(m.format('YYYY-MM-DD'));
+        }
+    }
+
+    function syncDate_ExceedOT(picker, targetId) {
+        var val = $(picker).val();
+        if (val) { $(targetId).val(moment(val).format('DD/MM/YYYY')); }
+    }
+
+    function resetToCreateMode_ExceedOT() {
+        IS_VIEW_MODE_ExceedOT = false;
+        CURRENT_ID_ExceedOT = null;
+        CURRENT_STATUS_ExceedOT = null;
+        ACTIVE_EMPLOYEES_ExceedOT = [];
+
+        $('#step1Filter_ExceedOT').show();
+        $('#mainSection_ExceedOT').hide();
+        $('#tableBody_ExceedOT').empty();
+
+        $('#app1_ExceedOT, #app2_ExceedOT, #remark_ExceedOT').val('').prop('disabled', false);
+        $('.col-action_ExceedOT').show();
+
+        $('#btnSubmit_ExceedOT').show();
+
+        updateFlowUI_ExceedOT();
+    }
+
+    function loadGroups_ExceedOT() {
+        AjaxHPAParadise({
+            data: { name: "API_GetLeaderGroups", param: ["LoginID", LoginID] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                var select = $('#groupSelect_ExceedOT'); select.empty();
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    parsedRes.data[0].forEach(g => {
+                        var typeTag = g.IsDivision == 1 ? " (%OfficeBlock_ExceedOT%)" : "";
+                        select.append(`<option value="${g.GroupID}" data-isdiv="${g.IsDivision}">${g.GroupName}</option>`);
+                    });
+                } else select.append('<option value="">%NoGroup_ExceedOT%</option>');
+            }
+        });
+    }
+
+    function loadApprovers_ExceedOT() {
+        if (typeof LoginID === 'undefined') return;
+
+
+        $('#node3_ExceedOT').html(`
+                <label class="small fw-bold text-danger mb-1"><i class="bi bi-person-badge"></i> %Level3_ExceedOT%</label>
+                <input type="hidden" id="app3_ExceedOT" value="J0038">
+                <input type="text" class="form-control form-control-sm border-danger shadow-sm mx-auto w-100 mb-1 text-center bg-light text-danger fw-bold" value="J0038 - SHIMADA MINORU" readonly>
+                <div class="avt-wrapper_ExceedOT">
+                    <div class="avt-img_ExceedOT shadow-sm border-danger text-danger" id="avt3_ExceedOT"><i class="bi bi-person-fill"></i></div>
+                </div>
+                <div class="small text-center mt-1 w-100 d-none" id="remark3_ExceedOT"></div>
+            `);
+
+        AjaxHPAParadise({
+            data: {
+                name: "API_GetApprovers",
+                param: ["LeaderEmpID", LoginID, "OTType", 3, "TypeRegister", 1]
+            },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+
+                $('#app1_ExceedOT').empty().append('<option value="">-- %Select_ExceedOT% --</option><option value="SKIP" class="text-primary fw-bold">-- %OtherSkip_ExceedOT% --</option>').prop('disabled', false).removeClass('bg-light fw-bold text-dark');
+                $('#app2_ExceedOT').empty().append('<option value="">-- %Select_ExceedOT% --</option>').prop('disabled', false).removeClass('bg-light fw-bold text-dark');
+
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    var count1 = 0, count2 = 0;
+                    var val1 = "", val2 = "";
+
+                    parsedRes.data[0].forEach(function (a) {
+                        if (a.approver == 1) {
+                            $('#app1_ExceedOT').append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                            count1++; val1 = a.EmployeeID;
+                        }
+                        if (a.approver == 2) {
+                            $('#app2_ExceedOT').append(`<option value="${a.EmployeeID}">${a.FullName}</option>`);
+                            count2++; val2 = a.EmployeeID;
+                        }
+                    });
+
+                    if (count1 === 1) $('#app1_ExceedOT').val(val1).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                    if (count2 === 1) $('#app2_ExceedOT').val(val2).prop('disabled', true).addClass('bg-light fw-bold text-dark');
+                }
+                updateFlowUI_ExceedOT();
+            }
+        });
+    }
+    function updateFlowUI_ExceedOT(mData = null) {
+        var a1 = $('#app1_ExceedOT').val(), a2 = $('#app2_ExceedOT').val();
+        var maxLevel = 3;
+
+        var curLvl = mData ? parseInt(mData.Current_Approved_Level) : 1;
+        var status = mData ? parseInt(mData.Approve_Status) : 0;
+
+        // LÚC TẠO ĐƠN THÌ KHÔNG SHOW TÊN Ở DƯỚI NỮA
+        var nodes = [
+            { id: a1, el: $('#avt1_ExceedOT'), line: $('#line1_ExceedOT') },
+            { id: a2, el: $('#avt2_ExceedOT'), line: $('#line2_ExceedOT') },
+            { id: "J0038", el: $('#avt3_ExceedOT'), line: null }
+        ];
+
+        for (let i = 0; i < maxLevel; i++) {
+            let n = nodes[i];
+            n.el.removeClass('done reject pending active-select text-success border-success text-danger border-danger text-warning border-warning border-primary text-primary skipped border-info bg-info-subtle text-info').addClass('text-muted border-secondary').css('border-style', 'solid');
+            n.el.html('<i class="bi bi-person-fill"></i>');
+            if (n.line) n.line.removeClass('active');
+
+            if (n.id === 'SKIP') {
+                n.el.removeClass('text-muted border-secondary').addClass('skipped border-info bg-info-subtle text-info');
+                n.el.html('<i class="bi bi-fast-forward-fill"></i>');
+                if (n.line) n.line.addClass('active');
+                continue;
+            }
+
+            if (n.id) {
+                // Chỉ cần tô màu avt lên báo hiệu là đã có người trực (nếu ID ko rỗng)
+                n.el.removeClass('text-muted border-secondary').addClass('active-select text-primary border-primary');
+                if (n.line) n.line.addClass('active');
+                if (i === 2) n.el.removeClass('text-primary border-primary').addClass('text-danger border-danger');
+            }
+        }
+    }
+
+    function searchEmployee_ExceedOT() {
+        var keyword = $('#searchEmpInput_ExceedOT').val().toLowerCase();
+        $('#tableBody_ExceedOT tr').each(function () {
+            var tr = $(this), name = tr.find('td:eq(2)').text().toLowerCase(), code = tr.find('td:eq(1)').text().toLowerCase();
+            if (name.indexOf(keyword) > -1 || code.indexOf(keyword) > -1) tr.show(); else tr.hide();
+        });
+    }
+
+    function removeEmp_ExceedOT(btn, empId) {
+        ACTIVE_EMPLOYEES_ExceedOT = ACTIVE_EMPLOYEES_ExceedOT.filter(e => e.EmployeeID !== empId);
+        $(btn).closest('tr').remove();
+        if (ACTIVE_EMPLOYEES_ExceedOT.length === 0) {
+            $('#tableBody_ExceedOT').html(`<tr><td colspan="8" class="text-center py-4 text-danger fw-bold">%NoEmpInList_ExceedOT%</td></tr>`);
+            $('#btnSubmit_ExceedOT').prop('disabled', true);
+        }
+    }
+
+    function loadEligibleData_ExceedOT() {
+        var groupId = $('#groupSelect_ExceedOT').val();
+        var isDiv = parseInt($('#groupSelect_ExceedOT option:selected').attr('data-isdiv')) || 0;
+        var dateStr = $('#dateFilter_ExceedOT').val();
+
+        if (!groupId) return uiManager.showAlert({ type: "warning", message: "%RequireGroup_ExceedOT%" });
+        if (dateStr.length !== 10) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormat_ExceedOT%" });
+
+        var dateMom = moment(dateStr, 'DD/MM/YYYY');
+        if (!dateMom.isValid()) return uiManager.showAlert({ type: "warning", message: "%InvalidDate_ExceedOT%" });
+
+        $('#mainSection_ExceedOT').show();
+        $('#loader_ExceedOT').removeClass('d-none');
+        CURRENT_ID_ExceedOT = null;
+        ACTIVE_EMPLOYEES_ExceedOT = [];
+
+        AjaxHPAParadise({
+            data: { name: "API_OTExceed_GetEligible", param: ["LoginID", LoginID, "TargetID", groupId, "OTDate", dateMom.format('YYYY-MM-DD'), "IsDivision", isDiv] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                $('#loader_ExceedOT').addClass('d-none');
+                var tbody = $('#tableBody_ExceedOT'); tbody.empty();
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    ACTIVE_EMPLOYEES_ExceedOT = parsedRes.data[0];
+                    ACTIVE_EMPLOYEES_ExceedOT.forEach((row, idx) => {
+                        var limitTypeBadge = `<span class="fw-bold text-danger" style="font-size:0.8rem;">${row.LimitType}</span>`;
+                        var tCurrent = parseFloat(row.CurrentTotalOT).toFixed(1);
+                        var tPlanned = parseFloat(row.PlannedOT_Hours).toFixed(1);
+                        var tTotal = (parseFloat(row.CurrentTotalOT) + parseFloat(row.PlannedOT_Hours)).toFixed(1);
+
+                        var nameHtml = row.FullName || 'N/A';
+                        var eTypeID = parseInt(row.IsDirect);
+                        if (isNaN(eTypeID)) eTypeID = 1;
+
+                        if (eTypeID === 0) {
+                            nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> Khối Gián Tiếp</span>`;
+                        } else if (eTypeID == 1 || eTypeID == 2) {
+                            nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> Khối Trực Tiếp</span>`;
+                        }
+
+                        tbody.append(`
+                                <tr data-emp="${row.EmployeeID}">
+                                    <td class="text-muted fw-bold">${idx + 1}</td>
+                                    <td class="fw-bold text-primary">${row.EmployeeID}</td>
+                                    <td class="text-start fw-bold text-primary">${nameHtml}</td>
+                                    <td>${limitTypeBadge}</td>
+                                    <td class="fw-bold text-secondary">${tCurrent}h</td>
+                                    <td class="fw-bold text-warning" style="color: #d97706!important;">+ ${tPlanned}h</td>
+                                    <td class="text-primary fw-bold">${tTotal}h</td>
+                                    <td class="col-action_ExceedOT"><button class="btn btn-sm btn-outline-danger py-0 px-1 border-0" onclick="removeEmp_ExceedOT(this, '${row.EmployeeID}')"><i class="bi bi-trash-fill"></i></button></td>
+                                </tr>
+                            `);
+                    });
+                    $('#btnSubmit_ExceedOT').prop('disabled', false);
+                    updateFlowUI_ExceedOT();
+                } else {
+                    tbody.html(`<tr><td colspan="8" class="text-center py-4 text-success fw-bold"><i class="bi bi-check-circle-fill"></i> %NoExceedEmpFound_ExceedOT%</td></tr>`);
+                    $('#btnSubmit_ExceedOT').prop('disabled', true);
+                }
+            }
+        });
+    }
+
+    function submitData_ExceedOT() {
+        if (ACTIVE_EMPLOYEES_ExceedOT.length === 0) return uiManager.showAlert({ type: "warning", message: "%EmptyList_ExceedOT%" });
+        var a1 = $('#app1_ExceedOT').val(), a2 = $('#app2_ExceedOT').val(), a3 = $('#app3_ExceedOT').val();
+        if (!a1) return uiManager.showAlert({ type: "warning", message: "%RequireLevel1_ExceedOT%" });
+        if (!a2) return uiManager.showAlert({ type: "warning", message: "%RequireLevel2_ExceedOT%" });
+        if (!a3) return uiManager.showAlert({ type: "warning", message: "%SysErrorLevel3_ExceedOT%" });
+        var remarkVal = $('#remark_ExceedOT').val().trim();
+        if (!remarkVal) {
+            $('#remark_ExceedOT').focus();
+            return uiManager.showAlert({ type: "warning", message: "%RequireRemark_ExceedOT%" });
+        }
+        var groupId = $('#groupSelect_ExceedOT').val();
+        var isDiv = parseInt($('#groupSelect_ExceedOT option:selected').attr('data-isdiv')) || 0;
+        var dateMom = moment($('#dateFilter_ExceedOT').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+        showConfirmPopup({
+            title: "%ConfirmRegisterTitle_ExceedOT%",
+            message: `%SendExceedReqFor_ExceedOT% <b class="text-danger">${ACTIVE_EMPLOYEES_ExceedOT.length} %EmpUnit_ExceedOT%</b> %ToBossesContinue_ExceedOT%`,
+            icon: "bi-rocket-takeoff",
+            onYes: function () {
+                var btn = $('#btnSubmit_ExceedOT'); var orgTxt = btn.html(); btn.html('%Sending_ExceedOT%').prop('disabled', true);
+                AjaxHPAParadise({
+                    data: {
+                        name: "API_OTExceed_Submit",
+                        param: ["TargetID", groupId, "OTDate", dateMom, "LoginID", LoginID, "Approver1", a1, "Approver2", a2, "Approver3", a3, "Remark", remarkVal, "JSONData", JSON.stringify(ACTIVE_EMPLOYEES_ExceedOT), "IsDivision", isDiv]
+                    },
+                    success: function (res) {
+                        btn.html(orgTxt).prop('disabled', false);
+                        var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                        if (parsedRes.result === "success") {
+                            uiManager.showAlert({ type: "success", message: "%SubmitSuccess_ExceedOT%" });
+                            resetToCreateMode_ExceedOT();
+                        } else uiManager.showAlert({ type: "error", message: "%Error_ExceedOT%: " + parsedRes.reason });
+                    }
+                });
+            }
+        });
+    }
+    // --- MÀN HÌNH LỊCH SỬ ---
+    function loadHistoryData_ExceedOT() {
+        var fDate = $('#hisFromDate_ExceedOT').val(), tDate = $('#hisToDate_ExceedOT').val();
+        if (fDate.length !== 10 || tDate.length !== 10) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormatHistory_ExceedOT%" });
+        var start = moment(fDate, 'DD/MM/YYYY'), end = moment(tDate, 'DD/MM/YYYY');
+        if (!start.isValid() || !end.isValid() || start.isAfter(end)) return uiManager.showAlert({ type: "warning", message: "%InvalidTimeError_ExceedOT%" });
+
+        var status = $('#hisStatus_ExceedOT').val();
+        $('#historyBody_ExceedOT').html('<tr><td colspan="7" class="text-center py-4"><div class="spinner-border" style="color: var(--primary-app);"></div></td></tr>');
+        $('#paginationHistory_ExceedOT').empty();
+
+        AjaxHPAParadise({
+            data: { name: "API_OTExceed_GetHistory", param: ["LoginID", LoginID, "FromDate", start.format('YYYY-MM-DD'), "ToDate", end.format('YYYY-MM-DD'), "Status", status] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
+                    GLOBAL_HISTORY_ExceedOT = parsedRes.data[0];
+                    renderHistoryPage_ExceedOT(1);
+                } else {
+                    GLOBAL_HISTORY_ExceedOT = [];
+                    $('#historyBody_ExceedOT').html(`<tr><td colspan="7" class="text-center py-4 text-muted">%NoHistoryData_ExceedOT%</td></tr>`);
+                }
+            }
+        });
+    }
+
+    function renderHistoryPage_ExceedOT(page) {
+        CURRENT_PAGE_ExceedOT = page;
+        var startIdx = (page - 1) * PAGE_SIZE_ExceedOT;
+        var endIdx = startIdx + PAGE_SIZE_ExceedOT;
+        var pageData = GLOBAL_HISTORY_ExceedOT.slice(startIdx, endIdx);
+        var tbody = $('#historyBody_ExceedOT'); tbody.empty();
+
+        pageData.forEach(function (row) {
+            var st = parseInt(row.Approve_Status), stBadge = '';
+            if (st === 1) stBadge = '<span class="badge bg-warning text-dark">%PendingStatus_ExceedOT%</span>';
+            else if (st === 2) stBadge = '<span class="badge bg-success">%ApprovedStatus_ExceedOT%</span>';
+            else if (st === 3) stBadge = '<span class="badge bg-danger">%RejectedStatus_ExceedOT%</span>';
+            else if (st === 4) stBadge = '<span class="badge bg-secondary">%CancelledStatus_ExceedOT%</span>';
+            else if (st === 5) stBadge = '<span class="badge bg-warning text-dark">%RequestCancelStatus_ExceedOT%</span>';
+
+            var period = moment(row.OTDate).format('DD/MM/YYYY');
+            var curLvl = parseInt(row.Current_Approved_Level || 1);
+
+            function getStatusBadgeHtml(name, dateStr, levelToCheck, approverId) {
+                if (approverId === 'SKIP') return `<span class="badge bg-info text-dark mt-1"><i class="bi bi-fast-forward-fill"></i> %OtherSkip_ExceedOT%</span>`;
+                if (!name || name === "null" || name.trim() === "") return '-';
+
+                let html = `<span class="fw-bold text-dark">${name}</span>`;
+                let badgeOK = `<br><span class="text-success fw-bold" style="font-size:0.75rem;"><i class="bi bi-check-circle-fill"></i> %HasApproved_ExceedOT%</span>`;
+                let badgeNO = `<br><span class="text-danger fw-bold" style="font-size:0.75rem;"><i class="bi bi-x-circle-fill"></i> %Rejected_ExceedOT%</span>`;
+                let badgeWait = `<br><span class="badge bg-warning text-dark mt-1"><i class="bi bi-hourglass-split"></i> %WaitingApprove_ExceedOT%</span>`;
+                let badgeWaitCancel = `<br><span class="badge bg-warning text-dark mt-1"><i class="bi bi-hourglass-split"></i> %WaitingApproveCancel_ExceedOT%</span>`;
+
+                if (st === 2) html += badgeOK;
+                else if (st === 3) {
+                    if (levelToCheck < curLvl) html += badgeOK;
+                    else if (levelToCheck === curLvl) html += badgeNO;
+                } else if (st === 1 || st === 5) {
+                    if (levelToCheck < curLvl) html += badgeOK;
+                    else if (levelToCheck === curLvl) html += (st === 1) ? badgeWait : badgeWaitCancel;
+                } else if (st === 4) {
+                    if (curLvl === 1) return html;
+                    if (levelToCheck <= curLvl) html += badgeOK;
+                }
+                return html;
+            }
+
+            var app1Html = getStatusBadgeHtml(row.Approver1_Name, row.ApproveDate_1, 1, row.Approver_1);
+            var app2Html = getStatusBadgeHtml(row.Approver2_Name, row.ApproveDate_2, 2, row.Approver_2);
+            var app3Html = getStatusBadgeHtml(row.Approver3_Name, row.ApproveDate_3, 3, row.Approver_3);
+
+            tbody.append(`<tr>
+                  <td class="fw-bold align-middle text-primary">${period}</td>
+                  <td class="align-middle">${row.GroupName}<br><span class="text-danger fw-bold mt-1" style="font-size:0.7rem; display:inline-block;"><i class="bi bi-exclamation-triangle-fill"></i> ${row.TotalEmployees} %EmpNeedPerm_ExceedOT%</span></td>
+                  <td class="align-middle">${stBadge}</td>
+                  <td class="small align-middle">${app1Html}</td>
+                  <td class="small align-middle">${app2Html}</td>
+                  <td class="small align-middle">${app3Html}</td>
+                  <td class="align-middle"><button class="btn btn-sm btn-outline-secondary fw-bold" onclick="viewDetails_ExceedOT('${row.Identity_ID}')"><i class="bi bi-eye"></i> %View_ExceedOT%</button></td>
+              </tr>`);
+        });
+
+        renderPaginationHis_ExceedOT();
+    }
+
+    function renderPaginationHis_ExceedOT() {
+        var totalPages = Math.ceil(GLOBAL_HISTORY_ExceedOT.length / PAGE_SIZE_ExceedOT);
+        var pag = $('#paginationHistory_ExceedOT'); pag.empty();
+        if (totalPages <= 1) return;
+
+        var html = `<ul class="pagination pagination-sm mb-0 shadow-sm">`;
+        for (var i = 1; i <= totalPages; i++) {
+            var activeClass = i === CURRENT_PAGE_ExceedOT ? 'active' : '';
+            var bgStyle = i === CURRENT_PAGE_ExceedOT ? 'style="background-color:var(--primary-app); border-color:var(--primary-app); color:#fff;"' : 'class="text-dark"';
+            html += `<li class="page-item ${activeClass}"><a class="page-link" ${bgStyle} href="#" onclick="renderHistoryPage_ExceedOT(${i}); return false;">${i}</a></li>`;
+        }
+        html += `</ul>`;
+        pag.html(html);
+    }
+
+    // --- XEM CHI TIẾT ---
+    function backToList_ExceedOT() {
+        $('#viewDetailContainer_ExceedOT').hide();
+        $('#mainTabsContainer_ExceedOT').fadeIn(300);
+        CURRENT_ID_ExceedOT = null;
+        CURRENT_STATUS_ExceedOT = null;
+        loadHistoryData_ExceedOT(); // Reload table
+    }
+
+    window.viewDetails_ExceedOT = function (id) {
+        IS_VIEW_MODE_ExceedOT = true;
+        $('#step1Filter_ExceedOT').hide();
+
+        $('#mainTabsContainer_ExceedOT').hide();
+        $('#viewDetailContainer_ExceedOT').fadeIn(300);
+        $('#detailBody_ExceedOT').html(`<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-info"></div></td></tr>`);
+
+        AjaxHPAParadise({
+            data: { name: "API_OTExceed_GetByID", param: ["Identity_ID", id] },
+            success: function (res) {
+                var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+
+                if (parsedRes.result === "success" && parsedRes.data && parsedRes.data.length >= 2) {
+                    var mData = parsedRes.data[0][0];
+                    var detData = parsedRes.data[1];
+
+                    if (mData) {
+                        CURRENT_ID_ExceedOT = mData.Identity_ID;
+                        var st = parseInt(mData.Approve_Status);
+                        CURRENT_STATUS_ExceedOT = st;
+
+                        var dMom = moment(mData.OTDate);
+                        $('#lblDetID_Clean_ExceedOT').text(mData.Identity_ID.substring(0, 8));
+                        $('#lblDetCreator_Clean_ExceedOT').text((mData.CreatorName || mData.RegisterBy) + ' (' + (mData.GroupName || 'N/A') + ')');
+                        $('#lblDetCreateTime_Clean_ExceedOT').text(moment(mData.CreateTime).format('DD/MM/YYYY HH:mm'));
+
+                        var typeReg = mData.TypeRegister || 1;
+                        if (typeReg == 2) {
+                            $('#lblViewType_Clean_ExceedOT').text("%Holiday_ExceedOT%").removeClass('bg-success bg-danger').addClass('bg-danger');
+                        } else {
+                            $('#lblViewType_Clean_ExceedOT').text("%NormalDay_ExceedOT%").removeClass('bg-success bg-danger').addClass('bg-success');
+                        }
+
+                        $('#lblDetRemark_ExceedOT_Clean').html(mData.Remark ? `<b class="text-primary">"${mData.Remark}"</b>` : `<span class="text-muted">%NoCreatorRemark_ExceedOT%</span>`);
+
+                        var badge = $('#lblDetStatus_ExceedOT_Clean');
+                        badge.removeClass();
+                        if (st === 1) badge.addClass('badge-st_ExceedOT st-1_ExceedOT px-3 py-2').html(`<i class="bi bi-hourglass-split me-1"></i> %WaitingApproveBadge_ExceedOT%`);
+                        else if (st === 2) badge.addClass('badge-st_ExceedOT st-2_ExceedOT px-3 py-2').html(`<i class="bi bi-check-all me-1"></i> %ApproveCompleted_ExceedOT%`);
+                        else if (st === 3) badge.addClass('badge-st_ExceedOT st-3_ExceedOT px-3 py-2').html(`<i class="bi bi-x-circle me-1"></i> %RejectedForm_ExceedOT%`);
+                        else if (st === 4) badge.addClass('badge-st_ExceedOT st-4_ExceedOT px-3 py-2').html(`<i class="bi bi-dash-circle me-1"></i> %CancelledForm_ExceedOT%`);
+                        else if (st === 5) badge.addClass('badge-st_ExceedOT st-1_ExceedOT px-3 py-2').html(`<i class="bi bi-exclamation-circle me-1"></i> %RequestingCancel_ExceedOT%`);
+
+                        if (st === 1 || st === 2) {
+                            $('#btnCancelDetail_ExceedOT').removeClass('d-none');
+                        } else {
+                            $('#btnCancelDetail_ExceedOT').addClass('d-none');
+                        }
+
+                        var histRow = GLOBAL_HISTORY_ExceedOT.find(r => r.Identity_ID === id);
+                        if (histRow) {
+                            mData.Approver1_Name = histRow.Approver1_Name;
+                            mData.Approver2_Name = histRow.Approver2_Name;
+                            mData.Approver3_Name = histRow.Approver3_Name;
+                        }
+
+                        renderFlowDiagramDetail_ExceedOT(mData, typeReg);
+
+                        var tbody = $('#detailBody_ExceedOT'); tbody.empty();
+                        if (detData.length === 0) {
+                            tbody.html(`<tr><td colspan="7" class="text-center py-4 text-muted">%NoDetailData_ExceedOT%</td></tr>`);
+                        } else {
+                            detData.forEach((row, idx) => {
+                                var limitTypeBadge = `<span class="fw-bold text-danger" style="font-size:0.8rem;">${row.LimitType}</span>`;
+                                var tCurrent = parseFloat(row.CurrentTotalOT).toFixed(1);
+                                var tPlanned = parseFloat(row.PlannedOT_Hours).toFixed(1);
+                                var tTotal = (parseFloat(row.CurrentTotalOT) + parseFloat(row.PlannedOT_Hours)).toFixed(1);
+
+                                var nameHtml = row.FullName || 'N/A';
+                                var eTypeID = parseInt(row.IsDirect);
+                                if (isNaN(eTypeID)) eTypeID = 1;
+
+                                if (eTypeID === 0) {
+                                    nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> Khối Gián Tiếp</span>`;
+                                } else if (eTypeID === 1 || eTypeID === 2) {
+                                    nameHtml += `<br><span class="badge bg-info text-dark mt-1 border border-info shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-gear-wide-connected"></i> Khối Trực Tiếp</span>`;
+                                }
+
+                                tbody.append(`
+                                      <tr class="emp-row-det">
+                                          <td class="text-muted fw-bold">${idx + 1}</td>
+                                          <td class="fw-bold text-primary">${row.EmployeeID}</td>
+                                          <td class="text-start fw-bold text-primary">${nameHtml}</td>
+                                          <td>${limitTypeBadge}</td>
+                                          <td class="fw-bold text-secondary">${tCurrent}h</td>
+                                          <td class="fw-bold text-warning" style="color: #d97706!important;">+ ${tPlanned}h</td>
+                                          <td class="text-primary fw-bold">${tTotal}h</td>
+                                      </tr>
+                                  `);
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function searchEmployeeDetail_ExceedOT() {
+        var keyword = $('#searchEmpDetailInput_ExceedOT').val().toLowerCase();
+        $('#detailBody_ExceedOT tr.emp-row-det').each(function () {
+            var tr = $(this), name = tr.find('td:eq(2)').text().toLowerCase(), code = tr.find('td:eq(1)').text().toLowerCase();
+            if (name.indexOf(keyword) > -1 || code.indexOf(keyword) > -1) tr.show(); else tr.hide();
+        });
+    }
+
+    function renderFlowDiagramDetail_ExceedOT(data, typeReg) {
+        var wrap = $('#flowWrapperContainer_ExceedOT_Clean'); wrap.empty();
+        var maxLevel = 3;
+        var curLvl = parseInt(data.Current_Approved_Level);
+        var status = parseInt(data.Approve_Status);
+
+        var n1Name = data.Approver1_Name || getEmpNameFallback_ExceedOT(data.Approver_1);
+        var n2Name = data.Approver2_Name || getEmpNameFallback_ExceedOT(data.Approver_2);
+        var n3Name = data.Approver3_Name || getEmpNameFallback_ExceedOT(data.Approver_3) || 'J0038 - SHIMADA MINORU';
+
+        var nodes = [
+            { id: data.Approver_1, name: n1Name, remark: data.ApproverRemark_1, date: data.ApproveDate_1, label: "%Level1_ExceedOT%" },
+            { id: data.Approver_2, name: n2Name, remark: data.ApproverRemark_2, date: data.ApproveDate_2, label: "%Level2_ExceedOT%" },
+            { id: data.Approver_3, name: n3Name, remark: data.ApproverRemark_3, date: data.ApproveDate_3, label: "%Level3_ExceedOT%" }
+        ];
+
+        for (let i = 0; i < maxLevel; i++) {
+            let n = nodes[i];
+
+            if (n.id === 'SKIP') {
+                let lineHtml = (i < maxLevel - 1) ? `<div class="flow-line_ExceedOT active"></div>` : '';
+                wrap.append(`
+                      <div class="flow-node_ExceedOT">
+                          <label class="fw-bold text-dark mb-0">${n.label}</label>
+                          <div class="flow-node-name_ExceedOT text-info fw-bold"><small>%OtherSkip_ExceedOT%</small></div>
+                          <div class="avt-wrapper_ExceedOT">
+                              ${lineHtml}
+                              <div class="avt-img_ExceedOT skipped shadow-sm"><i class="bi bi-fast-forward-fill"></i></div>
+                          </div>
+                          <div class="remark-box_ExceedOT bg-info-subtle border-info text-info-emphasis fw-bold">%SystemSkip_ExceedOT%</div>
+                      </div>
+                  `);
+                continue;
+            }
+
+            let hasActed = (n.date && n.date !== "" && n.date !== "null" && n.date !== null);
+            let isDone = false, isReject = false, isCurrent = false;
+
+            if (hasActed) {
+                if (status === 3 && curLvl === (i + 1)) isReject = true;
+                else isDone = true;
+            } else {
+                if ((status === 1 || status === 5) && curLvl === (i + 1)) isCurrent = true;
+            }
+            if ((status === 2 || status === 4) && i < maxLevel) isDone = true;
+
+            let iconClass = "bi-person-fill";
+            let avtClass = "avt-img_ExceedOT";
+            let lineClass = "flow-line_ExceedOT";
+            let remarkHtml = "";
+
+            if (isDone) {
+                iconClass = "bi-check-lg"; avtClass += " done"; lineClass += " active";
+                let actText = (status === 4 || status === 5) ? "%ApprovedCancel_ExceedOT%" : "%HasApproved_ExceedOT%";
+                let remarkText = n.remark ? `<hr class="my-1 border-secondary" style="opacity:0.2;">"${n.remark}"` : '';
+                remarkHtml = `<div class="remark-box_ExceedOT"><span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> ${actText}</span><br><span class="text-muted" style="font-size:0.7rem;">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${remarkText}</div>`;
+            } else if (isReject) {
+                iconClass = "bi-x-lg"; avtClass += " reject";
+                let remarkText = n.remark ? `<hr class="my-1 border-secondary" style="opacity:0.2;">"${n.remark}"` : '';
+                remarkHtml = `<div class="remark-box_ExceedOT"><span class="text-danger fw-bold"><i class="bi bi-x-circle-fill"></i> %Rejected_ExceedOT%</span><br><span class="text-muted" style="font-size:0.7rem;">${n.date ? moment(n.date).format('DD/MM HH:mm') : ''}</span>${remarkText}</div>`;
+            } else if (isCurrent) {
+                iconClass = "bi-hourglass-split"; avtClass += " pending";
+                let waitText = (status === 5) ? "%WaitingApproveCancel_ExceedOT%" : "%WaitingApprove_ExceedOT%";
+                remarkHtml = `<div class="remark-box_ExceedOT shadow-sm"><span class="text-warning fw-bold" style="color: #d97706 !important;">${waitText}</span></div>`;
+            } else {
+                remarkHtml = `<div class="remark-box_ExceedOT" style="opacity: 0.4;">%NotYourTurn_ExceedOT%</div>`;
+            }
+
+            let lineHtml = (i < maxLevel - 1) ? `<div class="${lineClass}"></div>` : '';
+            let displayApprover = n.id ? (n.name ? `${n.id} - ${n.name}` : n.id) : 'N/A';
+
+            wrap.append(`
+                  <div class="flow-node_ExceedOT">
+                      <label class="fw-bold text-dark mb-0">${n.label}</label>
+                      <div class="flow-node-name_ExceedOT text-primary fw-bold"><small>${displayApprover}</small></div>
+                      <div class="avt-wrapper_ExceedOT">
+                          ${lineHtml}
+                          <div class="avt-img_ExceedOT shadow-sm ${avtClass}"><i class="bi ${iconClass}"></i></div>
+                      </div>
+                      ${remarkHtml}
+                  </div>
+              `);
+        }
+    }
+
+    window.requestCancelMaster_ExceedOT = function () {
+        if (!CURRENT_ID_ExceedOT) return;
+        showConfirmPopup({
+            title: "%ConfirmCancelTitle_ExceedOT%",
+            message: "%ConfirmCancelMsg_ExceedOT%",
+            icon: "bi-trash",
+            onYes: function () {
+                $('#loader_Global_ExceedOT').removeClass('d-none');
+                AjaxHPAParadise({
+                    data: { name: "API_OTExceed_CancelMaster", param: ["Identity_ID", CURRENT_ID_ExceedOT, "LoginID", LoginID] },
+                    success: function (res) {
+                        $('#loader_Global_ExceedOT').addClass('d-none');
+                        var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
+                        if (parsedRes.result === "success") {
+                            uiManager.showAlert({ type: "success", message: "%ProcessedSuccess_ExceedOT%" });
+                            viewDetails_ExceedOT(CURRENT_ID_ExceedOT);
+                        } else uiManager.showAlert({ type: "error", message: parsedRes.reason });
+                    }
+                });
+            }
+        });
+    }
+</script>

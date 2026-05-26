@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="vi" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyệt Đơn HR - Premium UI</title>
+
+    <!-- Link thư viện để test (Theo yêu cầu) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        :root {
+            /* Palette: Emerald & Deep Dark */
+            --primary-emerald: #10b981;
+            --primary-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            --bg-deep: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --hr-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 100px;
+        }
+
+        .premium-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Header Premium */
+        .premium-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--primary-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title i {
+            -webkit-text-fill-color: var(--primary-emerald);
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4));
+        }
+
+        /* Tabs Modern */
+        .premium-tabs {
+            display: flex;
+            gap: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid var(--border-glass);
+            width: fit-content;
+            margin-bottom: 30px;
+        }
+
+        .tab-item {
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--hr-transition);
+        }
+
+        .tab-item.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Glass Filter */
+        .glass-filter {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .filter-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-emerald);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hr-control {
+            background: rgba(15, 23, 42, 0.5) !important;
+            border: 1px solid var(--border-glass) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            padding: 12px 16px !important;
+            font-size: 0.9rem !important;
+            transition: var(--hr-transition) !important;
+        }
+
+        .hr-control:focus {
+            border-color: var(--primary-emerald) !important;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15) !important;
+        }
+
+        /* List Styling */
+        .premium-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .request-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--hr-transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .request-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .checkbox-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-glass);
+            border-radius: 7px;
+            cursor: pointer;
+            transition: var(--hr-transition);
+            position: relative;
+        }
+
+        .custom-checkbox:checked {
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+
+        .custom-checkbox:checked::after {
+            content: '\F26E';
+            font-family: 'bootstrap-icons';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+        }
+
+        .card-main-info {
+            flex-grow: 1;
+            display: grid;
+            grid-template-columns: 2.5fr 1.2fr 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .important-leave {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            display: block;
+        }
+
+        .blur-leave {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .badge-premium {
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pill {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .view-btn-premium {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--hr-transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn-premium:hover {
+            background: #fff;
+            color: var(--bg-deep);
+            transform: scale(1.05);
+        }
+
+        /* Bulk Bar Glass */
+        .premium-bulk-bar {
+            display: none;
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(16, 185, 129, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 12px 30px;
+            border-radius: 100px;
+            color: white;
+            z-index: 2000;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            align-items: center;
+            gap: 25px;
+            animation: slideUpPremium 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUpPremium {
+            from {
+                bottom: -100px;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 40px;
+                opacity: 1;
+            }
+        }
+
+        /* Pagination Premium */
+        .premium-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--hr-transition);
+            cursor: pointer;
+        }
+
+        .page-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .page-btn:hover:not(.active) {
+            border-color: var(--primary-emerald);
+            color: var(--primary-emerald);
+        }
+
+        /* Skeleton Shimmer Premium */
+        .skeleton-premium {
+            height: 110px;
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--card-bg) 25%, rgba(255, 255, 255, 0.05) 50%, var(--card-bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmerPremium 2s infinite linear;
+        }
+
+        @keyframes shimmerPremium {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 992px) {
+            .card-main-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .premium-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .header-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="premium-container">
+        <!-- Header -->
+        <header class="premium-header">
+            <h1 class="header-title">
+                <i class="bi bi-shield-lock-fill"></i>
+                DUYỆT ĐƠN NHÂN SỰ
+            </h1>
+            <button class="btn btn-success rounded-pill px-4 fw-bold shadow-lg border-0"
+                style="background: var(--primary-gradient);" onclick="reloadData()">
+                <i class="bi bi-arrow-repeat me-2"></i> LÀM MỚI DỮ LIỆU
+            </button>
+        </header>
+
+        <!-- Tabs -->
+        <div class="premium-tabs">
+            <a href="#" class="tab-item active" onclick="setTab(-1, this)">Tất cả (4)</a>
+            <a href="#" class="tab-item" onclick="setTab(1, this)">Chờ duyệt (0)</a>
+            <a href="#" class="tab-item" onclick="setTab(2, this)">Đã duyệt (4)</a>
+            <a href="#" class="tab-item" onclick="setTab(3, this)">Từ chối (0)</a>
+        </div>
+
+        <!-- Filter -->
+        <div class="glass-filter">
+            <div class="filter-title">
+                <i class="bi bi-sliders2-vertical"></i> BỘ LỌC THÔNG MINH
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-4">
+                    <label class="small text-muted mb-2 fw-bold">LOẠI ĐƠN</label>
+                    <select id="filterTypeID" class="form-select hr-control">
+                        <option value="all">Tất cả loại đơn</option>
+                        <option value="7">Bản giải trình chấm công</option>
+                        <option value="8">Giấy xác nhận công tác</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <label class="small text-muted mb-2 fw-bold">TỪ NGÀY</label>
+                    <input type="date" id="filterFromDate" class="form-control hr-control">
+                </div>
+                <div class="col-lg-3">
+                    <label class="small text-muted mb-2 fw-bold">ĐẾN NGÀY</label>
+                    <input type="date" id="filterToDate" class="form-control hr-control">
+                </div>
+                <div class="col-lg-2 d-flex align-items-end">
+                    <button class="btn btn-success w-100 h-100 rounded-3 border-0 fw-bold"
+                        style="background: var(--primary-gradient); min-height: 48px;" onclick="applyAdvancedFilter()">
+                        ÁP DỤNG
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+            <div class="text-muted small">
+                Hiển thị <b class="text-white" id="totalDisplay">0</b> kết quả
+            </div>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text bg-transparent border-end-0 border-glass text-muted"><i
+                            class="bi bi-search"></i></span>
+                    <input type="text" id="filterSearch"
+                        class="form-control bg-transparent border-start-0 border-glass text-white shadow-none"
+                        placeholder="Tìm tên, mã NV...">
+                </div>
+                <div class="form-check m-0 d-flex align-items-center gap-2">
+                    <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll"
+                        onclick="toggleSelectAll(this)">
+                    <label class="form-check-label small fw-bold text-muted" for="selectAll"
+                        style="cursor: pointer;">CHỌN TẤT CẢ</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- List Content -->
+        <div id="hrList" class="premium-list">
+            <!-- Skeletons go here -->
+        </div>
+
+        <!-- Pagination -->
+        <div id="hrPagination" class="premium-pagination"></div>
+    </div>
+
+    <!-- Bulk Action Bar -->
+    <div id="bulkBar" class="premium-bulk-bar">
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-check2-all fs-4"></i>
+            <span class="fw-bold">Đã chọn <span id="selectedCount">0</span> mục</span>
+        </div>
+        <div class="vr mx-2" style="height: 30px; background: rgba(255,255,255,0.3);"></div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-white btn-sm rounded-pill px-4 fw-bold shadow"
+                style="background: #fff; color: var(--primary-emerald);" onclick="bulkApprove()">
+                DUYỆT NGAY
+            </button>
+            <button class="btn btn-link btn-sm text-white text-decoration-none fw-bold" onclick="clearSelection()">
+                HỦY
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // DỮ LIỆU MẪU CHUẨN CỦA BẠN
+        const rawData = [
+            {
+                ViewDetail: "openFormParam('timekeeping_explanation_approve', {'@IdentityID':'E3C7CEFF-C6C5-45E9-B6FE-0E0D5260A414','@IsHR':'1'});",
+                Content: "<span class='important-leave'>Bản giải trình chấm công</span><span class='blur-leave'>32091 - Vũ Văn Hàng</span><span class='blur-leave'>Ngày yêu cầu: 17/04</span>",
+                Approve: "<span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 1: 10003 - Nguyễn Thành Lễ</span>",
+                ApproveStatus: "<span class='badge-premium status-pill'>Đã duyệt</span>",
+                IconView: "<i class='bi bi-patch-check-fill fs-4'></i>",
+                CreateTime: "04/05/2026 08:48:22",
+                TypeID: "7"
+            },
+            {
+                ViewDetail: "openFormParam('timekeeping_explanation_approve', {'@IdentityID':'7E3B7143-1C93-4F35-9570-B0661FC3DA7B','@IsHR':'1'});",
+                Content: "<span class='important-leave'>Bản giải trình chấm công</span><span class='blur-leave'>220500 - Lê Phước Khánh</span><span class='blur-leave'>Ngày yêu cầu: 02/04</span>",
+                Approve: "<span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 1: 10003 - Nguyễn Thành Lễ</span>",
+                ApproveStatus: "<span class='badge-premium status-pill'>Đã duyệt</span>",
+                IconView: "<i class='bi bi-patch-check-fill fs-4'></i>",
+                CreateTime: "02/05/2026 09:00:45",
+                TypeID: "7"
+            },
+            {
+                ViewDetail: "openFormParam('employment_certificate_approve', {'@IdentityID':'0DEB0D4B-FEE4-471C-8376-A7626B80FE5B','@IsHR':'1'});",
+                Content: "<span class='important-leave'>Giấy xác nhận công tác</span><span class='blur-leave'>250170 - Phạm Thị Hương (Trong nước)</span><span class='blur-leave'>Lý do: Khám sức khỏe cùng Mr.Hosoi</span><span class='blur-leave'>Thời gian: 29/04/2026 -> 29/04/2026 (3.5 giờ)</span>",
+                Approve: "<span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 1: 10046 - Trần Thị Thanh Hà</span><br><span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 2: 10001 - HENRY TAN PHAM</span>",
+                ApproveStatus: "<span class='badge-premium status-pill'>Đã duyệt</span>",
+                IconView: "<i class='bi bi-patch-check-fill fs-4'></i>",
+                CreateTime: "28/04/2026 13:05:40",
+                TypeID: "8"
+            },
+            {
+                ViewDetail: "openFormParam('employment_certificate_approve', {'@IdentityID':'866DFE8E-A4C8-4EAD-B2D4-A6A8D7B20B81','@IsHR':'1'});",
+                Content: "<span class='important-leave'>Giấy xác nhận công tác</span><span class='blur-leave'>250170 - Phạm Thị Hương (Trong nước)</span><span class='blur-leave'>Lý do: Visa hàn quốc, phòng xnc</span><span class='blur-leave'>Thời gian: 23/04/2026 -> 23/04/2026 (2.5 giờ)</span>",
+                Approve: "<span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 1: 10046 - Trần Thị Thanh Hà</span><br><span class='blur-leave'><i class='bi bi-person-check me-1'></i>Người duyệt 2: 10001 - HENRY TAN PHAM</span>",
+                ApproveStatus: "<span class='badge-premium status-pill'>Đã duyệt</span>",
+                IconView: "<i class='bi bi-patch-check-fill fs-4'></i>",
+                CreateTime: "23/04/2026 11:32:40",
+                TypeID: "8"
+            }
+        ];
+
+        let filteredData = [...rawData];
+        let currentPage = 1;
+        const pageSize = 10;
+        let selectedIds = new Set();
+
+        $(document).ready(function () {
+            renderData();
+            $('#filterSearch').on('input', debounceSearch);
+        });
+
+        function renderSkeleton() {
+            let html = '';
+            for (let i = 0; i < 4; i++) html += '<div class="skeleton-premium"></div>';
+            $('#hrList').html(html);
+        }
+
+        function renderData() {
+            renderSkeleton();
+
+            setTimeout(() => {
+                const start = (currentPage - 1) * pageSize;
+                const end = start + pageSize;
+                const pageData = filteredData.slice(start, end);
+
+                $('#totalDisplay').text(filteredData.length);
+
+                let html = '';
+                if (pageData.length === 0) {
+                    html = '<div class="text-center py-5 text-muted"><i class="bi bi-inbox fs-1 d-block mb-2"></i>Không tìm thấy dữ liệu</div>';
+                } else {
+                    pageData.forEach(item => {
+                        const isChecked = selectedIds.has(item.ViewDetail);
+                        html += `
+                            <div class="request-card" onclick="toggleItemSelect('${item.ViewDetail.replace(/'/g, "\\'")}', event)">
+                                <div class="checkbox-container" onclick="event.stopPropagation()">
+                                    <input type="checkbox" class="custom-checkbox row-checkbox" 
+                                        ${isChecked ? 'checked' : ''} 
+                                        onchange="handleRowCheck('${item.ViewDetail.replace(/'/g, "\\'")}', this)">
+                                </div>
+                                <div class="card-main-info">
+                                    <div class="info-content">
+                                        ${item.Content}
+                                        <div class="mt-2 border-start border-glass ps-3">${item.Approve}</div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-lg-center gap-2">
+                                        <div class="status-badge">${item.ApproveStatus}</div>
+                                        <div class="text-success">${item.IconView}</div>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end gap-3">
+                                        <span class="time-label"><i class="bi bi-calendar3 me-1"></i>${item.CreateTime}</span>
+                                        <button class="view-btn-premium" onclick="event.stopPropagation(); ${item.ViewDetail}">
+                                            XEM CHI TIẾT
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                $('#hrList').html(html);
+                renderPagination();
+                updateBulkBar();
+            }, 500);
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredData.length / pageSize);
+            let html = '';
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    html += `<a class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</a>`;
+                }
+            }
+            $('#hrPagination').html(html);
+        }
+
+        function changePage(p) {
+            currentPage = p;
+            renderData();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function applyAdvancedFilter() {
+            const typeID = $('#filterTypeID').val();
+            const fromStr = $('#filterFromDate').val();
+            const toStr = $('#filterToDate').val();
+            const searchVal = $('#filterSearch').val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+            const fromDate = fromStr ? new Date(fromStr) : null;
+            const toDate = toStr ? new Date(toStr) : null;
+            if (toDate) toDate.setHours(23, 59, 59);
+
+            filteredData = rawData.filter(item => {
+                const matchType = (typeID === 'all' || item.TypeID == typeID);
+                const itemDate = parseSqlDate(item.CreateTime);
+                const matchFrom = !fromDate || (itemDate >= fromDate);
+                const matchTo = !toDate || (itemDate <= toDate);
+                const text = (item.Content + item.Approve).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                const matchSearch = !searchVal || text.includes(searchVal);
+                return matchType && matchFrom && matchTo && matchSearch;
+            });
+
+            currentPage = 1;
+            renderData();
+        }
+
+        let searchTimer;
+        function debounceSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(applyAdvancedFilter, 400);
+        }
+
+        function parseSqlDate(dateStr) {
+            if (!dateStr) return null;
+            let parts = dateStr.split(' ')[0].split('/');
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
+        function handleRowCheck(id, el) {
+            if (el.checked) selectedIds.add(id);
+            else selectedIds.delete(id);
+            updateBulkBar();
+        }
+
+        function toggleItemSelect(id, event) {
+            if (event.target.closest('button') || event.target.closest('input')) return;
+            const checkbox = $(`.request-card`).find(`input[onchange*="${id}"]`);
+            checkbox.prop('checked', !checkbox.prop('checked'));
+            handleRowCheck(id, checkbox[0]);
+        }
+
+        function toggleSelectAll(el) {
+            const isChecked = el.checked;
+            filteredData.forEach(item => {
+                if (isChecked) selectedIds.add(item.ViewDetail);
+                else selectedIds.delete(item.ViewDetail);
+            });
+            renderData();
+        }
+
+        function updateBulkBar() {
+            const count = selectedIds.size;
+            if (count > 0) {
+                $('#bulkBar').css('display', 'flex');
+                $('#selectedCount').text(count);
+            } else {
+                $('#bulkBar').hide();
+                $('#selectAll').prop('checked', false);
+            }
+        }
+
+        function clearSelection() {
+            selectedIds.clear();
+            renderData();
+        }
+
+        async function bulkApprove() {
+            const ids = Array.from(selectedIds);
+            const payload = JSON.stringify({ action: 'approve', items: ids });
+
+            if (typeof uiManager !== 'undefined') {
+                uiManager.showAlert({ type: "info", message: `Đang duyệt ${ids.length} mục...` });
+            } else {
+                alert(`Đang duyệt ${ids.length} mục... (Check Console)`);
+            }
+
+            console.log("Bulk Payload:", payload);
+
+            setTimeout(() => {
+                if (typeof uiManager !== 'undefined') {
+                    uiManager.showAlert({ type: "success", message: "Đã duyệt hàng loạt thành công!" });
+                } else {
+                    alert("Thành công!");
+                }
+                clearSelection();
+            }, 1000);
+        }
+
+        function reloadData() {
+            renderData();
+            if (typeof uiManager !== 'undefined') {
+                uiManager.showAlert({ type: "success", message: "Đã làm mới dữ liệu!" });
+            }
+        }
+
+        function setTab(type, el) {
+            $('.tab-item').removeClass('active');
+            $(el).addClass('active');
+            // Logic lọc tab tương tự applyAdvancedFilter
+        }
+    </script>
+</body>
+
+</html>
