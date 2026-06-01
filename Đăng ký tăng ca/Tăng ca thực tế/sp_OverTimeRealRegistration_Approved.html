@@ -1,4 +1,6 @@
-<style>
+﻿
+
+        <style>
     :root {
         --primary-app: #0ea5e9;
         --bg-app: #f4f6f8;
@@ -156,7 +158,7 @@
         color: #166534 !important;
     }
 
-    .flow-wrapper_OTConfirmAV {
+ .flow-wrapper_OTConfirmAV {
         display: flex;
         justify-content: space-between;
         align-items: stretch;
@@ -269,6 +271,46 @@
     .date-wrap_OTConfirmAV {
         position: relative;
         width: 100%;
+    }
+
+    .datebox_OTConfirmAV {
+        height: 32px;
+    }
+
+    .datebox_OTConfirmAV .dx-texteditor {
+        background-color: var(--bs-body-bg);
+        border-color: var(--paradise-color-input-border, var(--bs-border-color));
+        color: var(--bs-body-color);
+        border-radius: 6px;
+        cursor: pointer;
+        height: 32px;
+        min-height: 32px;
+    }
+
+    .datebox_OTConfirmAV .dx-texteditor.dx-state-hover {
+        border-color: var(--paradise-color-input-border-hover, var(--bs-primary));
+    }
+
+    .datebox_OTConfirmAV .dx-texteditor-container,
+    .datebox_OTConfirmAV .dx-dropdowneditor-input-wrapper,
+    .datebox_OTConfirmAV .dx-texteditor-buttons-container {
+        height: 30px;
+    }
+
+    .datebox_OTConfirmAV .dx-texteditor-input {
+        color: var(--bs-body-color);
+        font-weight: 700;
+        text-align: center;
+        cursor: pointer;
+        min-height: 30px;
+        height: 30px;
+        padding-right: 30px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .datebox_OTConfirmAV .dx-dropdowneditor-button {
+        display: none;
     }
 
     .date-wrap_OTConfirmAV input[type="text"] {
@@ -561,173 +603,826 @@
     .toggle-btn-row_OTConfirmAV:hover {
         background-color: #f1f5f9;
     }
+
+    .approval-topbar_OTConfirmAV {
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
+        border: 1px solid rgba(14, 165, 233, 0.22);
+        background:
+            linear-gradient(135deg, rgba(14, 165, 233, 0.14), rgba(16, 185, 129, 0.12) 42%, rgba(245, 158, 11, 0.14)),
+            #ffffff;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        margin-bottom: 12px;
+    }
+
+    .approval-topbar_OTConfirmAV::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 18% 15%, rgba(255, 255, 255, 0.75), transparent 28%),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+        pointer-events: none;
+    }
+
+    .approval-topbar-inner_OTConfirmAV {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(260px, 1.15fr) repeat(4, minmax(145px, 0.75fr)) auto;
+        gap: 10px;
+        align-items: stretch;
+        padding: 12px;
+    }
+
+    .approval-title-block_OTConfirmAV {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .approval-title_OTConfirmAV {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #0f172a;
+        font-size: 1.22rem;
+        font-weight: 800;
+    }
+
+    .approval-title_OTConfirmAV i {
+        font-size: 1.38rem;
+    }
+
+    .approval-chart-mini_OTConfirmAV {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        max-width: 360px;
+    }
+
+    .approval-chart-track_OTConfirmAV {
+        height: 9px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.24);
+        display: flex;
+    }
+
+    .approval-chart-seg_OTConfirmAV {
+        min-width: 0;
+        transition: width 0.25s ease;
+    }
+
+    .approval-chart-pending_OTConfirmAV { background: linear-gradient(90deg, #f59e0b, #facc15); }
+    .approval-chart-approved_OTConfirmAV { background: linear-gradient(90deg, #22c55e, #14b8a6); }
+    .approval-chart-rejected_OTConfirmAV { background: linear-gradient(90deg, #ef4444, #be123c); }
+    .approval-chart-cancelled_OTConfirmAV { background: linear-gradient(90deg, #64748b, #334155); }
+
+    .approval-status-legend_OTConfirmAV {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 10px;
+    }
+
+    .approval-status-legend_OTConfirmAV span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #475569;
+        font-size: 0.76rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .approval-status-dot_OTConfirmAV {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .approval-kpi_OTConfirmAV {
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 20px rgba(15, 23, 42, 0.06);
+        padding: 14px;
+        min-height: 86px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .approval-kpi-icon_OTConfirmAV {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.35rem;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .approval-kpi-value_OTConfirmAV {
+        color: #0f172a;
+        font-family: Consolas, monospace;
+        font-size: 2rem;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .approval-kpi-label_OTConfirmAV {
+        color: #64748b;
+        font-size: 0.78rem;
+        font-weight: 800;
+        line-height: 1.15;
+        text-transform: uppercase;
+    }
+
+    .approval-toggle-btn_OTConfirmAV {
+        width: 46px;
+        min-height: 86px;
+        border-radius: 10px;
+        border: 1px solid rgba(14, 165, 233, 0.24);
+        background: rgba(255, 255, 255, 0.75);
+        color: #0369a1;
+        font-weight: 800;
+        transition: all 0.2s ease;
+    }
+
+    .approval-toggle-btn_OTConfirmAV:hover {
+        background: #e0f2fe;
+        color: #075985;
+    }
+
+    .dashboard-details_OTConfirmAV {
+        display: none;
+        padding: 0 12px 12px;
+    }
+
+    .dashboard-modern-grid_OTConfirmAV {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.78fr) minmax(420px, 1.22fr);
+        gap: 12px;
+    }
+
+    .dash-visual-card_OTConfirmAV {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.74);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .dash-visual-inner_OTConfirmAV { position: relative; padding: 12px; }
+    .dash-section-title_OTConfirmAV {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+        color: #0f172a;
+        font-size: 0.86rem;
+        font-weight: 900;
+    }
+
+    .dash-donut-wrap_OTConfirmAV {
+        display: grid;
+        grid-template-columns: 138px 1fr;
+        gap: 14px;
+        align-items: center;
+    }
+
+    .dash-donut_OTConfirmAV {
+        width: 138px;
+        height: 138px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: conic-gradient(#22c55e 0deg, #f97316 0deg, #ef4444 0deg, #e2e8f0 360deg);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.75), 0 16px 28px rgba(15, 23, 42, 0.12);
+    }
+
+    .dash-donut-core_OTConfirmAV {
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+ align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 0 1px #e2e8f0;
+    }
+
+    .dash-donut-core_OTConfirmAV strong {
+        color: #0f172a;
+        font-family: Consolas, monospace;
+        font-size: 1.32rem;
+        line-height: 1;
+    }
+
+    .dash-donut-core_OTConfirmAV span {
+        color: #64748b;
+        font-size: 0.66rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .dash-legend-item_OTConfirmAV {
+        display: grid;
+        grid-template-columns: 10px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+        color: #334155;
+        font-size: 0.76rem;
+        font-weight: 800;
+    }
+
+    .dash-legend-dot_OTConfirmAV {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .dash-legend-value_OTConfirmAV {
+        font-family: Consolas, monospace;
+        color: #0f172a;
+        font-size: 0.92rem;
+        font-weight: 900;
+    }
+
+    .dash-spark-grid_OTConfirmAV {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .dash-spark_OTConfirmAV {
+        border-radius: 10px;
+        padding: 9px;
+        min-height: 64px;
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .dash-spark-num_OTConfirmAV {
+        position: relative;
+        z-index: 1;
+        font-family: Consolas, monospace;
+        font-size: 1.12rem;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .dash-spark-label_OTConfirmAV {
+        position: relative;
+        z-index: 1;
+        margin-top: 4px;
+        font-size: 0.64rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        opacity: 0.92;
+    }
+
+    .dash-type-panels_OTConfirmAV {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .dash-type-panel_OTConfirmAV {
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        overflow: hidden;
+        min-height: 270px;
+    }
+
+    .dash-type-header_OTConfirmAV {
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 900;
+    }
+
+    .dash-group-list_OTConfirmAV {
+        padding: 10px;
+        max-height: 330px;
+        overflow-y: auto;
+    }
+
+    .dash-group-card_OTConfirmAV {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 9px;
+        margin-bottom: 8px;
+        background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .dash-group-top_OTConfirmAV {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .dash-group-name_OTConfirmAV {
+        color: #0f172a;
+        font-size: 0.8rem;
+        font-weight: 900;
+        line-height: 1.25;
+    }
+
+    .dash-group-metrics_OTConfirmAV {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .dash-metric-pill_OTConfirmAV {
+        border-radius: 8px;
+        background: #f1f5f9;
+        padding: 6px;
+        text-align: center;
+    }
+
+    .dash-metric-pill_OTConfirmAV strong {
+        display: block;
+        color: #0f172a;
+        font-family: Consolas, monospace;
+        font-size: 0.95rem;
+        line-height: 1;
+    }
+
+    .dash-metric-pill_OTConfirmAV span {
+        color: #64748b;
+        font-size: 0.58rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .dash-progress_OTConfirmAV {
+        height: 7px;
+        margin-top: 8px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: #e2e8f0;
+    }
+
+    .dash-progress-fill_OTConfirmAV {
+        height: 100%;
+        border-radius: 999px;
+        transition: width 0.25s ease;
+    }
+
+    .dash-empty_OTConfirmAV {
+        height: 210px;
+        display: grid;
+        place-items: center;
+        color: #94a3b8;
+        font-size: 0.8rem;
+        font-weight: 800;
+    }
+
+    .filter-card_OTConfirmAV { border-radius: 12px; margin-bottom: 12px; }
+
+    .filter-main-grid_OTConfirmAV {
+        display: grid;
+        grid-template-columns: minmax(135px, 0.65fr) minmax(460px, 1.55fr) minmax(150px, 0.7fr) minmax(150px, 0.7fr) auto;
+        gap: 8px;
+        align-items: end;
+    }
+
+    .filter-main-grid_OTConfirmAV label {
+        margin-bottom: 2px !important;
+        font-size: 0.68rem !important;
+        line-height: 1.15;
+    }
+
+    .type-segment_OTConfirmAV {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        min-height: 32px;
+        padding: 2px;
+        border: 1px solid var(--border-app);
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+
+    .type-segment_OTConfirmAV .filter-type-btn {
+        flex: 1 1 70px;
+        border-radius: 8px !important;
+        padding: 4px 7px !important;
+        font-size: 0.72rem !important;
+        line-height: 1.15;
+        white-space: nowrap;
+    }
+
+    .type-segment_OTConfirmAV .filter-risk-btn_OTConfirmAV {
+        flex: 1 1 104px;
+        border-radius: 8px !important;
+        padding: 4px 7px !important;
+        font-size: 0.72rem !important;
+        line-height: 1.15;
+        white-space: nowrap;
+    }
+
+    .plan-risk-btn_OTConfirmAV,
+    .plan-risk-badge_OTConfirmAV {
+        color: var(--bs-light) !important;
+        border-color: var(--bs-danger) !important;
+        background: var(--bs-danger) !important;
+    }
+
+    .plan-risk-btn_OTConfirmAV:hover,
+    .plan-risk-btn_OTConfirmAV.active {
+        color: var(--bs-light) !important;
+        border-color: var(--bs-danger) !important;
+        background: var(--bs-danger) !important;
+    }
+
+    .filter-norm-risk-btn_OTConfirmAV {
+        color: var(--bs-warning-text-emphasis, var(--bs-warning)) !important;
+        border-color: rgba(var(--bs-warning-rgb), 0.52) !important;
+        background: rgba(var(--bs-warning-rgb), 0.18) !important;
+    }
+
+    .filter-norm-risk-btn_OTConfirmAV:hover,
+    .filter-norm-risk-btn_OTConfirmAV.active {
+        color: var(--bs-dark) !important;
+        border-color: var(--bs-warning) !important;
+        background: var(--bs-warning) !important;
+    }
+
+    .filter-actions_OTConfirmAV {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .filter-icon-btn_OTConfirmAV {
+        width: 34px;
+        min-width: 34px;
+        height: 32px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    .advanced-filter-panel_OTConfirmAV {
+        display: none;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed #cbd5e1;
+    }
+
+    .advanced-filter-grid_OTConfirmAV {
+        display: grid;
+        grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) minmax(210px, 1.1fr);
+        gap: 10px;
+        align-items: end;
+    }
+
+    .list-card_OTConfirmAV { margin-bottom: 0; }
+    .list-card_OTConfirmAV.is-loading { opacity: 0.72; }
+    #listTableWrap_OTConfirmAV {
+        max-height: calc(100vh - 225px);
+        min-height: 560px;
+    }
+
+    .exceed-norm-row_OTConfirmAV {
+        background-color: rgba(var(--bs-warning-rgb), 0.12) !important;
+        border-left: 3px solid var(--bs-warning);
+    }
+
+    .exceed-norm-row_OTConfirmAV td:nth-child(3) {
+        color: var(--bs-warning-text-emphasis, var(--bs-warning)) !important;
+    }
+
+    .exceed-norm-badge_OTConfirmAV {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 4px;
+        border-radius: 999px;
+        padding: 3px 8px;
+        color: var(--bs-warning-text-emphasis, var(--bs-warning));
+        background: rgba(var(--bs-warning-rgb), 0.18);
+        border: 1px solid rgba(var(--bs-warning-rgb), 0.52);
+        font-size: 0.65rem;
+        font-weight: 800;
+    }
+
+    .exceed-norm-row_OTConfirmAV .actual-calc {
+        color: var(--bs-warning-text-emphasis, var(--bs-warning)) !important;
+    }
+
+    .exceed-norm-list-badge_OTConfirmAV {
+        background: rgba(var(--bs-warning-rgb), 0.18) !important;
+        color: var(--bs-warning-text-emphasis, var(--bs-warning)) !important;
+        border: 1px solid rgba(var(--bs-warning-rgb), 0.52) !important;
+    }
+
+    .shift-group-badge-day_OTConfirmAV {
+        background: var(--bs-success) !important;
+        color: var(--bs-light) !important;
+        border: 1px solid var(--bs-success) !important;
+    }
+
+    .shift-group-badge-night_OTConfirmAV {
+        background: var(--bs-dark) !important;
+        color: var(--bs-light) !important;
+        border: 1px solid var(--bs-secondary) !important;
+    }
+
+    @media (max-width: 1200px) {
+        .approval-topbar-inner_OTConfirmAV { grid-template-columns: repeat(4, minmax(130px, 1fr)) auto; }
+        .approval-title-block_OTConfirmAV { grid-column: 1 / -1; }
+        .dashboard-modern-grid_OTConfirmAV,
+        .dash-type-panels_OTConfirmAV { grid-template-columns: 1fr; }
+        .filter-main-grid_OTConfirmAV { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+        .filter-actions_OTConfirmAV { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 768px) {
+        .approval-topbar-inner_OTConfirmAV,
+        .filter-main-grid_OTConfirmAV,
+        .advanced-filter-grid_OTConfirmAV { grid-template-columns: 1fr; }
+        .approval-toggle-btn_OTConfirmAV { width: 100%; min-height: 38px; }
+        .dash-donut-wrap_OTConfirmAV,
+        .dash-spark-grid_OTConfirmAV { grid-template-columns: 1fr; }
+        .dash-donut_OTConfirmAV { margin: 0 auto; }
+        #listTableWrap_OTConfirmAV { max-height: 68vh; min-height: 360px; }
+    }
 </style>
 
 <div class="wrapper_OTConfirmAV ">
     <div class="container_Approved ">
         <div id="viewList_OTConfirmAV">
-            <div class="row g-3 mb-3" id="dashboardSummaryArea_OTConfirmAV" style="display: none;">
-
-                <div class="col-12">
-                    <div class="dash-card shadow-sm border-primary">
-                        <div
-                            class="dash-header bg-primary-subtle text-primary border-bottom border-primary d-flex justify-content-between align-items-center">
-                            <span><i class="bi bi-pie-chart-fill me-2"></i>%ActualSummary_OTMess%</span>
+            <div id="dashboardSummaryArea_OTConfirmAV" class="approval-topbar_OTConfirmAV" style="display: none;">
+                <div class="approval-topbar-inner_OTConfirmAV">
+                    <div class="approval-title-block_OTConfirmAV">
+                        <div class="approval-title_OTConfirmAV">
+                            <i class="bi bi-pie-chart-fill text-primary"></i>
+                            <span>%ActualSummary_OTMess%</span>
                         </div>
-                        <div class="dash-body py-3 d-flex flex-wrap justify-content-around gap-2 text-center">
-                            <div class="dash-stat-item">
-                                <div class="dash-stat-num text-dark" id="dashTotalForms_OTConfirmAV">0</div>
-                                <div class="dash-stat-label">%Form_OTMess%</div>
+                        <div class="approval-chart-mini_OTConfirmAV">
+                            <div class="approval-chart-track_OTConfirmAV">
+                                <div class="approval-chart-seg_OTConfirmAV approval-chart-pending_OTConfirmAV" id="dashPendingBar_OTConfirmAV" style="width:0%"></div>
+                                <div class="approval-chart-seg_OTConfirmAV approval-chart-approved_OTConfirmAV" id="dashApprovedBar_OTConfirmAV" style="width:0%"></div>
+                                <div class="approval-chart-seg_OTConfirmAV approval-chart-rejected_OTConfirmAV" id="dashRejectedBar_OTConfirmAV" style="width:0%"></div>
+                                <div class="approval-chart-seg_OTConfirmAV approval-chart-cancelled_OTConfirmAV" id="dashCancelledBar_OTConfirmAV" style="width:0%"></div>
                             </div>
-                            <div class="dash-stat-item">
-                                <div class="dash-stat-num text-success" id="dashTotalEmp_OTConfirmAV">0</div>
-                                <div class="dash-stat-label">%EmployeeCount_OTMess%</div>
-                            </div>
-                            <div class="dash-stat-item">
-                                <div class="dash-stat-num text-warning" style="color: #d97706!important;"
-                                    id="dashTotalHrs_OTConfirmAV">0</div>
-                                <div class="dash-stat-label">%TotalOTHours_OTMess%</div>
-                            </div>
-                            <div class="dash-stat-item">
-                                <div class="dash-stat-num text-danger" id="dashTotalRisk_OTConfirmAV">0</div>
-                                <div class="dash-stat-label">%WarningEmpDash_OTMess%</div>
+                            <div class="approval-status-legend_OTConfirmAV">
+                                <span><i class="approval-status-dot_OTConfirmAV" style="background:#f59e0b;"></i>%Pending_OTMess% <b id="dashPendingCount_OTConfirmAV">0</b></span>
+                                <span><i class="approval-status-dot_OTConfirmAV" style="background:#22c55e;"></i>%Approved_OTMess% <b id="dashApprovedCount_OTConfirmAV">0</b></span>
+                                <span><i class="approval-status-dot_OTConfirmAV" style="background:#ef4444;"></i>%Rejected_OTMess% <b id="dashRejectedCount_OTConfirmAV">0</b></span>
+                                <span><i class="approval-status-dot_OTConfirmAV" style="background:#64748b;"></i>%Cancelled_OTMess% <b id="dashCancelledCount_OTConfirmAV">0</b></span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="dash-card shadow-sm border-success h-100">
-                        <div
-                            class="dash-header text-success d-flex justify-content-between bg-success-subtle border-success">
-                            <span><i class="bi bi-calendar2-week-fill me-2"></i>%NormalDay_OTMess%</span>
-                            <span class="badge bg-success" id="dashGroupCountNormal_OTConfirmAV">0
-                                %GroupDivision_OTMess%</span>
+                    <div class="approval-kpi_OTConfirmAV">
+                        <div class="approval-kpi-icon_OTConfirmAV" style="background:linear-gradient(135deg,#0ea5e9,#2563eb);">
+                            <i class="bi bi-files"></i>
                         </div>
-                        <div class="dash-list-container m-0">
-                            <table class="table table-sm table-hover table-borderless mb-0 text-center"
-                                style="font-size: 0.8rem; margin: 0;">
-                                <thead class="table-success text-success" style="position: sticky; top: 0; z-index: 1;">
-                                    <tr>
-                                        <th class="text-start ps-3">%GroupDivision_OTMess%</th>
-                                        <th>%FormUnit_OTMess%</th>
-                                        <th>%Emp_OTMess%</th>
-                                        <th>%TotalHours_OTMess%</th>
-                                        <th>%Status_OTMess%</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashGroupListNormal_OTConfirmAV"></tbody>
-                            </table>
+                        <div>
+                            <div class="approval-kpi-value_OTConfirmAV" id="dashTotalForms_OTConfirmAV">0</div>
+                            <div class="approval-kpi-label_OTConfirmAV">%Form_OTMess%</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="dash-card shadow-sm border-danger h-100">
-                        <div
-                            class="dash-header text-danger d-flex justify-content-between bg-danger-subtle border-danger">
-                            <span><i class="bi bi-calendar2-x-fill me-2"></i>%Holiday_OTMess%</span>
-                            <span class="badge bg-danger" id="dashGroupCountHoliday_OTConfirmAV">0
-                                %GroupDivision_OTMess%</span>
+                    <div class="approval-kpi_OTConfirmAV">
+                        <div class="approval-kpi-icon_OTConfirmAV" style="background:linear-gradient(135deg,#22c55e,#0f766e);">
+                            <i class="bi bi-people-fill"></i>
                         </div>
-                        <div class="dash-list-container m-0">
-                            <table class="table table-sm table-hover table-borderless mb-0 text-center"
-                                style="font-size: 0.8rem; margin: 0;">
-                                <thead class="table-danger text-danger" style="position: sticky; top: 0; z-index: 1;">
-                                    <tr>
-                                        <th class="text-start ps-3">%GroupDivision_OTMess%</th>
-                                        <th>%FormUnit_OTMess%</th>
-                                        <th>%Emp_OTMess%</th>
-                                        <th>%TotalHours_OTMess%</th>
-                                        <th>%Status_OTMess%</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dashGroupListHoliday_OTConfirmAV"></tbody>
-                            </table>
+                        <div>
+                            <div class="approval-kpi-value_OTConfirmAV" id="dashTotalEmp_OTConfirmAV">0</div>
+                            <div class="approval-kpi-label_OTConfirmAV">%EmployeeCount_OTMess%</div>
+                        </div>
+                    </div>
+                    <div class="approval-kpi_OTConfirmAV">
+                        <div class="approval-kpi-icon_OTConfirmAV" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div>
+                            <div class="approval-kpi-value_OTConfirmAV" id="dashTotalHrs_OTConfirmAV">0</div>
+                            <div class="approval-kpi-label_OTConfirmAV">%TotalOTHours_OTMess%</div>
+                        </div>
+                    </div>
+                    <div class="approval-kpi_OTConfirmAV">
+                        <div class="approval-kpi-icon_OTConfirmAV" style="background:linear-gradient(135deg,#ef4444,#be123c);">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div>
+                            <div class="approval-kpi-value_OTConfirmAV" id="dashTotalRisk_OTConfirmAV">0</div>
+                            <div class="approval-kpi-label_OTConfirmAV">%WarningEmpDash_OTMess%</div>
+                        </div>
+                    </div>
+                    <button type="button" class="approval-toggle-btn_OTConfirmAV" id="btnToggleDashboard_OTConfirmAV"
+                        onclick="toggleDashboardDetails_OTConfirmAV()" title="%ActualSummary_OTMess%">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                    </button>
+                </div>
+                <div class="dashboard-details_OTConfirmAV" id="dashboardDetails_OTConfirmAV">
+                    <div class="dashboard-modern-grid_OTConfirmAV">
+                        <div class="dash-visual-card_OTConfirmAV">
+                            <div class="dash-visual-inner_OTConfirmAV">
+                                <div class="dash-section-title_OTConfirmAV">
+                                    <span><i class="bi bi-pie-chart-fill text-primary me-1"></i>%ActualSummary_OTMess%</span>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" id="dashGroupTotalCount_OTConfirmAV">0 %Group_OTMess%</span>
+                                </div>
+                                <div class="dash-donut-wrap_OTConfirmAV">
+                                    <div class="dash-donut_OTConfirmAV" id="dashTypeDonut_OTConfirmAV">
+                                        <div class="dash-donut-core_OTConfirmAV">
+                                            <strong id="dashDonutTotal_OTConfirmAV">0</strong>
+                                            <span>%Form_OTMess%</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="dash-legend-item_OTConfirmAV">
+                                            <i class="dash-legend-dot_OTConfirmAV" style="background:#22c55e;"></i>
+                                            <span>%NormalDay_OTMess%</span>
+                                            <span class="dash-legend-value_OTConfirmAV" id="dashNormalForms_OTConfirmAV">0</span>
+                                        </div>
+                                        <div class="dash-legend-item_OTConfirmAV">
+                                            <i class="dash-legend-dot_OTConfirmAV" style="background:#f97316;"></i>
+                                            <span>%Holiday_OTMess%</span>
+                                            <span class="dash-legend-value_OTConfirmAV" id="dashHolidayForms_OTConfirmAV">0</span>
+                                        </div>
+                                        <div class="dash-legend-item_OTConfirmAV">
+                                            <i class="dash-legend-dot_OTConfirmAV" style="background:#ef4444;"></i>
+                                            <span>%WarningEmpDash_OTMess%</span>
+                                            <span class="dash-legend-value_OTConfirmAV" id="dashRiskForms_OTConfirmAV">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dash-spark-grid_OTConfirmAV">
+                                    <div class="dash-spark_OTConfirmAV" style="background:linear-gradient(135deg,#06b6d4,#2563eb);">
+                                        <div class="dash-spark-num_OTConfirmAV" id="dashAvgEmp_OTConfirmAV">0</div>
+                                        <div class="dash-spark-label_OTConfirmAV">%Emp_OTMess% / %Form_OTMess%</div>
+                                    </div>
+                                    <div class="dash-spark_OTConfirmAV" style="background:linear-gradient(135deg,#a855f7,#ec4899);">
+                                        <div class="dash-spark-num_OTConfirmAV" id="dashAvgHrs_OTConfirmAV">0h</div>
+                                        <div class="dash-spark-label_OTConfirmAV">%TotalHours_OTMess% / %Form_OTMess%</div>
+                                    </div>
+                                    <div class="dash-spark_OTConfirmAV" style="background:linear-gradient(135deg,#f97316,#ef4444);">
+                                        <div class="dash-spark-num_OTConfirmAV" id="dashRiskRate_OTConfirmAV">0%</div>
+                                        <div class="dash-spark-label_OTConfirmAV">%WarningEmpDash_OTMess%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dash-type-panels_OTConfirmAV">
+                            <div class="dash-type-panel_OTConfirmAV">
+                                <div class="dash-type-header_OTConfirmAV" style="background:linear-gradient(135deg,#16a34a,#14b8a6);">
+                                    <span><i class="bi bi-calendar2-week-fill me-1"></i>%NormalDay_OTMess%</span>
+                                    <span class="badge" id="dashGroupCountNormal_OTConfirmAV">0 %Group_OTMess%</span>
+                                </div>
+                                <div class="dash-group-list_OTConfirmAV" id="dashGroupListNormal_OTConfirmAV"></div>
+                            </div>
+                            <div class="dash-type-panel_OTConfirmAV">
+                                <div class="dash-type-header_OTConfirmAV" style="background:linear-gradient(135deg,#f97316,#e11d48);">
+                                    <span><i class="bi bi-calendar2-x-fill me-1"></i>%Holiday_OTMess%</span>
+                                    <span class="badge" id="dashGroupCountHoliday_OTConfirmAV">0 %Group_OTMess%</span>
+                                </div>
+                                <div class="dash-group-list_OTConfirmAV" id="dashGroupListHoliday_OTConfirmAV"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card_OTConfirmAV shadow-sm">
+            <div class="card_OTConfirmAV shadow-sm filter-card_OTConfirmAV">
                 <div class="card-body_OTConfirmAV py-3">
-                    <div class="row g-2 align-items-end">
-                        <div class="col-xl-3 col-lg-3 col-md-6">
-                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">Status</label>
+                    <div class="filter-main-grid_OTConfirmAV">
+                        <div>
+                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">%Status_OTMess%</label>
                             <select id="fltStatus_OTConfirmAV"
-                                class="form-select input-flt_OTConfirmAV text-start text-primary">
-                                <option value="-1">All</option>
-                                <option value="1" selected>Pending</option>
-                                <option value="2">Approved</option>
-                                <option value="3">Rejected</option>
-                                <option value="4">Cancelled</option>
-                                <option value="5">Request Cancel</option>
+                                class="form-select input-flt_OTConfirmAV text-start text-primary"
+                                onchange="scheduleApprovalReload_OTConfirmAV(true)">
+                                    <option value="-1">%All_OTMess%</option>
+                                    <option value="1" selected>%Pending_OTMess%</option>
+                                    <option value="2">%Approved_OTMess%</option>
+                                    <option value="3">%Rejected_OTMess%</option>
+                                    <option value="4">%Cancelled_OTMess%</option>
                             </select>
                         </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6">
-                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">From
-                                Date</label>
-                            <div class="date-wrap_OTConfirmAV">
-                                <input type="text" id="fltFromDate_OTConfirmAV"
-                                    class="input-flt_OTConfirmAV w-100 text-primary" placeholder="DD/MM/YYYY"
-                                    maxlength="10" oninput="formatDateInput_OTConfirmAV(this)">
-                                <i class="bi bi-calendar-date"></i>
-                                <input type="date" onchange="syncDate_OTConfirmAV(this, '#fltFromDate_OTConfirmAV')">
+                        <div>
+                            <label class="text-muted mb-1"
+                                style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-funnel"></i>
+                                %QuickFilter_OTMess%</label>
+                            <div class="type-segment_OTConfirmAV">
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-success fw-bold filter-type-btn"
+                                    data-val="1" onclick="toggleQuickTypeFilter_OTConfirmAV(this, 1)">%NormalDay_OTMess%</button>
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-danger fw-bold filter-type-btn"
+                                    data-val="2" onclick="toggleQuickTypeFilter_OTConfirmAV(this, 2)">%Holiday_OTMess%</button>
+                                <button type="button"
+                                    class="btn btn-sm fw-bold filter-risk-btn_OTConfirmAV plan-risk-btn_OTConfirmAV"
+                                    onclick="toggleQuickPlanRiskFilter_OTConfirmAV(this)">
+                                    <i class="bi bi-graph-up-arrow"></i> %DeviatePlan_OTMess%
+                                </button>
+                                <button type="button"
+                                    class="btn btn-sm fw-bold filter-risk-btn_OTConfirmAV filter-norm-risk-btn_OTConfirmAV"
+                                    onclick="toggleQuickNormRiskFilter_OTConfirmAV(this)">
+                                    <i class="bi bi-shield-exclamation"></i> %ExceedNormEmployee_OTActualMess%
+                                </button>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6">
-                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">To Date</label>
-                            <div class="date-wrap_OTConfirmAV">
-                                <input type="text" id="fltToDate_OTConfirmAV"
-                                    class="input-flt_OTConfirmAV w-100 text-primary" placeholder="DD/MM/YYYY"
-                                    maxlength="10" oninput="formatDateInput_OTConfirmAV(this)">
+                        <div>
+                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">%FromDate_OTMess%</label>
+                            <div class="date-wrap_OTConfirmAV shadow-sm">
+                                <div id="fltFromDate_OTConfirmAV" class="datebox_OTConfirmAV"></div>
                                 <i class="bi bi-calendar-date"></i>
-                                <input type="date" onchange="syncDate_OTConfirmAV(this, '#fltToDate_OTConfirmAV')">
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 text-end d-flex gap-2">
-                            <button class="btn btn-light border w-100 fw-bold shadow-sm"
-                                style="height: 35px; font-size: 0.85rem;" onclick="initPortal_OTConfirmAV()">
-                                <i class="bi bi-arrow-clockwise"></i> This Month
+                        <div>
+                            <label class="text-muted mb-1" style="font-size:0.75rem; font-weight:bold;">%ToDate_OTMess%</label>
+                            <div class="date-wrap_OTConfirmAV shadow-sm">
+                                <div id="fltToDate_OTConfirmAV" class="datebox_OTConfirmAV"></div>
+                                <i class="bi bi-calendar-date"></i>
+                            </div>
+                        </div>
+                        <div class="filter-actions_OTConfirmAV">
+                            <button type="button" class="btn btn-outline-secondary filter-icon-btn_OTConfirmAV shadow-sm"
+                                id="btnToggleAdvancedFilter_OTConfirmAV" onclick="toggleAdvancedFilters_OTConfirmAV()"
+                                title="%QuickFilter_OTMess%">
+                                <i class="bi bi-sliders"></i>
                             </button>
-                            <button class="btn btn-primary w-100 fw-bold shadow-sm"
-                                style="height: 35px; font-size: 0.85rem;" onclick="loadApprovalList_OTConfirmAV()">
-                                <i class="bi bi-search"></i> FILTER
+                            <button class="btn btn-light border w-100 fw-bold shadow-sm"
+                                style="height: 40px; font-size: 0.9rem;" onclick="resetActualApprovalDefaultFilters_OTConfirmAV()">
+                                <i class="bi bi-arrow-clockwise"></i> %ThisMonth_OTMess%
+                            </button>
+                            <button type="button" class="btn btn-primary fw-bold shadow-sm text-nowrap"
+                                style="height: 40px; font-size: 0.9rem;" onclick="applyPendingActualApprovalFilter_OTConfirmAV()">
+                                <i class="bi bi-funnel-fill"></i> %FilterBtn_OTMess%
                             </button>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-12 d-flex align-items-center gap-2 flex-wrap">
-                            <span class="fw-bold text-muted small"><i class="bi bi-funnel"></i> Quick Filter:</span>
-                            <button type="button"
-                                class="btn btn-sm btn-outline-success rounded-pill fw-bold filter-type-btn px-3"
-                                data-val="1" onclick="toggleQuickTypeFilter_OTConfirmAV(this, 1)">NORMAL DAY</button>
-                            <button type="button"
-                                class="btn btn-sm btn-outline-danger rounded-pill fw-bold filter-type-btn px-3"
-                                data-val="2" onclick="toggleQuickTypeFilter_OTConfirmAV(this, 2)">HOLIDAY</button>
-
-                            <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-building"></i> Bộ
-                                phận:</span>
-                            <select id="quickDivisionFilter_OTConfirmAV"
-                                class="form-select form-select-sm d-inline-block w-auto rounded-pill fw-bold border-secondary text-secondary"
-                                onchange="onDivisionFilterChange_OTConfirmAV()">
-                                <option value="ALL">%AllGroupDivision_OTMess%</option>
-
-                            </select>
-
-                            <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-people-fill"></i>
-                                Nhóm:</span>
-                            <select id="quickGroupFilter_OTConfirmAV"
-                                class="form-select form-select-sm d-inline-block w-auto rounded-pill fw-bold border-secondary text-secondary"
-                                onchange="onGroupFilterChange_OTConfirmAV()">
-                                <option value="ALL">%AllGroup_OTMess%</option>
-                            </select>
+                    <div class="advanced-filter-panel_OTConfirmAV" id="advancedFilterPanel_OTConfirmAV">
+                        <div class="advanced-filter-grid_OTConfirmAV">
+                            <div>
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-building"></i>
+                                    %DivisionCol_OTRegister%</label>
+                                <select id="quickDivisionFilter_OTConfirmAV"
+                                    class="form-select form-select-sm fw-bold border-secondary text-secondary"
+                                    onchange="onDivisionFilterChange_OTConfirmAV()">
+                                    <option value="ALL">%AllGroupDivision_OTMess%</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-people-fill"></i>
+                                    %colCaptionName%</label>
+                                <select id="quickGroupFilter_OTConfirmAV"
+                                    class="form-select form-select-sm fw-bold border-secondary text-secondary"
+                                    onchange="onGroupFilterChange_OTConfirmAV()">
+                                    <option value="ALL">%AllGroup_OTMess%</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-search"></i>
+                                    %EmpCode_OTMess%</label>
+                                <div class="input-group input-group-sm w-auto">
+                                    <input type="text" id="searchCreatorInput_OTConfirmAV"
+                                        class="form-control fw-bold border-secondary text-secondary"
+                                        placeholder="%EmpCode_OTMess_Edit%"
+                                        oninput="applyClientSideFilters_OTConfirmAV()">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        onclick="clearCreatorSearch_OTConfirmAV()" title="%Clear_OTMess%">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card_OTConfirmAV shadow-sm">
+            <div class="card_OTConfirmAV shadow-sm list-card_OTConfirmAV" id="listCard_OTConfirmAV">
                 <div class="card-header_OTConfirmAV py-2 bg-light border-bottom">
                     <h6 class="m-0 fw-bold text-dark"><i
                             class="bi bi-list-task text-primary me-2"></i>%ActualFormList_OTMess% <span
@@ -738,7 +1433,7 @@
                             id="lblSelectedCount_OTConfirmAV">0</span></div>
                 </div>
                 <div class="table-responsive-custom_OTConfirmAV position-relative border-0 rounded-0">
-                    <div class="table-wrap_OTConfirmAV" style="max-height: 55vh;">
+                    <div class="table-wrap_OTConfirmAV" id="listTableWrap_OTConfirmAV">
                         <table class="table_OTConfirmAV table-hover">
                             <thead>
                                 <tr>
@@ -956,7 +1651,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
 <script>
@@ -968,38 +1662,153 @@
     var RAW_API_DATA_OTConfirmAV = [];
     var FILTERED_LIST_OTConfirmAV = [];
     var CURRENT_PAGE_OTConfirmAV = 1;
-    var PAGE_SIZE_OTConfirmAV = 10;
+    var PAGE_SIZE_OTConfirmAV = 30;
     var QUICK_TYPE_FILTER_OTConfirmAV = 0;
+    var QUICK_PLAN_RISK_FILTER_OTConfirmAV = false;
+    var QUICK_NORM_RISK_FILTER_OTConfirmAV = false;
+    var DASHBOARD_DETAILS_OPEN_OTConfirmAV = false;
+    var ADVANCED_FILTER_OPEN_OTConfirmAV = false;
+    var FILTER_RELOAD_TIMER_OTConfirmAV = null;
+    var REALTIME_TIMER_OTConfirmAV = null;
+    var SUPPRESS_DATE_RELOAD_OTConfirmAV = false;
+    var IS_LIST_LOADING_OTConfirmAV = false;
+    if (window.OTCONFIRMAV_REALTIME_TIMER) {
+        clearTimeout(window.OTCONFIRMAV_REALTIME_TIMER);
+        clearInterval(window.OTCONFIRMAV_REALTIME_TIMER);
+        window.OTCONFIRMAV_REALTIME_TIMER = null;
+    }
+
+    window.toggleDashboardDetails_OTConfirmAV = function () {
+        DASHBOARD_DETAILS_OPEN_OTConfirmAV = !DASHBOARD_DETAILS_OPEN_OTConfirmAV;
+        $('#dashboardDetails_OTConfirmAV').stop(true, true).slideToggle(180);
+        $('#btnToggleDashboard_OTConfirmAV').html(DASHBOARD_DETAILS_OPEN_OTConfirmAV
+            ? '<i class="bi bi-chevron-up"></i>'
+            : '<i class="bi bi-bar-chart-line-fill"></i>');
+    };
+
+    window.toggleAdvancedFilters_OTConfirmAV = function () {
+        ADVANCED_FILTER_OPEN_OTConfirmAV = !ADVANCED_FILTER_OPEN_OTConfirmAV;
+        $('#advancedFilterPanel_OTConfirmAV').stop(true, true).slideToggle(180);
+        $('#btnToggleAdvancedFilter_OTConfirmAV')
+            .toggleClass('btn-primary', ADVANCED_FILTER_OPEN_OTConfirmAV)
+            .toggleClass('btn-outline-secondary', !ADVANCED_FILTER_OPEN_OTConfirmAV);
+    };
+
+    function scheduleApprovalReload_OTConfirmAV(immediate) {
+        clearTimeout(FILTER_RELOAD_TIMER_OTConfirmAV);
+        var runReload = function () {
+            var fromDate = getDateBoxMoment_OTConfirmAV('#fltFromDate_OTConfirmAV');
+            var toDate = getDateBoxMoment_OTConfirmAV('#fltToDate_OTConfirmAV');
+            if (fromDate && toDate && fromDate.isValid() && toDate.isValid()) loadApprovalList_OTConfirmAV(true);
+        };
+        if (immediate) runReload();
+        else FILTER_RELOAD_TIMER_OTConfirmAV = setTimeout(runReload, 450);
+    }
 
     function waitLibrariesAndInit_OTConfirmAV() {
-        if (typeof jQuery !== 'undefined' && typeof moment !== 'undefined' && typeof uiManager !== 'undefined') initPortal_OTConfirmAV();
+        if (typeof jQuery !== 'undefined' && typeof moment !== 'undefined' && typeof uiManager !== 'undefined' && $.fn.dxDateBox) initPortal_OTConfirmAV();
         else setTimeout(waitLibrariesAndInit_OTConfirmAV, 50);
     }
     waitLibrariesAndInit_OTConfirmAV();
 
-    function initPortal_OTConfirmAV() {
+    function getDateBoxInstance_OTConfirmAV(selector) {
+        try {
+            return $(selector).data('dxDateBox') || $(selector).dxDateBox('instance');
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function initDateBox_OTConfirmAV(selector, value) {
+        var instance = getDateBoxInstance_OTConfirmAV(selector);
+        if (instance) {
+            instance.option('value', moment(value).toDate());
+            return;
+        }
+        $(selector).dxDateBox({
+            type: 'date',
+            value: moment(value).toDate(),
+            displayFormat: 'dd/MM/yyyy',
+            dateSerializationFormat: 'yyyy-MM-dd',
+            pickerType: 'calendar',
+            openOnFieldClick: true,
+            acceptCustomValue: false,
+            showClearButton: false,
+            stylingMode: 'outlined',
+            width: '100%',
+            onValueChanged: function () {
+                if (!SUPPRESS_DATE_RELOAD_OTConfirmAV) scheduleApprovalReload_OTConfirmAV(true);
+            }
+        });
+    }
+
+    function getDateBoxMoment_OTConfirmAV(selector) {
+        var instance = getDateBoxInstance_OTConfirmAV(selector);
+        var value = instance ? instance.option('value') : null;
+        return value ? moment(value).startOf('day') : null;
+    }
+
+    function setDateBoxMoment_OTConfirmAV(selector, value) {
+        var instance = getDateBoxInstance_OTConfirmAV(selector);
+        if (instance) instance.option('value', moment(value).toDate());
+        else initDateBox_OTConfirmAV(selector, value);
+    }
+
+    function resetActualApprovalDefaultFilterValues_OTConfirmAV() {
         var frD = moment().subtract(1, 'months').startOf('month').date(15);
         var toD = moment().endOf('month');
-        $('#fltFromDate_OTConfirmAV').val(frD.format('DD/MM/YYYY'));
-        $('#fltFromDate_OTConfirmAV').siblings('input[type="date"]').val(frD.format('YYYY-MM-DD'));
-
-        $('#fltToDate_OTConfirmAV').val(toD.format('DD/MM/YYYY'));
-        $('#fltToDate_OTConfirmAV').siblings('input[type="date"]').val(toD.format('YYYY-MM-DD'));
+        SUPPRESS_DATE_RELOAD_OTConfirmAV = true;
+        setDateBoxMoment_OTConfirmAV('#fltFromDate_OTConfirmAV', frD);
+        setDateBoxMoment_OTConfirmAV('#fltToDate_OTConfirmAV', toD);
+        SUPPRESS_DATE_RELOAD_OTConfirmAV = false;
 
         $('#fltStatus_OTConfirmAV').val('1');
         QUICK_TYPE_FILTER_OTConfirmAV = 0;
-        $('.filter-type-btn').removeClass('active');
+        QUICK_PLAN_RISK_FILTER_OTConfirmAV = false;
+        QUICK_NORM_RISK_FILTER_OTConfirmAV = false;
+        $('.filter-card_OTConfirmAV .filter-type-btn').removeClass('active');
+        $('.filter-card_OTConfirmAV .filter-risk-btn_OTConfirmAV').removeClass('active');
         $('#quickDivisionFilter_OTConfirmAV').val('ALL');
         $('#quickGroupFilter_OTConfirmAV').val('ALL');
+        $('#searchCreatorInput_OTConfirmAV').val('');
+        $('#advancedFilterPanel_OTConfirmAV').hide();
+        ADVANCED_FILTER_OPEN_OTConfirmAV = false;
+        $('#btnToggleAdvancedFilter_OTConfirmAV').removeClass('btn-primary').addClass('btn-outline-secondary');
+    }
 
+    window.resetActualApprovalDefaultFilters_OTConfirmAV = function () {
+        resetActualApprovalDefaultFilterValues_OTConfirmAV();
         loadApprovalList_OTConfirmAV();
+    };
 
-        setInterval(checkNewActualOTFormsCount, 5000);
+    window.applyPendingActualApprovalFilter_OTConfirmAV = function () {
+        resetActualApprovalDefaultFilterValues_OTConfirmAV();
+        $('#fltStatus_OTConfirmAV').val('1');
+        loadApprovalList_OTConfirmAV();
+    };
+
+    function initPortal_OTConfirmAV() {
+        var frD = moment().subtract(1, 'months').startOf('month').date(15);
+        var toD = moment().endOf('month');
+        SUPPRESS_DATE_RELOAD_OTConfirmAV = true;
+        initDateBox_OTConfirmAV('#fltFromDate_OTConfirmAV', frD);
+        initDateBox_OTConfirmAV('#fltToDate_OTConfirmAV', toD);
+        SUPPRESS_DATE_RELOAD_OTConfirmAV = false;
+        resetActualApprovalDefaultFilterValues_OTConfirmAV();
+        loadApprovalList_OTConfirmAV();
+        scheduleRealtimeCheck_OTConfirmAV();
     }
     var isCheckingRealtimeAV = false;
+
+    function scheduleRealtimeCheck_OTConfirmAV() {
+        clearTimeout(REALTIME_TIMER_OTConfirmAV);
+        REALTIME_TIMER_OTConfirmAV = setTimeout(checkNewActualOTFormsCount, 10000);
+        window.OTCONFIRMAV_REALTIME_TIMER = REALTIME_TIMER_OTConfirmAV;
+    }
+
     function checkNewActualOTFormsCount() {
         if (!$('#viewList_OTConfirmAV').is(':visible') || SELECTED_BULK_IDS_OTConfirmAV.length > 0) {
-            setTimeout(checkNewActualOTFormsCount, 5000);
+            scheduleRealtimeCheck_OTConfirmAV();
             return;
         }
         if (isCheckingRealtimeAV) return;
@@ -1009,7 +1818,7 @@
             data: { name: "API_OTActual_Count", param: ["LoginID", LoginID] },
             success: function (res) {
                 isCheckingRealtimeAV = false;
-                setTimeout(checkNewActualOTFormsCount, 5000);
+                scheduleRealtimeCheck_OTConfirmAV();
 
                 var pRes = (typeof res === 'string') ? JSON.parse(res) : res;
                 if (pRes && pRes.data && pRes.data[0] && pRes.data[0][0] !== undefined) {
@@ -1018,28 +1827,28 @@
                     if (LAST_PENDING_COUNT_AV === -1) {
                         LAST_PENDING_COUNT_AV = currentCount;
                     } else if (currentCount !== LAST_PENDING_COUNT_AV) {
-                        console.log("Số lượng đơn thay đổi (" + LAST_PENDING_COUNT_AV + " -> " + currentCount + "). Reloading...");
+                        console.log("%ActualRealtimeCountChanged_OTActualMess% (" + LAST_PENDING_COUNT_AV + " -> " + currentCount + "). Reloading...");
                         LAST_PENDING_COUNT_AV = currentCount;
                         fetchNewDataAndInject_OTConfirmAV();
                     }
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Lỗi khi kiểm tra số lượng đơn realtime:", error);
+                console.error("%ActualRealtimeCountCheckError_OTActualMess%", error);
                 isCheckingRealtimeAV = false;
-                setTimeout(checkNewActualOTFormsCount, 5000);
+                scheduleRealtimeCheck_OTConfirmAV();
             }
         });
     }
 
     function fetchNewDataAndInject_OTConfirmAV() {
-        var fStr = $('#fltFromDate_OTConfirmAV').val();
-        var tStr = $('#fltToDate_OTConfirmAV').val();
+        var fromDate = getDateBoxMoment_OTConfirmAV('#fltFromDate_OTConfirmAV');
+        var toDate = getDateBoxMoment_OTConfirmAV('#fltToDate_OTConfirmAV');
 
-        if (fStr.length !== 10 || tStr.length !== 10) return;
+        if (!fromDate || !toDate || !fromDate.isValid() || !toDate.isValid()) return;
 
-        var fDate = moment(fStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        var tDate = moment(tStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var fDate = fromDate.format('YYYY-MM-DD');
+        var tDate = toDate.format('YYYY-MM-DD');
         var statusVal = parseInt($('#fltStatus_OTConfirmAV').val());
 
         var apiStatus = (statusVal === 1) ? -1 : statusVal;
@@ -1066,11 +1875,11 @@
 
                     applyClientSideFilters_OTConfirmAV();
 
-                    uiManager.showAlert({ type: "info", message: "Danh sách đơn đã được tự động cập nhật mới nhất!" });
+                    uiManager.showAlert({ type: "info", message: "%ActualRealtimeListUpdated_OTActualMess%" });
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Lỗi khi tải lại dữ liệu mới realtime:", error);
+                console.error("%ActualRealtimeReloadError_OTActualMess%", error);
             }
         });
     }
@@ -1090,6 +1899,16 @@
     function syncDate_OTConfirmAV(picker, targetId) {
         var val = $(picker).val();
         if (val) { $(targetId).val(moment(val).format('DD/MM/YYYY')); }
+    }
+
+    function openDatePicker_OTConfirmAV(textInput) {
+        var picker = $(textInput).siblings('input[type="date"]')[0];
+        if (!picker) return;
+        if (typeof picker.showPicker === 'function') {
+            try { picker.showPicker(); return; } catch (e) { }
+        }
+        picker.focus();
+        picker.click();
     }
 
     function safeTime_OTConfirmAV(val) {
@@ -1132,13 +1951,10 @@
         var val_f = timeToMins_OTConfirmAV(f);
         var val_t = timeToMins_OTConfirmAV(t);
         if (val_t < val_f) val_t += 1440;
-        if (typeReg == '2' || isHoliday) {
+        if (isHoliday) {
             var hrsHoliday = (val_t - val_f) / 60;
-            if (parseInt(EmployeeTypeID) == 0) {
-                if (val_f <= 720 && val_t >= 750) {
-                    hrsHoliday -= 0.5;
-                }
-
+            if (parseInt(EmployeeTypeID) == 0 && val_f <= 720 && val_t > 720) {
+                hrsHoliday -= 0.5;
             }
             return Math.floor(Math.max(0, hrsHoliday) * 2) / 2;
         }
@@ -1150,9 +1966,6 @@
         var t_t = alignToRef_OTConfirmAV(timeToMins_OTConfirmAV(t), t_f);
         if (t_t < t_f) t_t += 1440;
 
-        var coreOverlap = Math.max(0, Math.min(t_t, t_we) - Math.max(t_f, t_ws));
-        if (coreOverlap <= 0) return 0;
-
         var t_bs = (bs && bs !== "null" && bs !== "") ? alignToRef_OTConfirmAV(timeToMins_OTConfirmAV(bs), t_ws) : null;
         var t_be = (be && be !== "null" && be !== "") ? alignToRef_OTConfirmAV(timeToMins_OTConfirmAV(be), t_ws) : null;
         var t_as = (as && as !== "null" && as !== "") ? alignToRef_OTConfirmAV(timeToMins_OTConfirmAV(as), t_we) : null;
@@ -1161,14 +1974,17 @@
         var hrs = 0;
         if (t_bs !== null && t_be !== null && t_bs !== t_be) {
             if (t_be < t_bs) t_be += 1440;
-            hrs += Math.max(0, Math.min(t_t, t_be) - Math.max(t_f, t_bs)) / 60;
+            var beforeMins = Math.max(0, Math.min(t_t, t_be) - Math.max(t_f, t_bs));
+            var isShift4 = shiftCode && String(shiftCode).includes('4');
+            if (!isShift4 && beforeMins <= 30) beforeMins = 0;
+            hrs += beforeMins / 60;
         }
         if (t_as !== null && t_ae !== null && t_as !== t_ae) {
             if (t_ae < t_as) t_ae += 1440;
             hrs += Math.max(0, Math.min(t_t, t_ae) - Math.max(t_f, t_as)) / 60;
         }
 
-        // TÍNH BÙ GIỜ THAI SẢN / CHẾ ĐỘ
+        // Maternity and childcare adjustment.
         if (isAllowLate !== 'NONE' && isAllowLate !== undefined && isAllowLate !== null) {
             if (String(isAllowLate) === "1") {
                 var allowedLateEnd = t_ws + 60;
@@ -1186,6 +2002,23 @@
         }
 
         return Math.floor(hrs * 2) / 2;
+    }
+
+    function getActualShiftGroup_OTConfirmAV(row) {
+        var ws = safeTime_OTConfirmAV(row.WorkStart);
+        var we = safeTime_OTConfirmAV(row.WorkEnd);
+        if (ws && we) {
+            return timeToMins_OTConfirmAV(we) <= timeToMins_OTConfirmAV(ws) ? 'Ca đêm' : 'Ca ngày';
+        }
+        var shiftText = `${row.ShiftName || ''} ${row.shiftCode || ''}`.toLowerCase();
+        return (shiftText.indexOf('night') >= 0 || shiftText.indexOf('đêm') >= 0 || shiftText.indexOf('dem') >= 0) ? 'Ca đêm' : 'Ca ngày';
+    }
+
+    function getActualShiftGroupOrder_OTConfirmAV(row) {
+        var ws = safeTime_OTConfirmAV(row.WorkStart);
+        var we = safeTime_OTConfirmAV(row.WorkEnd);
+        if (ws && we) return timeToMins_OTConfirmAV(we) <= timeToMins_OTConfirmAV(ws) ? 1 : 0;
+        return getActualShiftGroup_OTConfirmAV(row).indexOf('đêm') >= 0 ? 1 : 0;
     }
 
     function getVietnameseDay_Approved(dateObj) {
@@ -1286,7 +2119,7 @@
                     },
                     error: function () {
                         $('#globalBulkLoader_OTConfirmAV').addClass('d-none');
-                        uiManager.showAlert({ type: "error", message: "Lỗi kết nối khi duyệt hàng loạt!" });
+                        uiManager.showAlert({ type: "error", message: "%ActualBulkApprovalConnectionError_OTActualMess%" });
                     }
                 });
             }
@@ -1298,39 +2131,147 @@
             $(btn).removeClass('active');
             QUICK_TYPE_FILTER_OTConfirmAV = 0;
         } else {
-            $('.filter-type-btn').removeClass('active');
+            $('.filter-card_OTConfirmAV .filter-type-btn').removeClass('active');
             $(btn).addClass('active');
             QUICK_TYPE_FILTER_OTConfirmAV = val;
         }
         applyClientSideFilters_OTConfirmAV();
     }
 
+    window.toggleQuickPlanRiskFilter_OTConfirmAV = function (btn) {
+        QUICK_PLAN_RISK_FILTER_OTConfirmAV = !QUICK_PLAN_RISK_FILTER_OTConfirmAV;
+        $(btn).toggleClass('active', QUICK_PLAN_RISK_FILTER_OTConfirmAV);
+        applyClientSideFilters_OTConfirmAV();
+    };
+
+    window.toggleQuickNormRiskFilter_OTConfirmAV = function (btn) {
+        QUICK_NORM_RISK_FILTER_OTConfirmAV = !QUICK_NORM_RISK_FILTER_OTConfirmAV;
+        $(btn).toggleClass('active', QUICK_NORM_RISK_FILTER_OTConfirmAV);
+        applyClientSideFilters_OTConfirmAV();
+    };
+
+    function normalizeSearchText_OTConfirmAV(value) {
+        return String(value || '').trim().toLowerCase();
+    }
+
+    function getCreatorSearchText_OTConfirmAV(row) {
+        return [
+            row.CreatorID,
+            row.CreatorCode,
+            row.CreatorName,
+            row.ApplicantID,
+            row.ApplicantCode,
+            row.ApplicantName,
+            row.RequesterID,
+            row.RequesterCode,
+            row.RequesterName,
+            row.RequestorID,
+            row.RequestorCode,
+            row.RequestorName,
+            row.SenderID,
+            row.SenderCode,
+            row.SenderName,
+            row.SubmitterID,
+            row.SubmitterCode,
+            row.SubmitterName,
+            row.RegisterByID,
+            row.RegisterByCode,
+            row.RegisterBy,
+            row.RegisterByName,
+            row.RegisterByNew,
+            row.CreatedBy,
+            row.CreateBy,
+            row.CreateUser,
+            row.CreateUserName,
+            row.UserID,
+            row.UserCode,
+            row.UserName
+        ].filter(function (v) {
+            return v !== undefined && v !== null && String(v).trim() !== '' && String(v).toLowerCase() !== 'null';
+        }).join(' ');
+    }
+
+    function getCreatorDisplayCode_OTConfirmAV(row) {
+        var codeFields = [
+            row.CreatorID,
+            row.CreatorCode,
+            row.ApplicantID,
+            row.ApplicantCode,
+            row.RequesterID,
+            row.RequesterCode,
+            row.RequestorID,
+            row.RequestorCode,
+            row.SenderID,
+            row.SenderCode,
+            row.SubmitterID,
+            row.SubmitterCode,
+            row.RegisterByID,
+            row.RegisterByCode,
+            row.UserID,
+            row.UserCode
+        ];
+        for (var i = 0; i < codeFields.length; i++) {
+            if (codeFields[i] !== undefined && codeFields[i] !== null && String(codeFields[i]).trim() !== '' && String(codeFields[i]).toLowerCase() !== 'null') {
+                return String(codeFields[i]).trim();
+            }
+        }
+        return '';
+    }
+
+    function getExceedNormCount_OTConfirmAV(row) {
+        var fields = [
+            row.ExceedNormEmployeesCount,
+            row.ExceedNormEmployeeCount,
+            row.ExceedNormCount,
+            row.IsExceedCount,
+            row.TotalExceedNormEmployees,
+            row.TotalIsExceed
+        ];
+        for (var i = 0; i < fields.length; i++) {
+            var count = parseInt(fields[i] || 0);
+            if (!isNaN(count) && count > 0) return count;
+        }
+        return 0;
+    }
+
+    window.clearCreatorSearch_OTConfirmAV = function () {
+        $('#searchCreatorInput_OTConfirmAV').val('');
+        applyClientSideFilters_OTConfirmAV();
+    };
+
     function applyClientSideFilters_OTConfirmAV() {
         var selectedDivision = $('#quickDivisionFilter_OTConfirmAV').val();
         var selectedGroup = $('#quickGroupFilter_OTConfirmAV').val();
+        var creatorKeyword = normalizeSearchText_OTConfirmAV($('#searchCreatorInput_OTConfirmAV').val());
 
         var tempNormal = [];
         var dsTotalForms = 0, sumAllE = 0, sumAllH = 0, sumAllR = 0;
+        var normalForms = 0, holidayForms = 0;
+        var statusPending = 0, statusApproved = 0, statusRejected = 0, statusCancelled = 0;
 
         var statsNormal = {};
         var statsHoliday = {};
 
         RAW_API_DATA_OTConfirmAV.forEach(row => {
             var rowType = row.TypeRegister || 1;
+            var exceedNormCount = getExceedNormCount_OTConfirmAV(row);
             if (QUICK_TYPE_FILTER_OTConfirmAV !== 0 && rowType != QUICK_TYPE_FILTER_OTConfirmAV) return;
+            if (QUICK_PLAN_RISK_FILTER_OTConfirmAV && parseInt(row.HasRisk_Deviated || 0) <= 0) return;
+            if (QUICK_NORM_RISK_FILTER_OTConfirmAV && exceedNormCount <= 0) return;
+            if (creatorKeyword && normalizeSearchText_OTConfirmAV(getCreatorSearchText_OTConfirmAV(row)).indexOf(creatorKeyword) === -1) return;
 
-            // Lọc Bộ phận (Division)
+            // Division filter.
             if (selectedDivision !== 'ALL') {
                 if (parseInt(row.IsDivision || 0) === 1) {
                     if (row.GroupName !== selectedDivision) return;
                 } else {
-                    // Nếu là Nhóm (Group), kiểm tra xem Nhóm này thuộc Bộ phận nào
+                    // Group rows are matched to their parent division.
                     var parentDiv = groupToDivisionMap_OTConfirmAV[row.GroupName] || row.DivisionName;
                     if (parentDiv !== selectedDivision) return;
                 }
             }
 
-            // Lọc Nhóm (Group)
+            // Group filter.
             if (selectedGroup !== 'ALL') {
                 if (parseInt(row.IsDivision || 0) === 1) {
                     return;
@@ -1342,13 +2283,21 @@
             dsTotalForms++;
             var empCount = parseInt(row.TotalEmployees || 0);
             var hrsCount = parseFloat(row.TotalHours || 0);
-            var riskCount = parseInt(row.HasRisk_Deviated || 0);
+            var riskCount = (parseInt(row.HasRisk_Deviated || 0) || 0) + exceedNormCount;
 
             sumAllE += empCount;
             sumAllH += hrsCount;
             sumAllR += riskCount;
+            if (rowType == 1) normalForms++;
+            else holidayForms++;
 
-            var gName = row.GroupName || 'Khác';
+            var rowStatus = parseInt(row.Approve_Status);
+            if (rowStatus === 1 || rowStatus === 5) statusPending++;
+            else if (rowStatus === 2) statusApproved++;
+            else if (rowStatus === 3) statusRejected++;
+            else if (rowStatus === 4) statusCancelled++;
+
+            var gName = row.GroupName || '%OtherGroup_OTRegistration%';
             var targetStats = (rowType == 1) ? statsNormal : statsHoliday;
 
             if (!targetStats[gName]) {
@@ -1376,15 +2325,22 @@
                 else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%Cancelled_OTMess%</span>';
                 else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
             });
-            var riskBadge = st.risks > 0 ? `<span class="badge bg-danger ms-1 mt-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
+            var riskBadge = st.risks > 0 ? `<span class="badge plan-risk-badge_OTConfirmAV ms-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
+            var pct = sumAllH > 0 ? Math.max(6, Math.min(100, (st.hrs / sumAllH) * 100)) : 0;
             htmlNormal += `
-                    <tr>
-                        <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
-                        <td class="text-center fw-bold align-middle">${st.forms}</td>
-                        <td class="text-center fw-bold text-success align-middle">${st.emps}</td>
-                        <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
-                        <td class="text-center align-middle">${stHtml}${riskBadge}</td>
-                    </tr>
+                    <div class="dash-group-card_OTConfirmAV">
+                        <div class="dash-group-top_OTConfirmAV">
+                            <div class="dash-group-name_OTConfirmAV">${g}</div>
+                            <div class="text-end">${stHtml}${riskBadge}</div>
+                        </div>
+                        <div class="dash-group-metrics_OTConfirmAV">
+                            <div class="dash-metric-pill_OTConfirmAV" style="background:#dcfce7;"><strong>${st.forms}</strong><span>%FormUnit_OTMess%</span></div>
+                            <div class="dash-metric-pill_OTConfirmAV"><strong>${st.emps}</strong><span>%Emp_OTMess%</span></div>
+
+                            <div class="dash-metric-pill_OTConfirmAV"><strong>${st.hrs.toFixed(1)}h</strong><span>%TotalHours_OTMess%</span></div>
+                        </div>
+                        <div class="dash-progress_OTConfirmAV"><div class="dash-progress-fill_OTConfirmAV" style="width:${pct}%; background:linear-gradient(90deg,#22c55e,#14b8a6);"></div></div>
+                    </div>
                 `;
         }
 
@@ -1399,15 +2355,21 @@
                 else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%Cancelled_OTMess%</span>';
                 else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
             });
-            var riskBadge = st.risks > 0 ? `<span class="badge bg-danger ms-1 mt-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
+            var riskBadge = st.risks > 0 ? `<span class="badge plan-risk-badge_OTConfirmAV ms-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
+            var pct = sumAllH > 0 ? Math.max(6, Math.min(100, (st.hrs / sumAllH) * 100)) : 0;
             htmlHoliday += `
-                    <tr>
-                        <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
-                        <td class="text-center fw-bold align-middle">${st.forms}</td>
-   <td class="text-center fw-bold text-danger align-middle">${st.emps}</td>
-                        <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
-                        <td class="text-center align-middle">${stHtml}${riskBadge}</td>
-                    </tr>
+                    <div class="dash-group-card_OTConfirmAV">
+                        <div class="dash-group-top_OTConfirmAV">
+                            <div class="dash-group-name_OTConfirmAV">${g}</div>
+                            <div class="text-end">${stHtml}${riskBadge}</div>
+                        </div>
+                        <div class="dash-group-metrics_OTConfirmAV">
+                            <div class="dash-metric-pill_OTConfirmAV" style="background:#ffedd5;"><strong>${st.forms}</strong><span>%FormUnit_OTMess%</span></div>
+                            <div class="dash-metric-pill_OTConfirmAV"><strong>${st.emps}</strong><span>%Emp_OTMess%</span></div>
+                            <div class="dash-metric-pill_OTConfirmAV"><strong>${st.hrs.toFixed(1)}h</strong><span>%TotalHours_OTMess%</span></div>
+                        </div>
+                        <div class="dash-progress_OTConfirmAV"><div class="dash-progress-fill_OTConfirmAV" style="width:${pct}%; background:linear-gradient(90deg,#f97316,#e11d48);"></div></div>
+                    </div>
                 `;
         }
 
@@ -1418,14 +2380,42 @@
             $('#dashTotalEmp_OTConfirmAV').text(sumAllE);
             $('#dashTotalHrs_OTConfirmAV').text(sumAllH.toFixed(1));
             $('#dashTotalRisk_OTConfirmAV').text(sumAllR);
+            $('#dashDonutTotal_OTConfirmAV').text(dsTotalForms);
+            $('#dashNormalForms_OTConfirmAV').text(normalForms);
+            $('#dashHolidayForms_OTConfirmAV').text(holidayForms);
+            $('#dashRiskForms_OTConfirmAV').text(sumAllR);
+            $('#dashGroupTotalCount_OTConfirmAV').text((Object.keys(statsNormal).length + Object.keys(statsHoliday).length) + " %Group_OTMess%");
+            $('#dashAvgEmp_OTConfirmAV').text(dsTotalForms > 0 ? (sumAllE / dsTotalForms).toFixed(1) : '0');
+            $('#dashAvgHrs_OTConfirmAV').text(dsTotalForms > 0 ? (sumAllH / dsTotalForms).toFixed(1) + 'h' : '0h');
+            $('#dashRiskRate_OTConfirmAV').text(sumAllE > 0 ? ((sumAllR / sumAllE) * 100).toFixed(0) + '%' : '0%');
+            $('#dashPendingCount_OTConfirmAV').text(statusPending);
+            $('#dashApprovedCount_OTConfirmAV').text(statusApproved);
+            $('#dashRejectedCount_OTConfirmAV').text(statusRejected);
+            $('#dashCancelledCount_OTConfirmAV').text(statusCancelled);
 
-            $('#dashGroupCountNormal_OTConfirmAV').text(Object.keys(statsNormal).length + " %GroupDivision_OTMess%");
-            $('#dashGroupListNormal_OTConfirmAV').html(htmlNormal || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+            var statusTotal = Math.max(1, statusPending + statusApproved + statusRejected + statusCancelled);
+            $('#dashPendingBar_OTConfirmAV').css('width', ((statusPending / statusTotal) * 100) + '%');
+            $('#dashApprovedBar_OTConfirmAV').css('width', ((statusApproved / statusTotal) * 100) + '%');
+            $('#dashRejectedBar_OTConfirmAV').css('width', ((statusRejected / statusTotal) * 100) + '%');
+            $('#dashCancelledBar_OTConfirmAV').css('width', ((statusCancelled / statusTotal) * 100) + '%');
 
-            $('#dashGroupCountHoliday_OTConfirmAV').text(Object.keys(statsHoliday).length + " %GroupDivision_OTMess%");
-            $('#dashGroupListHoliday_OTConfirmAV').html(htmlHoliday || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+            var riskWeight = sumAllR > 0 ? Math.max(1, Math.min(dsTotalForms, sumAllR)) : 0;
+            var donutTotal = Math.max(1, normalForms + holidayForms + riskWeight);
+            var normalDeg = normalForms / donutTotal * 360;
+            var holidayDeg = holidayForms / donutTotal * 360;
+            var riskDeg = riskWeight / donutTotal * 360;
+            $('#dashTypeDonut_OTConfirmAV').css('background', `conic-gradient(#22c55e 0deg ${normalDeg}deg, #f97316 ${normalDeg}deg ${normalDeg + holidayDeg}deg, #ef4444 ${normalDeg + holidayDeg}deg ${normalDeg + holidayDeg + riskDeg}deg, #e2e8f0 ${normalDeg + holidayDeg + riskDeg}deg 360deg)`);
+
+            $('#dashGroupCountNormal_OTConfirmAV').text(Object.keys(statsNormal).length + " %Group_OTMess%");
+            $('#dashGroupListNormal_OTConfirmAV').html(htmlNormal || '<div class="dash-empty_OTConfirmAV">%NoData_OTMess%</div>');
+
+            $('#dashGroupCountHoliday_OTConfirmAV').text(Object.keys(statsHoliday).length + " %Group_OTMess%");
+            $('#dashGroupListHoliday_OTConfirmAV').html(htmlHoliday || '<div class="dash-empty_OTConfirmAV">%NoData_OTMess%</div>');
         } else {
             $('#dashboardSummaryArea_OTConfirmAV').hide();
+            $('#dashPendingBar_OTConfirmAV, #dashApprovedBar_OTConfirmAV, #dashRejectedBar_OTConfirmAV, #dashCancelledBar_OTConfirmAV').css('width', '0%');
+            $('#dashPendingCount_OTConfirmAV, #dashApprovedCount_OTConfirmAV, #dashRejectedCount_OTConfirmAV, #dashCancelledCount_OTConfirmAV').text('0');
+            $('#dashTypeDonut_OTConfirmAV').css('background', '#e2e8f0');
         }
 
         $('#lblTotalRecords_OTConfirmAV').text(dsTotalForms + " %FormUnit_OTMess%");
@@ -1445,7 +2435,7 @@
         var divisionSet = new Set();
         var groupSet = new Set();
 
-        // Phân loại Bộ phận và Nhóm từ dữ liệu thô
+        // Split divisions and groups from raw data.
         dataArr.forEach(r => {
             if (parseInt(r.IsDivision || 0) === 1) {
                 divisionSet.add(r.GroupName);
@@ -1454,14 +2444,14 @@
             }
         });
 
-        // Xây dựng bản đồ liên kết Nhóm -> Bộ phận
+        // Build group to division map.
         dataArr.forEach(r => {
             if (parseInt(r.IsDivision || 0) === 0) {
                 var parentDiv = r.DivisionName || r.ParentDivisionName || r.DeptName || r.DepartmentName;
                 if (parentDiv) {
                     groupToDivisionMap_OTConfirmAV[r.GroupName] = parentDiv;
                 } else {
-                    // Nối tự động nếu tên Nhóm và Bộ phận trùng hoặc chứa nhau (fallback)
+                    // Fallback when group and division names overlap.
                     var matchedDiv = null;
                     divisionSet.forEach(divName => {
                         if (r.GroupName.toLowerCase().includes(divName.toLowerCase()) ||
@@ -1476,7 +2466,7 @@
             }
         });
 
-        // Gán dữ liệu cho dropdown Bộ phận
+        // Fill division dropdown.
         var divDdl = $('#quickDivisionFilter_OTConfirmAV');
         var curDivVal = divDdl.val() || 'ALL';
         divDdl.empty().append('<option value="ALL">%AllGroupDivision_OTMess%</option>');
@@ -1486,7 +2476,7 @@
         if (divisionSet.has(curDivVal)) divDdl.val(curDivVal);
         else divDdl.val('ALL');
 
-        // Gán dữ liệu cho dropdown Nhóm
+        // Fill group dropdown.
         var groupDdl = $('#quickGroupFilter_OTConfirmAV');
         var curGroupVal = groupDdl.val() || 'ALL';
         groupDdl.empty().append('<option value="ALL">%AllGroup_OTMess%</option>');
@@ -1546,24 +2536,29 @@
         applyClientSideFilters_OTConfirmAV();
     };
 
-    function loadApprovalList_OTConfirmAV() {
-        var fStr = $('#fltFromDate_OTConfirmAV').val();
-        var tStr = $('#fltToDate_OTConfirmAV').val();
+    function loadApprovalList_OTConfirmAV(softReload) {
+        if (IS_LIST_LOADING_OTConfirmAV) return;
+        var fromDate = getDateBoxMoment_OTConfirmAV('#fltFromDate_OTConfirmAV');
+        var toDate = getDateBoxMoment_OTConfirmAV('#fltToDate_OTConfirmAV');
 
-        if (fStr.length !== 10 || tStr.length !== 10) return uiManager.showAlert({ type: "warning", message: "Invalid date format!" });
+        if (!fromDate || !toDate || !fromDate.isValid() || !toDate.isValid()) return uiManager.showAlert({ type: "warning", message: "%InvalidDateFormat_OTMess%" });
+        if (fromDate.isAfter(toDate)) return uiManager.showAlert({ type: "warning", message: "%InvalidDateRange_OTMess%" });
 
-        var fDate = moment(fStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        var tDate = moment(tStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        var fDate = fromDate.format('YYYY-MM-DD');
+        var tDate = toDate.format('YYYY-MM-DD');
         var statusVal = parseInt($('#fltStatus_OTConfirmAV').val());
 
         var apiStatus = (statusVal === 1) ? -1 : statusVal;
 
+        IS_LIST_LOADING_OTConfirmAV = true;
         resetBulkUI_OTConfirmAV();
-        $('#listBody_OTConfirmAV').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>');
-        $('#pagination_OTConfirmAV').empty();
-        $('#dashboardSummaryArea_OTConfirmAV').hide();
+        $('#listCard_OTConfirmAV').addClass('is-loading');
+        if (!softReload || FILTERED_LIST_OTConfirmAV.length === 0) {
+            $('#listBody_OTConfirmAV').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>');
+            $('#pagination_OTConfirmAV').empty();
+        }
 
-        // [SỬA Ở ĐÂY]: Truyền FromDate và ToDate thay vì truyền chung 1 ngày
+        // Send FromDate and ToDate instead of a single date.
         AjaxHPAParadise({
             data: { name: "API_OTConfirmAV_GetList", param: ["LoginID", LoginID, "FromDate", fDate, "ToDate", tDate, "Status", apiStatus, "TypeRegister", -1] },
             success: function (res) {
@@ -1578,12 +2573,21 @@
                     RAW_API_DATA_OTConfirmAV = rawData;
                     extractGroupDropdown_OTConfirmAV(RAW_API_DATA_OTConfirmAV);
                     applyClientSideFilters_OTConfirmAV();
+                    $('#listCard_OTConfirmAV').removeClass('is-loading');
+                    IS_LIST_LOADING_OTConfirmAV = false;
                 } else {
                     RAW_API_DATA_OTConfirmAV = [];
                     FILTERED_LIST_OTConfirmAV = [];
                     extractGroupDropdown_OTConfirmAV([]);
                     applyClientSideFilters_OTConfirmAV();
+                    $('#listCard_OTConfirmAV').removeClass('is-loading');
+                    IS_LIST_LOADING_OTConfirmAV = false;
                 }
+            },
+            error: function () {
+                $('#listCard_OTConfirmAV').removeClass('is-loading');
+                IS_LIST_LOADING_OTConfirmAV = false;
+                uiManager.showAlert({ type: "error", message: "%BulkApprovalConnectionError_OTRegistration%" });
             }
         });
     }
@@ -1616,7 +2620,7 @@
 
             var period = moment(row.OTDateFrom).format('DD/MM/YYYY');
 
-            // [LOGIC TƯƠNG THÍCH NGƯỢC ĐẾM LEVEL]
+            // Backward-compatible approval level count.
             var validApprovers = [row.Approver_1, row.Approver_2, row.Approver_3, row.Approver_4, row.Approver_5].filter(id => id && String(id).trim() !== '' && String(id).toLowerCase() !== 'null');
             var maxLvl = validApprovers.length;
 
@@ -1646,6 +2650,7 @@
             var tEmp = ('TotalEmployees' in row) ? row.TotalEmployees : '0';
             var tHrs = ('TotalHours' in row) ? parseFloat(row.TotalHours || 0).toFixed(1) : '0';
             var tRisk = ('HasRisk_Deviated' in row) ? parseInt(row.HasRisk_Deviated || 0) : 0;
+            var tExceedNorm = getExceedNormCount_OTConfirmAV(row);
 
             var summaryBadge = `
                     <div class="mt-2 d-flex gap-1 flex-wrap" style="font-size:0.75rem;">
@@ -1653,12 +2658,17 @@
                         <span class="badge bg-warning-subtle border border-warning text-warning-emphasis px-2"><i class="bi bi-clock-history"></i> ${tHrs}h</span>
                 `;
             if (tRisk > 0) {
-                summaryBadge += `<span class="badge bg-danger px-2 blink-danger"><i class="bi bi-exclamation-triangle-fill"></i> ${tRisk} %DeviatePlan_OTMess%</span>`;
+                summaryBadge += `<span class="badge plan-risk-badge_OTConfirmAV px-2 blink-danger"><i class="bi bi-exclamation-triangle-fill"></i> ${tRisk} %DeviatePlan_OTMess%</span>`;
+            }
+            if (tExceedNorm > 0) {
+                summaryBadge += `<span class="badge exceed-norm-list-badge_OTConfirmAV px-2"><i class="bi bi-shield-exclamation"></i> ${tExceedNorm} %ExceedNormEmployee_OTActualMess%</span>`;
             }
             summaryBadge += `</div>`;
 
             var rowClass = tRisk > 0 ? '' : '';
             var creatorName = row.CreatorName || row.RegisterBy || 'N/A';
+            var creatorCode = getCreatorDisplayCode_OTConfirmAV(row);
+            var creatorCodeHtml = creatorCode ? `<div class="text-muted mt-1" style="font-size:0.75rem;"><i class="bi bi-person-badge me-1"></i>${creatorCode}</div>` : '';
             var groupDisplay = row.GroupName || 'N/A';
 
             tbody.append(`
@@ -1667,6 +2677,7 @@
                         <td class="text-muted fw-bold">${idx}</td>
                         <td class="text-start">
                             <div class="fw-bold text-primary">${creatorName}</div>
+                            ${creatorCodeHtml}
                             <div class="text-muted mt-1" style="font-size:0.75rem;"><i class="bi bi-tag-fill me-1"></i>${groupDisplay}</div>
                        ${summaryBadge}
               </td>
@@ -1777,7 +2788,7 @@
                     }
                 }
             } else {
-                // Không có dòng nào thỏa mãn -> Ẩn luôn nguyên cục Ngày đó
+                // Hide the whole date group when no employee row matches.
                 header.hide();
                 header.nextUntil('.date-header-row', '.toggle-btn-row_OTConfirmAV').hide();
             }
@@ -1792,9 +2803,11 @@
                 if (tr.hasClass('row-warning_OTConfirmAV')) tr.show(); else tr.hide();
             });
 
+            $('#detailBody_OTConfirmAV .actual-group-row_OTConfirmAV').hide();
             $('#detailBody_OTConfirmAV .toggle-btn-row_OTConfirmAV').hide();
         } else {
             $('#searchEmpInput_OTConfirmAV').val('');
+            $('#detailBody_OTConfirmAV .actual-group-row_OTConfirmAV').show();
             $('#detailBody_OTConfirmAV .row-warning_OTConfirmAV').show();
             $('#detailBody_OTConfirmAV tr.normal-group-row_OTConfirmAV').show();
             $('#detailBody_OTConfirmAV .toggle-btn-row_OTConfirmAV').hide();
@@ -1889,7 +2902,7 @@
                         try {
                             renderDetailTable_OTConfirmAV(detData, dMom, retrievedType, isDiv);
                         } catch (e) {
-                            console.error("Lỗi Render Data: ", e);
+                            console.error("%ActualRenderDataError_OTActualMess%", e);
                         }
                     }
                 }
@@ -1899,7 +2912,7 @@
 
     function renderFlowDiagramDetail_OTConfirmAV(data, typeReg) {
         var wrap = $('#flowWrapperContainer_OTConfirmAV'); wrap.empty();
-        var maxLevel = typeReg == 1 ? 4 : 5; // Mặc định hệ thống mới
+        var maxLevel = typeReg == 1 ? 4 : 5;
         var curLevel = parseInt(data.Current_Approved_Level);
         var status = parseInt(data.Approve_Status);
 
@@ -1908,7 +2921,7 @@
             { id: data.Approver_2, name: data.Approver2_Name, remark: data.ApproverRemark_2, date: data.ApproveDate_2, label: "%Level2_OTMess%" },
             { id: data.Approver_3, name: data.Approver3_Name, remark: data.ApproverRemark_3, date: data.ApproveDate_3, label: "%Level3_OTMess%" },
             { id: data.Approver_4, name: data.Approver4_Name, remark: data.ApproverRemark_4, date: data.ApproveDate_4, label: "%Level4_OTMess%" },
-            { id: data.Approver_5, name: data.Approver5_Name, remark: data.ApproverRemark_5, date: data.ApproveDate_5, label: "%Level5_OTConfirm%" } // Bổ sung nhãn Cấp 5
+            { id: data.Approver_5, name: data.Approver5_Name, remark: data.ApproverRemark_5, date: data.ApproveDate_5, label: "%Level5_OTConfirm%" }
         ];
 
         var validCount = 0;
@@ -1924,7 +2937,7 @@
             if (n.id === 'SKIP') {
                 let lineHtml = (i < maxLevel - 1) ? `<div class="flow-line_OTConfirmAV active"></div>` : '';
                 wrap.append(`
-                        <div class="flow-node_OTConfirmAV">
+  <div class="flow-node_OTConfirmAV">
                             <label class="fw-bold text-dark mb-0">${n.label}</label>
                             <div class="flow-node-name text-info fw-bold"><small>%OtherSkip_OTMess%</small></div>
                             <div class="avt-wrapper_OTConfirmAV">
@@ -2007,6 +3020,16 @@
         var normalRowsHtml = "";
         var riskCount = 0;
         var normalCount = 0;
+        var lastRiskGroupKey = "";
+        var lastNormalGroupKey = "";
+
+        detData = (detData || []).slice().sort(function (a, b) {
+            var ga = (a.PlanGroupName || a.GroupName || '').toString();
+            var gb = (b.PlanGroupName || b.GroupName || '').toString();
+            var sa = getActualShiftGroupOrder_OTConfirmAV(a);
+            var sb = getActualShiftGroupOrder_OTConfirmAV(b);
+            return ga.localeCompare(gb) || (sa - sb) || String(a.EmployeeID || '').localeCompare(String(b.EmployeeID || ''));
+        });
 
         detData.forEach((row, idx) => {
             try {
@@ -2037,6 +3060,10 @@
                 var isAllowLate = row.IsAllowLate !== undefined ? row.IsAllowLate : 'NONE';
 
                 var shiftNameShow = row.ShiftName || (row.ShiftID ? `Ca: ${row.ShiftID}` : '%NoShift_OTMess%');
+                var planGroupName = row.PlanGroupName || row.GroupName || 'N/A';
+                var shiftGroupName = getActualShiftGroup_OTConfirmAV(row);
+                var shiftBadgeClass = (ws && we && ws !== '--:--' && we !== '--:--' && timeToMins_OTConfirmAV(we) <= timeToMins_OTConfirmAV(ws)) ? 'shift-group-badge-night_OTConfirmAV' : 'shift-group-badge-day_OTConfirmAV';
+                var groupKey = `${planGroupName}|${shiftGroupName}`;
 
                 var maternityIcon = '';
                 if (isAllowLate !== 'NONE' && isAllowLate !== null) {
@@ -2053,7 +3080,8 @@
                 if (row.HolidayStatus !== undefined && row.HolidayStatus !== null) isHol = parseInt(row.HolidayStatus) > 0;
                 else isHol = (dateMom.day() === 0 || dateMom.day() === 6);
 
-                var plannedHrs = calculateOTHours_OTConfirmAV(pF, pT, ws, we, bs, be, as, ae, typeReg, (row.IsDirect == 1 ? 1 : 0), isHol, isAllowLate, shiftCode, row.EmployeeTypeID);
+                var plannedHrs = parseFloat(row.Plan_OTHours || row.Planned_OTHours || row.OTHours || 0);
+                if (isNaN(plannedHrs) || plannedHrs <= 0) plannedHrs = calculateOTHours_OTConfirmAV(pF, pT, ws, we, bs, be, as, ae, typeReg, (row.IsDirect == 1 ? 1 : 0), isHol, isAllowLate, shiftCode, row.EmployeeTypeID);
 
                 var actualHrs = 0;
                 var isAbsent = false;
@@ -2063,7 +3091,7 @@
                 } else if (aF && aT) {
                     actualHrs = calculateOTHours_OTConfirmAV(aF, aT, ws, we, bs, be, as, ae, typeReg, (row.IsDirect == 1 ? 1 : 0), isHol, isAllowLate, shiftCode, row.EmployeeTypeID);
                 } else {
-                    isAbsent = true; // Không có giờ vào ra (Nghỉ làm)
+                    isAbsent = true;
                 }
 
                 var inputHtmlF = `<div class="fw-bold text-danger">%Off_OTMess%</div>`;
@@ -2079,10 +3107,11 @@
 
                 var isDeviated = false;
 
-                // [LOGIC MỚI] Chỉ tính là Deviated khi: Không có giờ (Nghỉ làm), hoặc làm Thực Tế > Kế Hoạch, hoặc bị Force chặn
+                // Treat missing actual time, actual > plan, forced block, and norm exceed as warning rows.
                 if (isAbsent) isDeviated = true;
                 else if (actualHrs > plannedHrs) isDeviated = true;
                 else if (forceNoOT || (isRejectedOT && actualHrs > 0)) isDeviated = true;
+                if (isExceed === 1) isDeviated = true;
 
                 var isExtra = parseInt(row.IsExtraEmp || 0) === 1;
                 var nameHtml = row.FullName || 'N/A';
@@ -2106,13 +3135,28 @@
                 if (isAllowLate !== 'NONE' && isAllowLate !== null) {
                     nameHtml += `<br><span class="badge bg-danger mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-balloon-heart-fill"></i> %MaternityRegime%</span>`;
                 }
+                if (isExceed === 1) {
+                    rowClass += " exceed-norm-row_OTConfirmAV";
+                    nameHtml += `<br><span class="exceed-norm-badge_OTConfirmAV"><i class="bi bi-shield-exclamation"></i> %ExceedNormEmployee_OTActualMess%</span>`;
+                }
 
                 var hrsDisplay = "";
 
-                // XỬ LÝ GIAO DIỆN HIỂN THỊ
+                // Render display state.
                 if (isDeviated) {
                     riskCount++;
                     rowClass += " row-warning_OTConfirmAV bg-warning-subtle";
+                    if (groupKey !== lastRiskGroupKey) {
+                        riskRowsHtml += `
+                            <tr class="actual-group-row_OTConfirmAV bg-secondary-subtle">
+                                <td colspan="10" class="text-start fw-bold text-secondary-emphasis py-2">
+                                    <i class="bi bi-diagram-3-fill me-1"></i> ${planGroupName}
+                                    <span class="badge ${shiftBadgeClass} ms-2">${shiftGroupName}</span>
+                                </td>
+                            </tr>
+                        `;
+                        lastRiskGroupKey = groupKey;
+                    }
 
                     if (isAbsent) {
                         hrsDisplay = `<i class="bi bi-x-octagon-fill text-danger fs-5" title="%DayOff_OTMess%"></i>`;
@@ -2142,6 +3186,17 @@
                     normalCount++;
                     rowClass += " normal-group-row_OTConfirmAV";
                     hrsDisplay = `<span class="text-primary fw-bold">${actualHrs.toFixed(1)}h</span>`;
+                    if (groupKey !== lastNormalGroupKey) {
+                        normalRowsHtml += `
+                            <tr class="actual-group-row_OTConfirmAV normal-group-row_OTConfirmAV bg-secondary-subtle">
+                                <td colspan="10" class="text-start fw-bold text-secondary-emphasis py-2">
+                                    <i class="bi bi-diagram-3-fill me-1"></i> ${planGroupName}
+                                    <span class="badge ${shiftBadgeClass} ms-2">${shiftGroupName}</span>
+                                </td>
+                            </tr>
+                        `;
+                        lastNormalGroupKey = groupKey;
+                    }
 
                     normalRowsHtml += `
                         <tr class="${rowClass}" ${customStyle} data-emp="${row.EmployeeID}" data-pf="${pF}" data-pt="${pT}" data-planned-hrs="${plannedHrs}" data-force-no-ot="${forceNoOT}" data-reject-ot="${isRejectedOT}" data-isextra="${isExtra ? 1 : 0}" data-isindirect="${eTypeID === 0 ? 1 : 0}">
@@ -2159,7 +3214,7 @@
                     `;
                 }
             } catch (e) {
-                console.error("Lỗi Render Dòng: ", e, row);
+                console.error("%ActualRenderRowError_OTActualMess%", e, row);
             }
         });
 
@@ -2188,18 +3243,23 @@
 
         if (riskCount > 0) {
             $('#switchDetailRiskWrapper_OTConfirmAV').removeClass('d-none');
-            $('#lblDetailRiskCount_OTConfirmAV').html(`%FilterDeviation_OTMess% (<span class="badge bg-danger rounded-pill">${riskCount}</span>)`);
+            $('#lblDetailRiskCount_OTConfirmAV').html(`%FilterDeviation_OTMess% (<span class="badge plan-risk-badge_OTConfirmAV rounded-pill">${riskCount}</span>)`);
         } else {
             $('#switchDetailRiskWrapper_OTConfirmAV').addClass('d-none');
             $('#switchDetailRisk_OTConfirmAV').prop('checked', false);
         }
     }
-    window.backToList_OTConfirmAV = function () {
+    window.backToList_OTConfirmAV = function (forceReload) {
         $('#viewDetail_OTConfirmAV').hide();
         $('#viewList_OTConfirmAV').fadeIn(300);
         CURRENT_VIEW_ID_OTConfirmAV = null;
         CURRENT_VIEW_STATUS_OTConfirmAV = null;
-        loadApprovalList_OTConfirmAV();
+        if (forceReload || RAW_API_DATA_OTConfirmAV.length === 0) {
+            loadApprovalList_OTConfirmAV();
+        } else {
+            $('#listCard_OTConfirmAV').removeClass('is-loading');
+            renderTablePage_OTConfirmAV(CURRENT_PAGE_OTConfirmAV);
+        }
     }
 
     window.processSingleApproval_OTConfirmAV = function (actionType) {
@@ -2223,7 +3283,7 @@
                         var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
                         if (parsedRes.result === "success") {
                             uiManager.showAlert({ type: "success", message: "%ApproveActualSuccess_OTMess%" });
-                            backToList_OTConfirmAV();
+                            backToList_OTConfirmAV(true);
                         } else uiManager.showAlert({ type: "error", message: "%RejectActualSuccess_OTMess%" });
                     }
                 });
@@ -2231,3 +3291,8 @@
         });
     }
 </script>
+
+
+
+
+

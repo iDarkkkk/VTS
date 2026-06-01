@@ -14,6 +14,8 @@ ALTER PROCEDURE [dbo].[API_OTExceed_Submit]
     @Remark NVARCHAR(500),
     @JSONData NVARCHAR(MAX),
     @IsDivision INT = 0,
+    @Identity_ID VARCHAR(100) = NULL,
+    @Approver4 VARCHAR(50) = NULL,
     @LanguageID VARCHAR(2) = 'VN'
 AS
 BEGIN
@@ -34,7 +36,21 @@ BEGIN
 
         IF @TypeReg IS NULL SET @TypeReg = 1;
 
-        DECLARE @NewID VARCHAR(100) = NEWID();
+        DECLARE @NewID VARCHAR(100) = NULLIF(LTRIM(RTRIM(ISNULL(@Identity_ID, ''))), '');
+        DECLARE @UseDraft BIT = 0;
+        IF @NewID IS NOT NULL
+        BEGIN
+            IF EXISTS (SELECT 1 FROM tblOTExceedMasterNIVS WHERE Identity_ID = @NewID AND Approve_Status = 0)
+                SET @UseDraft = 1;
+            ELSE
+            BEGIN
+                ROLLBACK TRANSACTION;
+                SELECT 'error' AS result, N'Đơn nháp không hợp lệ hoặc đã được gửi.' AS reason;
+                RETURN;
+            END
+        END
+        ELSE SET @NewID = NEWID();
+
         DECLARE @StartLevel INT = 1;
         DECLARE @D1 DATETIME = NULL, @R1 NVARCHAR(200) = NULL;
 
@@ -48,8 +64,25 @@ BEGIN
             END;
         END
 
-        INSERT INTO tblOTExceedMasterNIVS (Identity_ID, GroupID, DivisionID, IsDivision, OTDate, RegisterBy, CreateTime, Approve_Status, Current_Approved_Level, TypeRegister, Approver_1, ApproveDate_1, ApproverRemark_1, Approver_2, Approver_3, Remark)
-        VALUES (@NewID, @GroupID, @DivisionID, @IsDivision, @OTDate, @LoginID, GETDATE(), 1, @StartLevel, @TypeReg, @Approver1, @D1, @R1, @Approver2, @Approver3, @Remark);
+        IF @UseDraft = 1
+        BEGIN
+            UPDATE tblOTExceedMasterNIVS
+            SET GroupID = @GroupID, DivisionID = @DivisionID, IsDivision = @IsDivision, OTDate = @OTDate, RegisterBy = @LoginID, CreateTime = GETDATE(),
+                Approve_Status = 1, Current_Approved_Level = @StartLevel, TypeRegister = @TypeReg,
+                Approver_1 = @Approver1, ApproveDate_1 = @D1, ApproverRemark_1 = @R1,
+                Approver_2 = @Approver2, ApproveDate_2 = NULL, ApproverRemark_2 = NULL,
+                Approver_3 = @Approver3, ApproveDate_3 = NULL, ApproverRemark_3 = NULL,
+                Approver_4 = @Approver4, ApproveDate_4 = NULL, ApproverRemark_4 = NULL,
+                Remark = @Remark
+            WHERE Identity_ID = @NewID;
+
+            DELETE FROM tblOTExceedDetailNIVS WHERE Identity_ID = @NewID;
+        END
+        ELSE
+        BEGIN
+            INSERT INTO tblOTExceedMasterNIVS (Identity_ID, GroupID, DivisionID, IsDivision, OTDate, RegisterBy, CreateTime, Approve_Status, Current_Approved_Level, TypeRegister, Approver_1, ApproveDate_1, ApproverRemark_1, Approver_2, Approver_3, Approver_4, Remark)
+            VALUES (@NewID, @GroupID, @DivisionID, @IsDivision, @OTDate, @LoginID, GETDATE(), 1, @StartLevel, @TypeReg, @Approver1, @D1, @R1, @Approver2, @Approver3, @Approver4, @Remark);
+        END
 
         SELECT EmployeeID, LimitType, CurrentTotalOT, PlannedOT_Hours
         INTO #tmpExceedData

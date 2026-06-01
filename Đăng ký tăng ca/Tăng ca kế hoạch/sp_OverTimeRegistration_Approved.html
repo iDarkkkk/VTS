@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="vi" data-bs-theme="light">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Portal - OT Approval V49 (Perfect Dashboard & OT Fix)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
+
+
+
+
+
+<style>
         :root {
             --primary-app: #0ea5e9;
             --bg-app: #f4f6f8;
@@ -52,7 +49,7 @@
         }
 
         .table-wrap_Approved {
-            max-height: 65vh;
+            max-height: 72vh;
             overflow-y: auto;
         }
 
@@ -518,6 +515,456 @@
         }
 
         /* Dashboard Styles */
+        .approval-topbar_Approved {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid rgba(14, 165, 233, 0.22);
+            background:
+                linear-gradient(135deg, rgba(14, 165, 233, 0.14), rgba(16, 185, 129, 0.12) 42%, rgba(245, 158, 11, 0.14)),
+                #ffffff;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .approval-topbar_Approved::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 18% 15%, rgba(255, 255, 255, 0.75), transparent 28%),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        .approval-topbar-inner_Approved {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(260px, 1.15fr) repeat(4, minmax(145px, 0.75fr)) auto;
+            gap: 12px;
+            align-items: stretch;
+            padding: 16px;
+        }
+
+        .approval-title-block_Approved {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .approval-title_Approved {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0f172a;
+            font-size: 1.22rem;
+            font-weight: 800;
+        }
+
+        .approval-title_Approved i {
+            color: #0284c7;
+            font-size: 1.38rem;
+        }
+
+        .approval-chart-mini_Approved {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            max-width: 360px;
+        }
+
+        .approval-chart-track_Approved {
+            height: 9px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.24);
+            display: flex;
+        }
+
+        .approval-chart-seg_Approved {
+            min-width: 0;
+            transition: width 0.25s ease;
+        }
+
+        .approval-chart-pending_Approved {
+            background: linear-gradient(90deg, #f59e0b, #facc15);
+        }
+
+        .approval-chart-approved_Approved {
+            background: linear-gradient(90deg, #22c55e, #14b8a6);
+        }
+
+        .approval-chart-rejected_Approved {
+            background: linear-gradient(90deg, #ef4444, #be123c);
+        }
+
+        .approval-chart-cancelled_Approved {
+            background: linear-gradient(90deg, #64748b, #334155);
+        }
+
+        .approval-chart-note_Approved {
+            color: #475569;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .approval-status-legend_Approved {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+        }
+
+        .approval-status-legend_Approved span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #475569;
+            font-size: 0.76rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .approval-status-dot_Approved {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .approval-kpi_Approved {
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 20px rgba(15, 23, 42, 0.06);
+            padding: 14px;
+            min-height: 86px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .approval-kpi-icon_Approved {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.35rem;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+        }
+
+        .approval-kpi-value_Approved {
+            color: #0f172a;
+            font-family: Consolas, monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .approval-kpi-label_Approved {
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 800;
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+
+        .approval-toggle-btn_Approved {
+            width: 46px;
+            min-height: 86px;
+            border-radius: 10px;
+            border: 1px solid rgba(14, 165, 233, 0.24);
+            background: rgba(255, 255, 255, 0.75);
+            color: #0369a1;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .approval-toggle-btn_Approved:hover {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .dashboard-details_Approved {
+            display: none;
+            padding: 0 12px 12px;
+        }
+
+        .dashboard-modern-grid_Approved {
+            display: grid;
+            grid-template-columns: minmax(280px, 0.78fr) minmax(420px, 1.22fr);
+            gap: 12px;
+        }
+
+        .dash-visual-card_Approved {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.74);
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .dash-visual-card_Approved::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), transparent 40%, rgba(244, 63, 94, 0.08));
+            pointer-events: none;
+        }
+
+        .dash-visual-inner_Approved {
+            position: relative;
+            padding: 12px;
+        }
+
+        .dash-section-title_Approved {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #0f172a;
+            font-size: 0.86rem;
+            font-weight: 900;
+        }
+
+        .dash-donut-wrap_Approved {
+            display: grid;
+            grid-template-columns: 138px 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .dash-donut_Approved {
+            width: 138px;
+            height: 138px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: conic-gradient(#22c55e 0deg, #22c55e 0deg, #ef4444 0deg, #ef4444 0deg, #f97316 0deg, #f97316 360deg);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.75), 0 16px 28px rgba(15, 23, 42, 0.12);
+        }
+
+        .dash-donut-core_Approved {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 0 1px #e2e8f0;
+        }
+
+        .dash-donut-core_Approved strong {
+            color: #0f172a;
+            font-family: Consolas, monospace;
+            font-size: 1.32rem;
+            line-height: 1;
+        }
+
+        .dash-donut-core_Approved span {
+            color: #64748b;
+            font-size: 0.66rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .dash-legend-item_Approved {
+            display: grid;
+            grid-template-columns: 10px 1fr auto;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .dash-legend-dot_Approved {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dash-legend-value_Approved {
+            font-family: Consolas, monospace;
+            color: #0f172a;
+            font-size: 0.92rem;
+            font-weight: 900;
+        }
+
+        .dash-spark-grid_Approved {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .dash-spark_Approved {
+            border-radius: 10px;
+            padding: 9px;
+            min-height: 64px;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dash-spark_Approved::after {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 8px;
+            height: 18px;
+            border-radius: 999px;
+            opacity: 0.28;
+            background: repeating-linear-gradient(90deg, #fff 0 8px, transparent 8px 13px);
+        }
+
+        .dash-spark-num_Approved {
+            position: relative;
+            z-index: 1;
+            font-family: Consolas, monospace;
+            font-size: 1.12rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .dash-spark-label_Approved {
+            position: relative;
+            z-index: 1;
+            margin-top: 4px;
+            font-size: 0.64rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            opacity: 0.92;
+        }
+
+        .dash-type-panels_Approved {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .dash-type-panel_Approved {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            overflow: hidden;
+            min-height: 270px;
+        }
+
+        .dash-type-header_Approved {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 900;
+        }
+
+        .dash-type-header_Approved .badge {
+            background: rgba(255,255,255,0.22) !important;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .dash-group-list_Approved {
+            padding: 10px;
+            max-height: 330px;
+            overflow-y: auto;
+        }
+
+        .dash-group-card_Approved {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 9px;
+            margin-bottom: 8px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+        }
+
+        .dash-group-card_Approved:last-child {
+            margin-bottom: 0;
+        }
+
+        .dash-group-top_Approved {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .dash-group-name_Approved {
+            color: #0f172a;
+            font-size: 0.8rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .dash-group-metrics_Approved {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .dash-metric-pill_Approved {
+            border-radius: 8px;
+            background: #f1f5f9;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .dash-metric-pill_Approved strong {
+            display: block;
+            color: #0f172a;
+            font-family: Consolas, monospace;
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
+        .dash-metric-pill_Approved span {
+            color: #64748b;
+            font-size: 0.58rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .dash-progress_Approved {
+            height: 7px;
+            margin-top: 8px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+
+        .dash-progress-fill_Approved {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.25s ease;
+        }
+
+        .dash-empty_Approved {
+            height: 210px;
+            display: grid;
+            place-items: center;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
         .dash-card {
             background: #fff;
             border: 1px solid var(--border-app);
@@ -566,14 +1013,346 @@
         }
 
         .dash-list-container {
-            max-height: 140px;
+            max-height: 150px;
             overflow-y: auto;
             padding: 0;
+        }
+
+        .filter-card_Approved {
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .filter-main-grid_Approved {
+            display: grid;
+            grid-template-columns: minmax(150px, 0.7fr) minmax(320px, 1.15fr) minmax(180px, 0.75fr) minmax(180px, 0.75fr) auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .type-segment_Approved {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 36px;
+            padding: 3px;
+            border: 1px solid var(--border-app);
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+
+        .type-segment_Approved .filter-type-btn {
+            flex: 1 1 90px;
+            border-radius: 8px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            white-space: nowrap;
+        }
+
+        .type-segment_Approved .filter-risk-btn_Approved {
+            flex: 1 1 125px;
+            border-radius: 8px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            white-space: nowrap;
+        }
+
+        .filter-actions_Approved {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-icon-btn_Approved {
+            width: 38px;
+            height: 36px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .advanced-filter-panel_Approved {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .advanced-filter-grid_Approved {
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) minmax(210px, 1.1fr);
+            gap: 10px;
+            align-items: end;
+        }
+
+        .list-card_Approved {
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .list-card_Approved .card-header_Approved {
+            min-height: 42px;
+        }
+
+        .list-card_Approved.is-loading::after {
+            content: "";
+            position: absolute;
+            inset: 42px 0 0 0;
+            z-index: 8;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(255,255,255,0.58), rgba(255,255,255,0.18));
+        }
+
+        .list-card_Approved.is-loading::before {
+            content: "%ProcessingData_OTMess%";
+            position: absolute;
+            top: 52px;
+            right: 14px;
+            z-index: 9;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #ffffff;
+            border: 1px solid #bfdbfe;
+            color: #0369a1;
+            font-size: 0.72rem;
+            font-weight: 900;
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+        }
+
+        #listTableWrap_Approved {
+            max-height: calc(100vh - 285px);
+            min-height: 430px;
+        }
+
+        @media (max-width: 1200px) {
+            .approval-topbar-inner_Approved {
+                grid-template-columns: repeat(4, minmax(150px, 1fr)) auto;
+            }
+
+            .approval-title-block_Approved {
+                grid-column: 1 / -1;
+            }
+
+            .dashboard-modern-grid_Approved,
+            .dash-type-panels_Approved {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-main-grid_Approved {
+                grid-template-columns: repeat(2, minmax(220px, 1fr));
+            }
+
+            .filter-actions_Approved {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .approval-topbar-inner_Approved,
+            .filter-main-grid_Approved,
+            .advanced-filter-grid_Approved {
+                grid-template-columns: 1fr;
+            }
+
+            .approval-toggle-btn_Approved {
+                width: 100%;
+                min-height: 38px;
+            }
+
+            .dash-donut-wrap_Approved,
+            .dash-spark-grid_Approved {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-donut_Approved {
+                margin: 0 auto;
+            }
+
+            #listTableWrap_Approved {
+                max-height: 68vh;
+                min-height: 360px;
+            }
         }
 
         .row-warning_Approved {
             background-color: #fef2f2 !important;
             border-left: 3px solid #ef4444;
+        }
+
+        .manual-edit-row_Approved {
+            background-color: #fffbeb !important;
+            border-left: 3px solid #f59e0b;
+        }
+
+        .manual-edit-badge_Approved {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: help;
+            border: 1px solid #f8d568;
+            background: #fff7cc;
+            color: #7c4a03;
+            border-radius: 999px;
+            padding: 3px 8px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .manual-edit-badge_Approved .bi-exclamation-circle-fill {
+            color: #b45309;
+        }
+
+        .manual-edit-text_Approved {
+            color: #9a5b00 !important;
+        }
+
+        .ot-focus-hours_Approved {
+            color: #0f766e !important;
+            font-weight: 800;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+        }
+
+        .ot-focus-total_Approved {
+            color: #4f46e5 !important;
+            font-weight: 800;
+        }
+
+        .manual-time-input_Approved {
+            width: 74px;
+            height: 30px;
+            text-align: center;
+            font-weight: 700;
+            border: 1px solid #f0b429;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .manual-edit-popover_Approved {
+            position: absolute;
+            z-index: 10050;
+            width: min(420px, calc(100vw - 28px));
+            max-height: 360px;
+            overflow-y: auto;
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+            padding: 12px;
+            display: none;
+        }
+
+        .manual-edit-popover_Approved::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            left: 24px;
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-left: 1px solid #cbd5e1;
+            border-top: 1px solid #cbd5e1;
+            transform: rotate(45deg);
+        }
+
+        .manual-edit-popover_Approved.show-above::before {
+            top: auto;
+            bottom: -7px;
+            border-left: 0;
+            border-top: 0;
+            border-right: 1px solid #cbd5e1;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .manual-edit-popover-title_Approved {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #334155;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+
+        .manual-edit-history-item_Approved {
+            border-left: 3px solid #f59e0b;
+            background: #fffaf0;
+            border-radius: 6px;
+            padding: 8px 9px;
+            margin-bottom: 8px;
+        }
+
+        .manual-edit-history-item_Approved:last-child {
+            margin-bottom: 0;
+        }
+
+        .manual-edit-history-person_Approved {
+            font-weight: 800;
+            color: #0f172a;
+            font-size: 0.8rem;
+        }
+
+        .manual-edit-history-meta_Approved,
+        .manual-edit-history-time_Approved {
+            font-size: 0.72rem;
+            color: #64748b;
+        }
+
+        .manual-edit-history-change_Approved {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 8px;
+            align-items: center;
+            margin-top: 7px;
+            font-size: 0.76rem;
+        }
+
+        .manual-edit-history-box_Approved {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px;
+        }
+
+        .manual-edit-history-label_Approved {
+            color: #64748b;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .manual-edit-history-value_Approved {
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .smart-timepicker-approved_Approved {
+            position: absolute;
+            z-index: 10060;
+            max-height: 245px;
+            overflow-y: auto;
+            background: var(--bs-body-bg, #fff);
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.18);
+            padding: 6px;
+            display: none;
+        }
+
+        .smart-timepicker-approved_Approved .time-option-item_Approved {
+            padding: 7px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .smart-timepicker-approved_Approved .time-option-item_Approved:hover {
+            background: #e0f2fe;
+            color: #075985;
         }
 
         @keyframes blinkerDanger {
@@ -586,101 +1365,155 @@
 
 <body>
     <div class="wrapper_Approved">
-        <div class="container-fluid px-2 px-md-4">
+        <div class="">
 
             <div id="viewList_Approved">
-                <div class="row g-3 mb-3" id="dashboardSummaryArea" style="display: none;">
-
-                    <div class="col-12">
-                        <div class="dash-card shadow-sm border-primary">
-                            <div
-                                class="dash-header bg-primary-subtle text-primary border-bottom border-primary d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-pie-chart-fill me-2"></i>%TotalSummary_OTMess%</span>
+                <div id="dashboardSummaryArea" class="approval-topbar_Approved" style="display: none;">
+                    <div class="approval-topbar-inner_Approved">
+                        <div class="approval-title-block_Approved">
+                            <div class="approval-title_Approved">
+                                <i class="bi bi-pie-chart-fill"></i>
+                                <span>%TotalSummary_OTMess%</span>
                             </div>
-                            <div class="dash-body py-3 d-flex flex-wrap justify-content-around gap-2 text-center">
-                                <div class="dash-stat-item">
-                                    <div class="dash-stat-num text-dark" id="dashTotalForms">0</div>
-                                    <div class="dash-stat-label">%Form_OTMess%</div>
+                            <div class="approval-chart-mini_Approved">
+                                <div class="approval-chart-track_Approved">
+                                    <div class="approval-chart-seg_Approved approval-chart-pending_Approved" id="dashPendingBar"
+                                        style="width:0%"></div>
+                                    <div class="approval-chart-seg_Approved approval-chart-approved_Approved" id="dashApprovedBar"
+                                        style="width:0%"></div>
+                                    <div class="approval-chart-seg_Approved approval-chart-rejected_Approved" id="dashRejectedBar"
+                                        style="width:0%"></div>
+                                    <div class="approval-chart-seg_Approved approval-chart-cancelled_Approved" id="dashCancelledBar"
+                                        style="width:0%"></div>
                                 </div>
-                                <div class="dash-stat-item">
-                                    <div class="dash-stat-num text-success" id="dashTotalEmp">0</div>
-                                    <div class="dash-stat-label">%EmployeeCount_OTMess%</div>
+                                <div class="approval-status-legend_Approved">
+                                    <span><i class="approval-status-dot_Approved" style="background:#f59e0b;"></i>%Pending_OTMess% <b id="dashPendingCount">0</b></span>
+                                    <span><i class="approval-status-dot_Approved" style="background:#22c55e;"></i>%Approved_OTMess% <b id="dashApprovedCount">0</b></span>
+                                    <span><i class="approval-status-dot_Approved" style="background:#ef4444;"></i>%Rejected_OTMess% <b id="dashRejectedCount">0</b></span>
+                                    <span><i class="approval-status-dot_Approved" style="background:#64748b;"></i>%Cancelled_OTMess% <b id="dashCancelledCount">0</b></span>
                                 </div>
-                                <div class="dash-stat-item">
-                                    <div class="dash-stat-num text-warning" style="color: #d97706!important;"
-                                        id="dashTotalHrs">0</div>
-                                    <div class="dash-stat-label">%TotalOTHours_OTMess%</div>
+                            </div>
+                        </div>
+                        <div class="approval-kpi_Approved">
+                            <div class="approval-kpi-icon_Approved" style="background:linear-gradient(135deg,#0ea5e9,#2563eb);">
+                                <i class="bi bi-files"></i>
+                            </div>
+                            <div>
+                                <div class="approval-kpi-value_Approved" id="dashTotalForms">0</div>
+                                <div class="approval-kpi-label_Approved">%Form_OTMess%</div>
+                            </div>
+                        </div>
+                        <div class="approval-kpi_Approved">
+                            <div class="approval-kpi-icon_Approved" style="background:linear-gradient(135deg,#22c55e,#0f766e);">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <div>
+                                <div class="approval-kpi-value_Approved" id="dashTotalEmp">0</div>
+                                <div class="approval-kpi-label_Approved">%EmployeeCount_OTMess%</div>
+                            </div>
+                        </div>
+                        <div class="approval-kpi_Approved">
+                            <div class="approval-kpi-icon_Approved" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div>
+                                <div class="approval-kpi-value_Approved" id="dashTotalHrs">0</div>
+                                <div class="approval-kpi-label_Approved">%TotalOTHours_OTMess%</div>
+                            </div>
+                        </div>
+                        <div class="approval-kpi_Approved">
+                            <div class="approval-kpi-icon_Approved" style="background:linear-gradient(135deg,#ef4444,#be123c);">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                            </div>
+                            <div>
+                                <div class="approval-kpi-value_Approved" id="dashTotalRisk">0</div>
+                                <div class="approval-kpi-label_Approved">%ExceedEmp_OTMess%</div>
+                            </div>
+                        </div>
+                        <button type="button" class="approval-toggle-btn_Approved" id="btnToggleDashboard_Approved"
+                            onclick="toggleDashboardDetails_Approved()" title="%TotalSummary_OTMess%">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                        </button>
+                    </div>
+                    <div class="dashboard-details_Approved" id="dashboardDetails_Approved">
+                        <div class="dashboard-modern-grid_Approved">
+                            <div class="dash-visual-card_Approved">
+                                <div class="dash-visual-inner_Approved">
+                                    <div class="dash-section-title_Approved">
+                                        <span><i class="bi bi-pie-chart-fill text-primary me-1"></i>%TotalSummary_OTMess%</span>
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle"
+                                            id="dashGroupTotalCount">0 %Group_OTMess%</span>
+                                    </div>
+                                    <div class="dash-donut-wrap_Approved">
+                                        <div class="dash-donut_Approved" id="dashTypeDonut">
+                                            <div class="dash-donut-core_Approved">
+                                                <strong id="dashDonutTotal">0</strong>
+                                                <span>%Form_OTMess%</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="dash-legend-item_Approved">
+                                                <i class="dash-legend-dot_Approved" style="background:#22c55e;"></i>
+                                                <span>%NormalDay_OTMess%</span>
+                                                <span class="dash-legend-value_Approved" id="dashNormalForms">0</span>
+                                            </div>
+                                            <div class="dash-legend-item_Approved">
+                                                <i class="dash-legend-dot_Approved" style="background:#f97316;"></i>
+                                                <span>%Holiday_OTMess%</span>
+                                                <span class="dash-legend-value_Approved" id="dashHolidayForms">0</span>
+                                            </div>
+                                            <div class="dash-legend-item_Approved">
+                                                <i class="dash-legend-dot_Approved" style="background:#ef4444;"></i>
+                                                <span>%ExceedEmp_OTMess%</span>
+                                                <span class="dash-legend-value_Approved" id="dashRiskForms">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dash-spark-grid_Approved">
+                                        <div class="dash-spark_Approved" style="background:linear-gradient(135deg,#06b6d4,#2563eb);">
+                                            <div class="dash-spark-num_Approved" id="dashAvgEmp">0</div>
+                                            <div class="dash-spark-label_Approved">%Emp_OTMess% / %Form_OTMess%</div>
+                                        </div>
+                                        <div class="dash-spark_Approved" style="background:linear-gradient(135deg,#a855f7,#ec4899);">
+                                            <div class="dash-spark-num_Approved" id="dashAvgHrs">0h</div>
+                                            <div class="dash-spark-label_Approved">%TotalHours_OTMess% / %Form_OTMess%</div>
+                                        </div>
+                                        <div class="dash-spark_Approved" style="background:linear-gradient(135deg,#f97316,#ef4444);">
+                                            <div class="dash-spark-num_Approved" id="dashRiskRate">0%</div>
+                                            <div class="dash-spark-label_Approved">%ExceedEmp_OTMess%</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="dash-stat-item">
-                                    <div class="dash-stat-num text-danger" id="dashTotalRisk">0</div>
-                                    <div class="dash-stat-label">%ExceedEmp_OTMess%</div>
+                            </div>
+                            <div class="dash-type-panels_Approved">
+                                <div class="dash-type-panel_Approved">
+                                    <div class="dash-type-header_Approved" style="background:linear-gradient(135deg,#16a34a,#14b8a6);">
+                                        <span><i class="bi bi-calendar2-week-fill me-1"></i>%NormalDay_OTMess%</span>
+                                        <span class="badge" id="dashGroupCountNormal">0 %Group_OTMess%</span>
+                                    </div>
+                                    <div class="dash-group-list_Approved" id="dashGroupListNormal"></div>
+                                </div>
+                                <div class="dash-type-panel_Approved">
+                                    <div class="dash-type-header_Approved" style="background:linear-gradient(135deg,#f97316,#e11d48);">
+                                        <span><i class="bi bi-calendar2-x-fill me-1"></i>%Holiday_OTMess%</span>
+                                        <span class="badge" id="dashGroupCountHoliday">0 %Group_OTMess%</span>
+                                    </div>
+                                    <div class="dash-group-list_Approved" id="dashGroupListHoliday"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="dash-card shadow-sm border-success h-100">
-                            <div
-                                class="dash-header text-success d-flex justify-content-between bg-success-subtle border-success">
-                                <span><i class="bi bi-calendar2-week-fill me-2"></i>%NormalDay_OTMess%</span>
-                                <span class="badge bg-success" id="dashGroupCountNormal">0 %Group_OTMess%</span>
-                            </div>
-                            <div class="dash-list-container m-0">
-                                <table class="table table-sm table-hover table-borderless mb-0 text-center"
-                                    style="font-size: 0.8rem; margin: 0;">
-                                    <thead class="table-success text-success"
-                                        style="position: sticky; top: 0; z-index: 1;">
-                                        <tr>
-                                            <th class="text-start ps-3">%GroupDivision_OTMess%</th>
-                                            <th>%FormUnit_OTMess%</th>
-                                            <th>%Emp_OTMess%</th>
-                                            <th>%TotalHours_OTMess%</th>
-                                            <th>%Status_OTMess%</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="dashGroupListNormal"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="dash-card shadow-sm border-danger h-100">
-                            <div
-                                class="dash-header text-danger d-flex justify-content-between bg-danger-subtle border-danger">
-                                <span><i class="bi bi-calendar2-x-fill me-2"></i>%Holiday_OTMess%</span>
-                                <span class="badge bg-danger" id="dashGroupCountHoliday">0 %Group_OTMess%</span>
-                            </div>
-                            <div class="dash-list-container m-0">
-                                <table class="table table-sm table-hover table-borderless mb-0 text-center"
-                                    style="font-size: 0.8rem; margin: 0;">
-                                    <thead class="table-danger text-danger"
-                                        style="position: sticky; top: 0; z-index: 1;">
-                                        <tr>
-                                            <th class="text-start ps-3">%GroupDivision_OTMess%</th>
-                                            <th>%FormUnit_OTMess%</th>
-                                            <th>%Emp_OTMess%</th>
-                                            <th>%TotalHours_OTMess%</th>
-                                            <th>%Status_OTMess%</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="dashGroupListHoliday"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="card_Approved shadow-sm">
+                <div class="card_Approved shadow-sm filter-card_Approved">
                     <div class="card-body_Approved py-3">
-                        <div class="row g-2 align-items-end">
-                            <div class="col-xl-3 col-lg-3 col-md-6">
+                        <div class="filter-main-grid_Approved">
+                            <div>
                                 <label class="text-muted mb-1"
                                     style="font-size:0.75rem; font-weight:bold;">%Status_OTMess%</label>
                                 <select id="fltStatus_Approved"
-                                    class="form-select input-flt_Approved text-start text-primary">
+                                    class="form-select input-flt_Approved text-start text-primary"
+                                    onchange="scheduleApprovalReload_Approved()">
                                     <option value="-1">%All_OTMess%</option>
                                     <option value="1" selected>%Pending_OTMess%</option>
                                     <option value="2">%Approved_OTMess%</option>
@@ -688,71 +1521,106 @@
                                     <option value="4">%Cancelled_OTMess%</option>
                                 </select>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6">
+                            <div>
+                                <label class="text-muted mb-1"
+                                    style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-funnel"></i>
+                                    %QuickFilter_OTMess%</label>
+                                <div class="type-segment_Approved">
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-success fw-bold filter-type-btn"
+                                        data-val="1" onclick="toggleQuickTypeFilter(this, 1)">%NormalDay_OTMess%</button>
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-danger fw-bold filter-type-btn"
+                                        data-val="2" onclick="toggleQuickTypeFilter(this, 2)">%Holiday_OTMess%</button>
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-warning fw-bold filter-risk-btn_Approved"
+                                        onclick="toggleQuickRiskFilter_Approved(this)">
+                                        <i class="bi bi-exclamation-triangle-fill"></i> %ExceedEmp_OTMess%
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
                                 <label class="text-muted mb-1"
                                     style="font-size:0.75rem; font-weight:bold;">%FromDate_OTMess%</label>
                                 <div class="date-wrap_Approved">
                                     <input type="text" id="fltFromDate_Approved" class="input-flt_Approved w-100"
                                         placeholder="DD/MM/YYYY" maxlength="10"
-                                        oninput="formatDateInput_Approved(this)">
+                                        oninput="formatDateInput_Approved(this); scheduleApprovalReload_Approved()"
+                                        onclick="openDatePicker_Approved(this)" onfocus="openDatePicker_Approved(this)">
                                     <i class="bi bi-calendar-date"></i>
-                                    <input type="date" onchange="syncDate_Approved(this, '#fltFromDate_Approved')">
+                                    <input type="date" onchange="syncDate_Approved(this, '#fltFromDate_Approved'); scheduleApprovalReload_Approved(true)">
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6">
+                            <div>
                                 <label class="text-muted mb-1"
                                     style="font-size:0.75rem; font-weight:bold;">%ToDate_OTMess%</label>
                                 <div class="date-wrap_Approved">
                                     <input type="text" id="fltToDate_Approved" class="input-flt_Approved w-100"
                                         placeholder="DD/MM/YYYY" maxlength="10"
-                                        oninput="formatDateInput_Approved(this)">
+                                        oninput="formatDateInput_Approved(this); scheduleApprovalReload_Approved()"
+                                        onclick="openDatePicker_Approved(this)" onfocus="openDatePicker_Approved(this)">
                                     <i class="bi bi-calendar-date"></i>
-                                    <input type="date" onchange="syncDate_Approved(this, '#fltToDate_Approved')">
+                                    <input type="date" onchange="syncDate_Approved(this, '#fltToDate_Approved'); scheduleApprovalReload_Approved(true)">
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-6 text-end d-flex gap-2">
-                                <button class="btn btn-light border w-100 fw-bold shadow-sm"
-                                    style="height: 36px; font-size: 0.85rem;" onclick="initPortal_Approved()">
+                            <div class="filter-actions_Approved">
+                                <button type="button" class="btn btn-outline-secondary filter-icon-btn_Approved shadow-sm"
+                                    id="btnToggleAdvancedFilter_Approved" onclick="toggleAdvancedFilters_Approved()"
+                                    title="%QuickFilter_OTMess%">
+                                    <i class="bi bi-sliders"></i>
+                                </button>
+                                <button class="btn btn-light border fw-bold shadow-sm"
+                                    style="height: 40px; font-size: 0.9rem;" onclick="resetApprovalDefaultFilters_Approved()">
                                     <i class="bi bi-arrow-clockwise"></i> %ThisMonth_OTMess%
                                 </button>
-                                <button class="btn btn-primary w-100 fw-bold shadow-sm"
-                                    style="height: 36px; font-size: 0.85rem;" onclick="loadApprovalList_Approved()">
-                                    <i class="bi bi-search"></i> %FilterBtn_OTMess%
+                                <button type="button" class="btn btn-primary fw-bold shadow-sm text-nowrap"
+                                    style="height: 40px; font-size: 0.9rem;" onclick="applyPendingApprovalFilter_Approved()">
+                                    <i class="bi bi-funnel-fill"></i> L&#7885;c
                                 </button>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-12 d-flex align-items-center gap-2 flex-wrap">
-                                <span class="fw-bold text-muted small"><i class="bi bi-funnel"></i>
-                                    %QuickFilter_OTMess%</span>
-                                <button type="button"
-                                    class="btn btn-sm btn-outline-success rounded-pill fw-bold filter-type-btn px-3"
-                                    data-val="1" onclick="toggleQuickTypeFilter(this, 1)">%NormalDay_OTMess%</button>
-                                <button type="button"
-                                    class="btn btn-sm btn-outline-danger rounded-pill fw-bold filter-type-btn px-3"
-                                    data-val="2" onclick="toggleQuickTypeFilter(this, 2)">%Holiday_OTMess%</button>
-
-                                <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-building"></i>
-                                    %DivisionCol_OTRegister%</span>
-                                <select id="quickDivisionFilter"
-                                    class="form-select form-select-sm d-inline-block w-auto rounded-pill fw-bold border-secondary text-secondary"
-                                    onchange="onDivisionFilterChange()">
-                                    <option value="ALL">%AllGroupDivision_OTMess%</option>
-                                </select>
-
-                                <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-people-fill"></i>
-                                    %colCaptionName% </span>
-                                <select id="quickGroupFilter"
-                                    class="form-select form-select-sm d-inline-block w-auto rounded-pill fw-bold border-secondary text-secondary"
-                                    onchange="onGroupFilterChange()">
-                                    <option value="ALL">%AllGroup_OTMess%</option>
-                                </select>
+                        <div class="advanced-filter-panel_Approved" id="advancedFilterPanel_Approved">
+                            <div class="advanced-filter-grid_Approved">
+                                <div>
+                                    <label class="text-muted mb-1"
+                                        style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-building"></i>
+                                        %DivisionCol_OTRegister%</label>
+                                    <select id="quickDivisionFilter"
+                                        class="form-select form-select-sm fw-bold border-secondary text-secondary"
+                                        onchange="onDivisionFilterChange()">
+                                        <option value="ALL">%AllGroupDivision_OTMess%</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-muted mb-1"
+                                        style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-people-fill"></i>
+                                        %colCaptionName%</label>
+                                    <select id="quickGroupFilter"
+                                        class="form-select form-select-sm fw-bold border-secondary text-secondary"
+                                        onchange="onGroupFilterChange()">
+                                        <option value="ALL">%AllGroup_OTMess%</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-muted mb-1"
+                                        style="font-size:0.75rem; font-weight:bold;"><i class="bi bi-search"></i>
+                                        %EmpCode_OTMess%</label>
+                                <div class="input-group input-group-sm w-auto">
+                                    <input type="text" id="searchCreatorInput_Approved"
+                                        class="form-control fw-bold border-secondary text-secondary"
+                                        placeholder="%EmpCode_OTMess_Edit%" oninput="applyClientSideFilters()">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        onclick="clearCreatorSearch_Approved()" title="%Clear_OTMess%">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card_Approved shadow-sm">
+                <div class="card_Approved shadow-sm list-card_Approved">
                     <div class="card-header_Approved py-2 bg-light border-bottom">
                         <h6 class="m-0 fw-bold text-dark"><i
                                 class="bi bi-list-task text-primary me-2"></i>%FormList_OTMess% <span
@@ -762,7 +1630,7 @@
                                 id="lblSelectedCount">0</span></div>
                     </div>
                     <div class="table-responsive-custom position-relative border-0 rounded-0">
-                        <div class="table-wrap_Approved" style="max-height: 55vh;">
+                        <div class="table-wrap_Approved" id="listTableWrap_Approved">
                             <table class="table_Approved table-hover">
                                 <thead>
                                     <tr>
@@ -985,6 +1853,38 @@
         var CURRENT_PAGE = 1;
         var PAGE_SIZE = 30;
         var QUICK_TYPE_FILTER = 0;
+        var QUICK_RISK_FILTER = false;
+        var DASHBOARD_DETAILS_OPEN = false;
+        var ADVANCED_FILTER_OPEN = false;
+        var FILTER_RELOAD_TIMER_APPROVED = null;
+        var REALTIME_TIMER_APPROVED = null;
+
+        window.toggleDashboardDetails_Approved = function () {
+            DASHBOARD_DETAILS_OPEN = !DASHBOARD_DETAILS_OPEN;
+            $('#dashboardDetails_Approved').stop(true, true).slideToggle(180);
+            $('#btnToggleDashboard_Approved').html(DASHBOARD_DETAILS_OPEN
+                ? '<i class="bi bi-chevron-up"></i>'
+                : '<i class="bi bi-bar-chart-line-fill"></i>');
+        };
+
+        window.toggleAdvancedFilters_Approved = function () {
+            ADVANCED_FILTER_OPEN = !ADVANCED_FILTER_OPEN;
+            $('#advancedFilterPanel_Approved').stop(true, true).slideToggle(180);
+            $('#btnToggleAdvancedFilter_Approved')
+                .toggleClass('btn-primary', ADVANCED_FILTER_OPEN)
+                .toggleClass('btn-outline-secondary', !ADVANCED_FILTER_OPEN);
+        };
+
+        function scheduleApprovalReload_Approved(immediate) {
+            clearTimeout(FILTER_RELOAD_TIMER_APPROVED);
+            var runReload = function () {
+                var fStr = $('#fltFromDate_Approved').val();
+                var tStr = $('#fltToDate_Approved').val();
+                if (fStr.length === 10 && tStr.length === 10) loadApprovalList_Approved();
+            };
+            if (immediate) runReload();
+            else FILTER_RELOAD_TIMER_APPROVED = setTimeout(runReload, 450);
+        }
 
         function waitLibrariesAndInit_Approved() {
             if (typeof jQuery !== 'undefined' && typeof moment !== 'undefined' && typeof uiManager !== 'undefined') initPortal_Approved();
@@ -992,10 +1892,9 @@
         }
         waitLibrariesAndInit_Approved();
 
-        function initPortal_Approved() {
+        function resetApprovalDefaultFilterValues_Approved() {
             var frD = moment().subtract(1, 'months').startOf('month').date(15);
             var toD = moment().endOf('month');
-
 
             $('#fltFromDate_Approved').val(frD.format('DD/MM/YYYY'));
             $('#fltFromDate_Approved').siblings('input[type="date"]').val(frD.format('YYYY-MM-DD'));
@@ -1005,14 +1904,34 @@
 
             $('#fltStatus_Approved').val('1');
             QUICK_TYPE_FILTER = 0;
+            QUICK_RISK_FILTER = false;
             $('.filter-type-btn').removeClass('active');
+            $('.filter-risk-btn_Approved').removeClass('active');
             $('#quickDivisionFilter').val('ALL');
             $('#quickGroupFilter').val('ALL');
+            $('#searchCreatorInput_Approved').val('');
+            $('#advancedFilterPanel_Approved').hide();
+            ADVANCED_FILTER_OPEN = false;
+            $('#btnToggleAdvancedFilter_Approved').removeClass('btn-primary').addClass('btn-outline-secondary');
+        }
 
+        window.resetApprovalDefaultFilters_Approved = function () {
+            resetApprovalDefaultFilterValues_Approved();
+            loadApprovalList_Approved();
+        };
+
+        window.applyPendingApprovalFilter_Approved = function () {
+            resetApprovalDefaultFilterValues_Approved();
+            $('#fltStatus_Approved').val('1');
+            loadApprovalList_Approved();
+        };
+
+        function initPortal_Approved() {
+            resetApprovalDefaultFilterValues_Approved();
             setTimeout(() => {
                 loadApprovalList_Approved();
             }, 0);
-            setInterval(checkAndInjectNewOrders, 5000);
+            if (!REALTIME_TIMER_APPROVED) REALTIME_TIMER_APPROVED = setInterval(checkAndInjectNewOrders, 5000);
         }
         var isCheckingRealtime = false;
         function checkAndInjectNewOrders() {
@@ -1037,14 +1956,14 @@
                         if (LAST_PENDING_COUNT === -1) {
                             LAST_PENDING_COUNT = currentCount;
                         } else if (currentCount !== LAST_PENDING_COUNT) {
-                            console.log("Số lượng đơn thay đổi (" + LAST_PENDING_COUNT + " -> " + currentCount + "). Đang cập nhật...");
+                            console.log("%RealtimeOrderCountChanged_OTRegistration% (" + LAST_PENDING_COUNT + " -> " + currentCount + "). %RealtimeUpdating_OTRegistration%");
                             LAST_PENDING_COUNT = currentCount;
                             fetchNewDataAndInject();
                         }
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Lỗi khi kiểm tra số lượng đơn realtime:", error);
+                    console.error("%RealtimeCountCheckError_OTRegistration%", error);
                     isCheckingRealtime = false;
                     setTimeout(checkAndInjectNewOrders, 5000);
                 }
@@ -1080,11 +1999,11 @@
 
                         applyClientSideFilters();
 
-                        uiManager.showAlert({ type: "info", message: "Danh sách đơn đã được tự động cập nhật mới nhất!" });
+                        uiManager.showAlert({ type: "info", message: "%RealtimeListUpdated_OTRegistration%" });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Lỗi khi tải lại dữ liệu mới realtime:", error);
+                    console.error("%RealtimeReloadError_OTRegistration%", error);
                 }
             });
         }
@@ -1105,6 +2024,16 @@
             if (val) { $(targetId).val(moment(val).format('DD/MM/YYYY')); }
         }
 
+        function openDatePicker_Approved(textInput) {
+            var picker = $(textInput).siblings('input[type="date"]')[0];
+            if (!picker) return;
+            if (typeof picker.showPicker === 'function') {
+                try { picker.showPicker(); return; } catch (e) { }
+            }
+            picker.focus();
+            picker.click();
+        }
+
         function extractTime_Approved(dtStr) {
             if (!dtStr || dtStr === "null" || dtStr === "undefined") return "";
             if (dtStr.length >= 5 && dtStr.indexOf(':') === 2) return dtStr.substring(0, 5);
@@ -1120,6 +2049,7 @@
         function resetBulkUI() {
             SELECTED_BULK_IDS = [];
             $('#chkAll_Approved').prop('checked', false);
+            $('.chk-bulk-item').prop('checked', false);
             $('#bulkActionBar').slideUp(200);
             $('#bulkRemarkInput').val('');
             $('#selectedCountUI').hide();
@@ -1166,16 +2096,167 @@
             applyClientSideFilters();
         }
 
+        window.toggleQuickRiskFilter_Approved = function (btn) {
+            QUICK_RISK_FILTER = !QUICK_RISK_FILTER;
+            $(btn).toggleClass('active', QUICK_RISK_FILTER);
+            applyClientSideFilters();
+        };
+
+        function normalizeSearchText_Approved(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        function getCreatorSearchText_Approved(row) {
+            return [
+                row.CreatorID,
+                row.CreatorCode,
+                row.CreatorName,
+                row.ApplicantID,
+                row.ApplicantCode,
+                row.ApplicantName,
+                row.RequesterID,
+                row.RequesterCode,
+                row.RequesterName,
+                row.RequestorID,
+                row.RequestorCode,
+                row.RequestorName,
+                row.SenderID,
+                row.SenderCode,
+                row.SenderName,
+                row.SubmitterID,
+                row.SubmitterCode,
+                row.SubmitterName,
+                row.RegisterByID,
+                row.RegisterByCode,
+                row.RegisterBy,
+                row.RegisterByName,
+                row.CreatedBy,
+                row.CreateBy,
+                row.CreateUser,
+                row.CreateUserName,
+                row.UserID,
+                row.UserCode,
+                row.UserName
+            ].filter(function (v) {
+                return v !== undefined && v !== null && String(v).trim() !== '' && String(v).toLowerCase() !== 'null';
+            }).join(' ');
+        }
+
+        function getCreatorDisplayCode_Approved(row) {
+            var codeFields = [
+                row.CreatorID,
+                row.CreatorCode,
+                row.ApplicantID,
+                row.ApplicantCode,
+                row.RequesterID,
+                row.RequesterCode,
+                row.RequestorID,
+                row.RequestorCode,
+                row.SenderID,
+                row.SenderCode,
+                row.SubmitterID,
+                row.SubmitterCode,
+                row.RegisterByID,
+                row.RegisterByCode,
+                row.UserID,
+                row.UserCode
+            ];
+            for (var i = 0; i < codeFields.length; i++) {
+                if (codeFields[i] !== undefined && codeFields[i] !== null && String(codeFields[i]).trim() !== '' && String(codeFields[i]).toLowerCase() !== 'null') {
+                    return String(codeFields[i]).trim();
+                }
+            }
+            return '';
+        }
+
+        window.clearCreatorSearch_Approved = function () {
+            $('#searchCreatorInput_Approved').val('');
+            applyClientSideFilters();
+        };
+
+        function escapeDashboardText_Approved(val) {
+            return String(val == null ? '' : val)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderDashboardGroupCards_Approved(statsObj, accentColor, accentSoft, maxHours) {
+            var groups = Object.keys(statsObj).map(function (name) {
+                var st = statsObj[name];
+                return {
+                    name: name,
+                    forms: st.forms,
+                    emps: st.emps,
+                    hrs: st.hrs,
+                    risks: st.risks,
+                    statuses: st.statuses
+                };
+            }).sort(function (a, b) {
+                if (b.risks !== a.risks) return b.risks - a.risks;
+                if (b.hrs !== a.hrs) return b.hrs - a.hrs;
+                return b.forms - a.forms;
+            });
+
+            if (groups.length === 0) {
+                return '<div class="dash-empty_Approved"><i class="bi bi-inbox me-1"></i>%NoData_OTMess%</div>';
+            }
+
+            return groups.map(function (g) {
+                var statusHtml = '';
+                g.statuses.forEach(function (s) {
+                    if (s === 1) statusHtml += '<span class="badge bg-warning text-dark ms-1">%Pending_OTMess%</span>';
+                    else if (s === 2) statusHtml += '<span class="badge bg-success ms-1">%Approved_OTMess%</span>';
+                    else if (s === 3) statusHtml += '<span class="badge bg-danger ms-1">%Rejected_OTMess%</span>';
+                    else if (s === 4) statusHtml += '<span class="badge bg-secondary ms-1">%Cancelled_OTMess%</span>';
+                    else if (s === 5) statusHtml += '<span class="badge bg-warning text-dark ms-1">%RequestCancel_OTMess%</span>';
+                });
+                var riskHtml = g.risks > 0 ? `<span class="badge bg-danger ms-1"><i class="bi bi-exclamation-triangle-fill"></i> ${g.risks}</span>` : '';
+                var pct = maxHours > 0 ? Math.max(6, Math.min(100, (g.hrs / maxHours) * 100)) : 0;
+
+                return `
+                    <div class="dash-group-card_Approved">
+                        <div class="dash-group-top_Approved">
+                            <div class="dash-group-name_Approved">${escapeDashboardText_Approved(g.name)}</div>
+                            <div class="text-end">${statusHtml}${riskHtml}</div>
+                        </div>
+                        <div class="dash-group-metrics_Approved">
+                            <div class="dash-metric-pill_Approved" style="background:${accentSoft};">
+                                <strong>${g.forms}</strong><span>%FormUnit_OTMess%</span>
+                            </div>
+                            <div class="dash-metric-pill_Approved">
+                                <strong>${g.emps}</strong><span>%Emp_OTMess%</span>
+                            </div>
+                            <div class="dash-metric-pill_Approved">
+                                <strong>${g.hrs.toFixed(1)}h</strong><span>%TotalHours_OTMess%</span>
+                            </div>
+                        </div>
+                        <div class="dash-progress_Approved">
+                            <div class="dash-progress-fill_Approved" style="width:${pct}%; background:${accentColor};"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function applyClientSideFilters() {
             var selectedDivision = $('#quickDivisionFilter').val();
             var selectedGroup = $('#quickGroupFilter').val();
+            var creatorKeyword = normalizeSearchText_Approved($('#searchCreatorInput_Approved').val());
             var tempNormal = [];
             var dsTotalForms = 0, sumAllE = 0, sumAllH = 0, sumAllR = 0;
+            var normalForms = 0, holidayForms = 0;
+            var statusPending = 0, statusApproved = 0, statusRejected = 0, statusCancelled = 0;
             var statsNormal = {};
             var statsHoliday = {};
 
             RAW_API_DATA.forEach(row => {
                 if (QUICK_TYPE_FILTER !== 0 && row.TypeRegister != QUICK_TYPE_FILTER) return;
+                if (QUICK_RISK_FILTER && parseInt(row.RiskEmployeesCount || 0) <= 0) return;
+
+                if (creatorKeyword && normalizeSearchText_Approved(getCreatorSearchText_Approved(row)).indexOf(creatorKeyword) === -1) return;
 
                 if (selectedDivision !== 'ALL') {
                     if (parseInt(row.IsDivision || 0) === 1) {
@@ -1186,7 +2267,7 @@
                     }
                 }
 
-                // Lọc Nhóm (Group)
+                // Group filter
                 if (selectedGroup !== 'ALL') {
                     if (parseInt(row.IsDivision || 0) === 1) {
                         return;
@@ -1203,8 +2284,15 @@
                 sumAllE += empCount;
                 sumAllH += hrsCount;
                 sumAllR += riskCount;
+                if (row.TypeRegister == 1) normalForms++;
+                else holidayForms++;
+                var rowStatus = parseInt(row.Approve_Status);
+                if (rowStatus === 1 || rowStatus === 5) statusPending++;
+                else if (rowStatus === 2) statusApproved++;
+                else if (rowStatus === 3) statusRejected++;
+                else if (rowStatus === 4) statusCancelled++;
 
-                var gName = row.GroupName || 'Khác';
+                var gName = row.GroupName || '%OtherGroup_OTRegistration%';
                 var targetStats = (row.TypeRegister == 1) ? statsNormal : statsHoliday;
 
                 if (!targetStats[gName]) {
@@ -1226,51 +2314,11 @@
 
             FILTERED_LIST = tempNormal;
 
-            var htmlNormal = '';
-            for (var g in statsNormal) {
-                var st = statsNormal[g];
-                var stHtml = '';
-                st.statuses.forEach(s => {
-                    if (s === 1) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%Pending_OTMess%</span>';
-                    else if (s === 2) stHtml += '<span class="badge bg-success ms-1 mt-1">%Approved_OTMess%</span>';
-                    else if (s === 3) stHtml += '<span class="badge bg-danger ms-1 mt-1">%Rejected_OTMess%</span>';
-                    else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%Cancelled_OTMess%</span>';
-                    else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
-                });
-                var riskBadge = st.risks > 0 ? `<span class="badge bg-danger ms-1 mt-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
-                htmlNormal += `
-                    <tr>
-                        <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
-                        <td class="text-center fw-bold align-middle">${st.forms}</td>
-                        <td class="text-center fw-bold text-success align-middle">${st.emps}</td>
-                        <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
-                        <td class="text-center align-middle">${stHtml}${riskBadge}</td>
-                    </tr>
-                `;
-            }
-
-            var htmlHoliday = '';
-            for (var g in statsHoliday) {
-                var st = statsHoliday[g];
-                var stHtml = '';
-                st.statuses.forEach(s => {
-                    if (s === 1) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%Pending_OTMess%</span>';
-                    else if (s === 2) stHtml += '<span class="badge bg-success ms-1 mt-1">%Approved_OTMess%</span>';
-                    else if (s === 3) stHtml += '<span class="badge bg-danger ms-1 mt-1">%Rejected_OTMess%</span>';
-                    else if (s === 4) stHtml += '<span class="badge bg-secondary ms-1 mt-1">%Cancelled_OTMess%</span>';
-                    else if (s === 5) stHtml += '<span class="badge bg-warning text-dark ms-1 mt-1">%RequestCancel_OTMess%</span>';
-                });
-                var riskBadge = st.risks > 0 ? `<span class="badge bg-danger ms-1 mt-1"><i class="bi bi-exclamation-triangle"></i> ${st.risks}</span>` : '';
-                htmlHoliday += `
-                    <tr>
-                        <td class="text-start fw-bold text-dark align-middle ps-3">${g}</td>
-                        <td class="text-center fw-bold align-middle">${st.forms}</td>
-                        <td class="text-center fw-bold text-danger align-middle">${st.emps}</td>
-                        <td class="text-center fw-bold align-middle" style="color:#d97706;">${st.hrs.toFixed(1)}h</td>
-                        <td class="text-center align-middle">${stHtml}${riskBadge}</td>
-                    </tr>
-                `;
-            }
+            var maxDashHours = 0;
+            Object.keys(statsNormal).forEach(function (g) { maxDashHours = Math.max(maxDashHours, statsNormal[g].hrs); });
+            Object.keys(statsHoliday).forEach(function (g) { maxDashHours = Math.max(maxDashHours, statsHoliday[g].hrs); });
+            var htmlNormal = renderDashboardGroupCards_Approved(statsNormal, 'linear-gradient(90deg,#22c55e,#14b8a6)', '#dcfce7', maxDashHours);
+            var htmlHoliday = renderDashboardGroupCards_Approved(statsHoliday, 'linear-gradient(90deg,#f97316,#e11d48)', '#ffedd5', maxDashHours);
 
             if (Object.keys(statsNormal).length > 0 || Object.keys(statsHoliday).length > 0) {
                 $('#dashboardSummaryArea').show();
@@ -1278,12 +2326,52 @@
                 $('#dashTotalEmp').text(sumAllE);
                 $('#dashTotalHrs').text(sumAllH.toFixed(1));
                 $('#dashTotalRisk').text(sumAllR);
+                $('#dashDonutTotal').text(dsTotalForms);
+                $('#dashNormalForms').text(normalForms);
+                $('#dashHolidayForms').text(holidayForms);
+                $('#dashRiskForms').text(sumAllR);
+                $('#dashGroupTotalCount').text((Object.keys(statsNormal).length + Object.keys(statsHoliday).length) + " %Group_OTMess%");
+                $('#dashAvgEmp').text(dsTotalForms > 0 ? (sumAllE / dsTotalForms).toFixed(1) : '0');
+                $('#dashAvgHrs').text(dsTotalForms > 0 ? (sumAllH / dsTotalForms).toFixed(1) + 'h' : '0h');
+                $('#dashRiskRate').text(sumAllE > 0 ? ((sumAllR / sumAllE) * 100).toFixed(0) + '%' : '0%');
+                $('#dashPendingCount').text(statusPending);
+                $('#dashApprovedCount').text(statusApproved);
+                $('#dashRejectedCount').text(statusRejected);
+                $('#dashCancelledCount').text(statusCancelled);
+                var statusTotal = Math.max(1, statusPending + statusApproved + statusRejected + statusCancelled);
+                var pendingPct = (statusPending / statusTotal) * 100;
+                var approvedPct = (statusApproved / statusTotal) * 100;
+                var rejectedPct = (statusRejected / statusTotal) * 100;
+                var cancelledPct = (statusCancelled / statusTotal) * 100;
+                var riskWeight = sumAllR > 0 ? Math.max(1, Math.min(dsTotalForms, sumAllR)) : 0;
+                var donutTotal = Math.max(1, normalForms + holidayForms + riskWeight);
+                var normalDeg = normalForms / donutTotal * 360;
+                var holidayDeg = holidayForms / donutTotal * 360;
+                var riskDeg = riskWeight / donutTotal * 360;
+                $('#dashPendingBar').css('width', pendingPct + '%');
+                $('#dashApprovedBar').css('width', approvedPct + '%');
+                $('#dashRejectedBar').css('width', rejectedPct + '%');
+                $('#dashCancelledBar').css('width', cancelledPct + '%');
+                $('#dashTypeDonut').css('background', `conic-gradient(#22c55e 0deg ${normalDeg}deg, #f97316 ${normalDeg}deg ${normalDeg + holidayDeg}deg, #ef4444 ${normalDeg + holidayDeg}deg ${normalDeg + holidayDeg + riskDeg}deg, #e2e8f0 ${normalDeg + holidayDeg + riskDeg}deg 360deg)`);
                 $('#dashGroupCountNormal').text(Object.keys(statsNormal).length + " %Group_OTMess%");
-                $('#dashGroupListNormal').html(htmlNormal || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+                $('#dashGroupListNormal').html(htmlNormal);
                 $('#dashGroupCountHoliday').text(Object.keys(statsHoliday).length + " %Group_OTMess%");
-                $('#dashGroupListHoliday').html(htmlHoliday || '<tr><td colspan="5" class="text-muted">%NoData_OTMess%</td></tr>');
+                $('#dashGroupListHoliday').html(htmlHoliday);
             } else {
-                $('#dashboardSummaryArea').hide();
+                $('#dashboardSummaryArea').show();
+                $('#dashTotalForms, #dashTotalEmp, #dashTotalRisk, #dashDonutTotal, #dashNormalForms, #dashHolidayForms, #dashRiskForms').text('0');
+                $('#dashTotalHrs').text('0.0');
+                $('#dashAvgEmp').text('0');
+                $('#dashAvgHrs').text('0h');
+                $('#dashRiskRate').text('0%');
+                $('#dashGroupTotalCount').text("0 %Group_OTMess%");
+                $('#dashGroupCountNormal').text("0 %Group_OTMess%");
+                $('#dashGroupCountHoliday').text("0 %Group_OTMess%");
+                $('#dashGroupListNormal').html('<div class="dash-empty_Approved"><i class="bi bi-inbox me-1"></i>%NoData_OTMess%</div>');
+                $('#dashGroupListHoliday').html('<div class="dash-empty_Approved"><i class="bi bi-inbox me-1"></i>%NoData_OTMess%</div>');
+                $('#dashPendingBar, #dashApprovedBar, #dashRejectedBar, #dashCancelledBar').css('width', '0%');
+                $('#dashPendingCount, #dashApprovedCount, #dashRejectedCount, #dashCancelledCount').text('0');
+                $('#dashTypeDonut').css('background', '#e2e8f0');
             }
 
             $('#lblTotalRecords').text(dsTotalForms + " %FormUnit_OTMess%");
@@ -1339,7 +2427,7 @@
             if (divisionSet.has(curDivVal)) divDdl.val(curDivVal);
             else divDdl.val('ALL');
 
-            // Gán dữ liệu cho dropdown Nhóm
+            // Fill group dropdown data
             var groupDdl = $('#quickGroupFilter');
             var curGroupVal = groupDdl.val() || 'ALL';
             groupDdl.empty().append('<option value="ALL">%AllGroup_OTMess%</option>');
@@ -1405,15 +2493,19 @@
             var fDate = moment(fStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
             var tDate = moment(tStr, 'DD/MM/YYYY').format('YYYY-MM-DD');
             var status = $('#fltStatus_Approved').val();
+            var hasRenderedRows = $('#listBody_Approved tr').length > 0 && $('#listBody_Approved .spinner-border').length === 0;
 
             resetBulkUI();
-            $('#listBody_Approved').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>');
-            $('#pagination_Approved').empty();
-            $('#dashboardSummaryArea').hide();
+            $('.list-card_Approved').addClass('is-loading');
+            if (!hasRenderedRows) {
+                $('#listBody_Approved').html('<tr><td colspan="7" class="text-center py-5"><div class="spinner-border text-primary"></div></td></tr>');
+                $('#pagination_Approved').empty();
+            }
 
             AjaxHPAParadise({
                 data: { name: "API_Approve_GetList", param: ["LoginID", LoginID, "FromDate", fDate, "ToDate", tDate, "Status", status, "TypeRegister", -1] },
                 success: function (res) {
+                    $('.list-card_Approved').removeClass('is-loading');
                     var parsedRes = typeof res === 'string' ? JSON.parse(res) : res;
                     if (parsedRes.result === "success" && parsedRes.data && parsedRes.data[0].length > 0) {
                         RAW_API_DATA = parsedRes.data[0];
@@ -1425,6 +2517,9 @@
                         extractGroupDropdown([]);
                         applyClientSideFilters();
                     }
+                },
+                error: function () {
+                    $('.list-card_Approved').removeClass('is-loading');
                 }
             });
         }
@@ -1455,7 +2550,7 @@
                 var typeTxt = (row.TypeRegister == 1 ? "<span class='badge bg-success-subtle border border-success text-success px-2 py-1'>%Normal_OTMess%</span>" : "<span class='badge bg-danger-subtle border border-danger text-danger px-2 py-1'>%HolidayType_OTMess%</span>") + workTypeBadge;
                 var period = moment(row.OTDateFrom).format('DD/MM') + ' <i class="bi bi-arrow-right"></i> ' + moment(row.OTDateTo).format('DD/MM/YYYY');
 
-                // [LỌC ĐỘNG SỐ CẤP CHO BẢNG]: Lọc bỏ những cấp bị rỗng để ra được Max Level thực tế của đơn đó
+                // Filter empty approval levels to calculate the actual max level for this form.
                 var validApprovers = [row.Approver_1, row.Approver_2, row.Approver_3, row.Approver_4].filter(id => id && String(id).trim() !== '' && String(id).toLowerCase() !== 'null');
                 var maxLvl = validApprovers.length;
 
@@ -1496,6 +2591,8 @@
 
                 var rowClass = tRisk > 0 ? '' : '';
                 var creatorName = row.CreatorName || row.RegisterBy || 'N/A';
+                var creatorCode = getCreatorDisplayCode_Approved(row);
+                var creatorCodeHtml = creatorCode ? `<div class="text-muted mt-1" style="font-size:0.75rem;"><i class="bi bi-person-badge me-1"></i>${creatorCode}</div>` : '';
                 var groupDisplay = row.GroupName || 'N/A';
 
                 tbody.append(`
@@ -1504,6 +2601,7 @@
                           <td class="text-muted fw-bold">${idx}</td>
                           <td class="text-start">
                               <div class="fw-bold text-primary">${creatorName}</div>
+                              ${creatorCodeHtml}
                               <div class="text-muted mt-1" style="font-size:0.75rem;"><i class="bi bi-tag-fill me-1"></i>${groupDisplay}</div>
                               ${summaryBadge}
                           </td>
@@ -1645,26 +2743,57 @@
                 }
             });
         }
-        function filterDetailRiskData() {
-            var isChecked = $('#switchDetailRisk').is(':checked');
+        function applyDetailRiskVisibility_Approved(isChecked) {
             if (isChecked) {
-                $('#detailBody_Approved .employee-row_Approved').each(function () {
-                    var tr = $(this);
-                    if (tr.hasClass('row-warning_Approved')) tr.show(); else tr.hide();
+                $('#detailBody_Approved .date-row_Approved').each(function () {
+                    var dateStr = $(this).data('date');
+                    var warningRows = $(`#detailBody_Approved tr.row-warning_Approved[data-date="${dateStr}"]`);
+                    var normalRows = $(`#detailBody_Approved tr.normal-group-row_Approved[data-date="${dateStr}"]`).not('.row-warning_Approved');
+                    var toggleBtn = $(`#detailBody_Approved tr.toggle-btn-row[data-date="${dateStr}"]`);
+
+                    if (warningRows.length > 0) {
+                        $(this).show();
+                        warningRows.show();
+                        normalRows.hide();
+                        toggleBtn.hide();
+                        $(this).find('.toggle-icon_Approved').removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+                    } else {
+                        $(this).hide();
+                        normalRows.hide();
+                        toggleBtn.hide();
+                    }
                 });
-                $('#detailBody_Approved .toggle-btn-row').hide();
             } else {
-                $('#searchEmpInput_Approved').val('');
-                $('#detailBody_Approved .row-warning_Approved').show();
-                $('#detailBody_Approved .toggle-btn-row').each(function () {
+                $('#detailBody_Approved .date-row_Approved').each(function () {
+                    var dateStr = $(this).data('date');
+                    var warningRows = $(`#detailBody_Approved tr.row-warning_Approved[data-date="${dateStr}"]`);
+                    var normalRows = $(`#detailBody_Approved tr.normal-group-row_Approved[data-date="${dateStr}"]`).not('.row-warning_Approved');
+                    var toggleBtn = $(`#detailBody_Approved tr.toggle-btn-row[data-date="${dateStr}"]`);
+
                     $(this).show();
-                    var dStr = $(this).data('date');
-                    $(`#detailBody_Approved tr.normal-group-row_Approved[data-date="${dStr}"]`).hide();
-                    var count = $(`#detailBody_Approved tr.normal-group-row_Approved[data-date="${dStr}"]`).length;
-                    $(this).find('td').html(`<i class="bi bi-chevron-double-down"></i> %ShowMore_OTMess%${count}%NormalEmp_OTMess%`);
-                    $(this).removeClass('bg-light');
+
+                    if (warningRows.length > 0) {
+                        warningRows.show();
+                        if (toggleBtn.length > 0) {
+                            toggleBtn.show().removeClass('bg-light');
+                            normalRows.hide();
+                            toggleBtn.find('td').html(`<i class="bi bi-chevron-double-down"></i> %ShowMore_OTMess%${normalRows.length}%NormalEmp_OTMess%`);
+                        } else {
+                            normalRows.show();
+                        }
+                        $(this).find('.toggle-icon_Approved').removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+                    } else {
+                        normalRows.show();
+                        toggleBtn.hide();
+                        $(this).find('.toggle-icon_Approved').removeClass('bi-chevron-right collapsed').addClass('bi-chevron-down');
+                    }
                 });
             }
+        }
+
+        function filterDetailRiskData() {
+            $('#searchEmpInput_Approved').val('');
+            applyDetailRiskVisibility_Approved($('#switchDetailRisk').is(':checked'));
         }
 
         window.openDetail_Approved = function (id, isMyTurn) {
@@ -1711,6 +2840,7 @@
                             $('#lblDetRemark_Approved').html(mData.Remark ? `<b class="text-primary">"${mData.Remark}"</b>` : '<span class="text-muted">%NoRemarkDot_OTMess%</span>');
 
                             var st = parseInt(mData.Approve_Status);
+                            var canEditDetail = isMyTurn && st !== 5;
                             if (st === 5) {
                                 $('#lblDetStatus_Approved').removeClass().addClass('badge-st_Approved st-1_Approved px-3 py-2 pulse-warning').html('<i class="bi bi-exclamation-circle me-1"></i> %RequestingCancel_OTMess%');
                                 $('#btnApprove_Action').removeClass('btn-success').addClass('btn-danger').html('<i class="bi bi-trash-fill me-1"></i> %AgreeCancel_OTMess%');
@@ -1727,9 +2857,9 @@
 
                             renderFlowDiagram_Approved(mData);
                             try {
-                                renderDetailTable_Approved(parsedRes.data[1], moment(mData.OTDateFrom), moment(mData.OTDateTo), mData.TypeRegister, isDiv);
+                                renderDetailTable_Approved(parsedRes.data[1], moment(mData.OTDateFrom), moment(mData.OTDateTo), mData.TypeRegister, isDiv, canEditDetail);
                             } catch (e) {
-                                console.error("Lỗi Render Data: ", e);
+                                console.error("%RenderDataError_OTRegistration%", e);
                             }
                         }
                     }
@@ -1818,7 +2948,22 @@
                 `);
             }
         }
-        function renderDetailTable_Approved(sqlData, startDate, endDate, typeReg, isDivMaster) {
+
+        function getOTLimit_Approved(isDirect, posId) {
+            var directFlag = parseInt(isDirect);
+            if (isNaN(directFlag)) directFlag = 1;
+            var pId = (posId || "").toString().trim();
+            var pos35h = ['1461', '1462', '1463', '1464', '1465', '1466', '1488', '1490'];
+
+            if (directFlag === 0) {
+                if (pos35h.includes(pId)) return 35;
+                return 45;
+            }
+
+            return 100;
+        }
+
+        function renderDetailTable_Approved(sqlData, startDate, endDate, typeReg, isDivMaster, canEditDetail) {
             var tbody = $('#detailBody_Approved'); tbody.empty();
             if (!sqlData || sqlData.length === 0) {
                 tbody.html('<tr><td colspan="10" class="text-danger py-4 text-center">%NoData_OTMess%</td></tr>');
@@ -1829,9 +2974,82 @@
             var activeEmps = new Set();
             var totalRiskCount = 0;
             var dataByDate = {};
-            var isMyTurn = $('#btnApprove_Action').is(':visible');
+            var isMyTurn = (canEditDetail !== undefined) ? !!canEditDetail : $('#btnApprove_Action').is(':visible');
 
             if (isMyTurn) $('#colActionClear_Approved').show(); else $('#colActionClear_Approved').hide();
+
+            function escapeHtml_Approved(val) {
+                return String(val == null ? '' : val)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function parseEditHistory_Approved(row) {
+                if (!row.EditHistoryJson) return [];
+                if (Array.isArray(row.EditHistoryJson)) return row.EditHistoryJson;
+                try {
+                    var parsed = JSON.parse(row.EditHistoryJson);
+                    if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                    if (!Array.isArray(parsed)) return [];
+                    return parsed.sort(function (a, b) {
+                        var aId = parseInt(a.LogID || 0, 10), bId = parseInt(b.LogID || 0, 10);
+                        if (aId || bId) return aId - bId;
+                        return new Date(a.EditTime || 0) - new Date(b.EditTime || 0);
+                    });
+                } catch (e) { return []; }
+            }
+
+            function buildEditHistoryHtml_Approved(history, orgF, orgT, curF, curT, curHrs) {
+                var list = history && history.length ? history : [{
+                    ApproveLevel: '',
+                    EditedByName: '',
+                    OldFrom: orgF,
+                    OldTo: orgT,
+                    OldHours: 0,
+                    NewFrom: curF,
+                    NewTo: curT,
+                    NewHours: curHrs,
+                    EditTime: ''
+                }];
+
+                var items = list.map(function (h, idx) {
+                    var editor = h.EditedByName || h.EditedBy || 'N/A';
+                    var oldF = h.OldFrom || orgF || '';
+                    var oldT = h.OldTo || orgT || '';
+                    var newF = h.NewFrom || '';
+                    var newT = h.NewTo || '';
+                    var oldH = parseFloat(h.OldHours || 0).toFixed(1);
+                    var newH = parseFloat(h.NewHours || 0).toFixed(1);
+                    var when = h.EditTime ? moment(h.EditTime).format('DD/MM/YYYY HH:mm') : '';
+                    var level = h.ApproveLevel ? `%ApproveLevelPrefix_OTRegistration% ${h.ApproveLevel}` : `%EditAction_OTRegistration%`;
+                    return `
+                        <div class="manual-edit-history-item_Approved">
+                            <div class="d-flex justify-content-between gap-2">
+                                <div class="manual-edit-history-person_Approved">${escapeHtml_Approved(editor)}</div>
+                                <div class="manual-edit-history-meta_Approved">${escapeHtml_Approved(level)}</div>
+                            </div>
+                            <div class="manual-edit-history-time_Approved"><i class="bi bi-clock-history"></i> ${escapeHtml_Approved(when || 'N/A')}</div>
+                            <div class="manual-edit-history-change_Approved">
+                                <div class="manual-edit-history-box_Approved">
+                                    <div class="manual-edit-history-label_Approved">%BeforeEdit_OTRegistration%</div>
+                                    <div class="manual-edit-history-value_Approved">${escapeHtml_Approved(oldF)} - ${escapeHtml_Approved(oldT)}</div>
+                                    <div class="manual-edit-history-time_Approved">${oldH}h</div>
+                                </div>
+                                <i class="bi bi-arrow-right text-secondary"></i>
+                                <div class="manual-edit-history-box_Approved">
+                                    <div class="manual-edit-history-label_Approved">%AfterEdit_OTRegistration%</div>
+                                    <div class="manual-edit-history-value_Approved">${escapeHtml_Approved(newF)} - ${escapeHtml_Approved(newT)}</div>
+                                    <div class="manual-edit-history-time_Approved">${newH}h</div>
+                                </div>
+                            </div>
+                        </div>`;
+                }).join('');
+
+                return `<div class="manual-edit-popover-title_Approved"><i class="bi bi-exclamation-circle-fill text-warning"></i> %EditOverTimeHistory_OTRegistration%</div>${items}`;
+            }
 
             sqlData.forEach(row => {
                 var f = extractTime_Approved(row.Saved_OTFrom || row.Planned_OTFrom || row.OTFrom);
@@ -1865,12 +3083,17 @@
                     var baseOT = parseFloat(row.CurrentTotalOT || 0);
                     var isRisk = parseInt(row.IsExceed || 0) === 1;
 
-                    var limitType = (row.LimitType || '').replace('Vượt', '%ExceedLimit_OTMess%').replace('Giờ', '%Hours_OTMess%').replace('giờ', '%Hours_OTMess%');
+                    var exceedWord = String.fromCharCode(86, 432, 7907, 116);
+                    var hourUpperWord = String.fromCharCode(71, 105, 7901);
+                    var hourLowerWord = String.fromCharCode(103, 105, 7901);
+                    var limitType = (row.LimitType || '').replace(exceedWord, '%ExceedLimit_OTMess%').replace(hourUpperWord, '%Hours_OTMess%').replace(hourLowerWord, '%Hours_OTMess%');
                     var runningTotal = baseOT + hrs;
 
+                    var editHistory = parseEditHistory_Approved(row);
                     var orgF = row.Original_OTFrom ? extractTime_Approved(row.Original_OTFrom) : f;
                     var orgT = row.Original_OTTo ? extractTime_Approved(row.Original_OTTo) : t;
-                    var hasModified = (row.Original_OTFrom && row.Original_OTFrom !== row.OTFrom) || (row.Original_OTTo && row.Original_OTTo !== row.OTTo);
+                    var hasEditHistory = editHistory.length > 0 || ((orgF && orgF !== f) || (orgT && orgT !== t));
+                    var editHistoryHtml = buildEditHistoryHtml_Approved(editHistory, orgF, orgT, f, t, hrs);
 
                     grandTotalHours += hrs;
                     activeEmps.add(row.EmployeeID);
@@ -1927,6 +3150,8 @@
 
                     var eTypeID = parseInt(row.IsDirect);
                     if (isNaN(eTypeID)) eTypeID = 1;
+                    var posId = row.PositionID || '';
+                    var otLimit = getOTLimit_Approved(eTypeID, posId);
 
                     if (eTypeID === 0) {
                         nameHtml += `<br><span class="badge bg-primary mt-1 shadow-sm" style="font-size: 0.65rem;"><i class="bi bi-building"></i> %KhoiGT_OTMess%</span>`;
@@ -1942,10 +3167,10 @@
 
                     var hrsDisplay = "";
 
-                    if (hasModified) {
+                    if (hasEditHistory) {
                         countRiskThisDate++;
-                        rowClass += " row-warning_Approved bg-warning-subtle";
-                        hrsDisplay = `<span class="text-danger fw-bold actual-hrs-val" style="font-size:1.05rem;">+${hrs.toFixed(1)}</span><span class="text-danger fw-bold">h</span><br><span class="text-danger fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="badge bg-danger mt-1" style="font-size:0.65rem;" title="%RejectOT_OTMess%">%RejectOT_OTMess%</span>`;
+                        rowClass += " row-warning_Approved manual-edit-row_Approved bg-warning-subtle";
+                        hrsDisplay = `<span class="manual-edit-text_Approved fw-bold actual-hrs-val" style="font-size:1.05rem;">+${hrs.toFixed(1)}</span><span class="manual-edit-text_Approved fw-bold">h</span><br><span class="manual-edit-text_Approved fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="manual-edit-badge_Approved mt-1" style="font-size:0.65rem;" tabindex="0" role="button" data-edit-history="${escapeHtml_Approved(editHistoryHtml)}"><i class="bi bi-exclamation-circle-fill"></i> %EditOverTime_OTRegistration% <i class="bi bi-info-circle"></i></span>`;
                     }
                     else if (isRisk || (hrs === 0 && currentTypeReg === 1 && parseInt(row.HolidayStatus || 0) === 0)) {
                         countRiskThisDate++;
@@ -1956,20 +3181,20 @@
                     else {
                         countNormalThisDate++;
                         rowClass += " normal-group-row_Approved";
-                        hrsDisplay = `<span class="text-primary fw-bold actual-hrs-val" style="font-size:1.05rem;">+${hrs.toFixed(1)}</span><span class="text-primary fw-bold">h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`;
+                        hrsDisplay = `<span class="ot-focus-hours_Approved actual-hrs-val" style="font-size:1.08rem;">+${hrs.toFixed(1)}</span><span class="ot-focus-hours_Approved">h</span><br><span class="ot-focus-total_Approved" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`;
                         if (hrs === 0) hrsDisplay += `<br><span class="text-success small" style="font-size:0.7rem;"><i class="bi bi-person-check-fill"></i> %Present0h_OTMess%</span>`;
                     }
 
-                    var inputFHtml = `<div class="fw-bold ${f && f !== '--:--' ? 'text-success' : 'text-danger'} act-from-val">${f || '%Off_OTMess%'}</div>`;
-                    var inputTHtml = `<div class="fw-bold ${t && t !== '--:--' ? 'text-danger' : 'text-danger'} act-to-val">${t || '%Off_OTMess%'}</div>`;
+                    var inputFHtml = isMyTurn
+                        ? `<input type="text" autocomplete="off" class="manual-time-input_Approved inp-from act-from-val ${f && f !== '--:--' ? 'text-success' : 'text-danger'}" value="${f || ''}" placeholder="HH:mm" maxlength="5" oninput="formatTimeInput_Approved(this)" onblur="validateTimeInput_Approved(this)">`
+                        : `<div class="fw-bold ${f && f !== '--:--' ? 'text-success' : 'text-danger'} act-from-val">${f || '%Off_OTMess%'}</div>`;
+                    var inputTHtml = isMyTurn
+                        ? `<input type="text" autocomplete="off" class="manual-time-input_Approved inp-to act-to-val text-danger" value="${t || ''}" placeholder="HH:mm" maxlength="5" oninput="formatTimeInput_Approved(this)" onblur="validateTimeInput_Approved(this)">`
+                        : `<div class="fw-bold ${t && t !== '--:--' ? 'text-danger' : 'text-danger'} act-to-val">${t || '%Off_OTMess%'}</div>`;
 
                     var clearBtnTd = '';
                     if (isMyTurn) {
-                        if (hasModified) {
-                            clearBtnTd = `<td class="align-middle text-center bg-light border-start"><i class="bi bi-lock-fill text-muted" style="opacity: 0.3;" title="%Locked_OTMess%"></i></td>`;
-                        } else {
-                            clearBtnTd = `<td class="align-middle text-center bg-light border-start"><button class="btn btn-outline-danger shadow-sm px-2 py-1" style="border-radius:6px;" onclick="clearOTHours_Approved(this)" title="%RejectOTToAdmin_OTMess%"><i class="bi bi-eraser-fill fs-5"></i></button></td>`;
-                        }
+                        clearBtnTd = `<td class="align-middle text-center bg-light border-start"><button class="btn btn-outline-danger shadow-sm px-2 py-1" style="border-radius:6px;" onclick="clearOTHours_Approved(this)" title="%ClearOverTimeTitle_OTRegistration%"><i class="bi bi-eraser-fill fs-5"></i></button></td>`;
                     } else {
                         clearBtnTd = '<td style="display:none;"></td>';
                     }
@@ -1980,8 +3205,11 @@
                     var trHtml = `
                     <tr class="${rowClass}" ${customStyle} data-date="${dateStr}" data-emp="${row.EmployeeID}"
                         data-ws="${actualWs}" data-we="${actualWe}" data-bs="${bs}" data-be="${actualBe}" data-as="${actualAs}" data-ae="${ae}"
-                        data-org-f="${orgF}" data-org-t="${orgT}" data-org-hrs="${hrs}" data-baseot="${baseOT}"
-                        data-has-modified="${hasModified ? '1' : '0'}" data-is-modified="${hasModified ? '1' : '0'}">
+                        data-org-f="${f}" data-org-t="${t}" data-org-hrs="${hrs}" data-baseot="${baseOT}"
+                        data-currenttotal="${baseOT}" data-submit-isexceed="${isRisk ? 1 : 0}" data-submit-limittype="${escapeHtml_Approved(row.LimitType || '')}" data-otlimit="${otLimit}" data-posid="${escapeHtml_Approved(posId)}"
+                        data-original-f="${orgF}" data-original-t="${orgT}" data-has-history="${hasEditHistory ? '1' : '0'}"
+                        data-edit-history-row="${escapeHtml_Approved(editHistoryHtml)}"
+                        data-current-hrs="${hrs}" data-is-modified="0" data-emptype="${row.EmployeeTypeID || 1}" data-isholiday="${parseInt(row.HolidayStatus || 0) > 0 ? 1 : 0}">
                         <td class="text-muted fw-bold align-middle">${idx + 1}</td>
                         <td class="fw-bold text-primary align-middle">${row.EmployeeID}</td>
                         <td class="text-start fw-bold align-middle">${nameHtml}</td>
@@ -1995,7 +3223,7 @@
          </tr>
                 `;
 
-                    if (hasModified || isRisk || (hrs === 0 && currentTypeReg === 1 && parseInt(row.HolidayStatus || 0) === 0)) {
+                    if (hasEditHistory || isRisk || (hrs === 0 && currentTypeReg === 1 && parseInt(row.HolidayStatus || 0) === 0)) {
                         riskRowsHtml += trHtml;
                     } else {
                         normalRowsHtml += trHtml;
@@ -2048,6 +3276,8 @@
                 $('#switchDetailRiskWrapper').addClass('d-none');
                 $('#switchDetailRisk').prop('checked', false);
             }
+
+            refreshDetailRunningTotals_Approved();
         }
 
         window.backToList_Approved = function () {
@@ -2058,7 +3288,7 @@
         }
 
         // =========================================================================
-        // HÀM SUBMIT DUYỆT (GÓI DATA JSON ĐẨY LÊN API)
+        // Approval submit handler
         // =========================================================================
         window.processSingleApproval_Approved = function (actionType) {
             var remark = $('#approveRemark_Approved').val().trim();
@@ -2066,10 +3296,16 @@
 
             var modifiedData = [];
             if (actionType === 'APPROVE') {
-                // Quét những dòng có cờ bị sửa tay (data-is-modified="1")
-                $('#detailBody_Approved tr[data-is-modified="1"]').each(function () {
-                    var newF = $(this).find('.act-from-val').text().trim();
-                    var newT = $(this).find('.act-to-val').text().trim();
+                refreshDetailRunningTotals_Approved();
+                var hasTimeModified = $('#detailBody_Approved tr[data-is-modified="1"]').length > 0;
+
+                // Send all detail rows after manual edits so the API can recalculate monthly totals and risk flags.
+                $('#detailBody_Approved tr.employee-row_Approved').each(function () {
+                    if (!hasTimeModified) return false;
+                    var fromEl = $(this).find('.act-from-val');
+                    var toEl = $(this).find('.act-to-val');
+                    var newF = (fromEl.is('input') ? fromEl.val() : fromEl.text()).trim();
+                    var newT = (toEl.is('input') ? toEl.val() : toEl.text()).trim();
 
                     if (newF === '%Off_OTMess%') newF = '';
                     if (newT === '%Off_OTMess%') newT = '';
@@ -2080,14 +3316,20 @@
                         NewFrom: newF,
                         NewTo: newT,
                         NewHours: parseFloat($(this).find('.actual-hrs-val').text()) || 0,
-                        OriginalFrom: $(this).attr('data-org-f'),
-                        OriginalTo: $(this).attr('data-org-t')
+                        OldFrom: $(this).attr('data-org-f'),
+                        OldTo: $(this).attr('data-org-t'),
+                        OldHours: parseFloat($(this).attr('data-org-hrs')) || 0,
+                        CurrentTotalOT: parseFloat($(this).attr('data-currenttotal')) || 0,
+                        IsExceed: parseInt($(this).attr('data-submit-isexceed')) || 0,
+                        LimitType: $(this).attr('data-submit-limittype') || '',
+                        IsTimeModified: $(this).attr('data-is-modified') === '1' ? 1 : 0
                     });
                 });
             }
 
             var titleAction = actionType === 'APPROVE' ? "%APPROVE_OTMess%" : "%RejectBtn_OTMess%";
-            var isCanceling = $('#lblDetStatus_Approved').text().indexOf('%Cancelled_OTMess%') !== -1 || $('#lblDetStatus_Approved').text().indexOf('HỦY') !== -1;
+            var cancelKeyword = String.fromCharCode(72, 7910, 89);
+            var isCanceling = $('#lblDetStatus_Approved').text().indexOf('%Cancelled_OTMess%') !== -1 || $('#lblDetStatus_Approved').text().indexOf(cancelKeyword) !== -1;
             if (isCanceling) titleAction = actionType === 'APPROVE' ? "%AGREE_CANCEL_OTMess%" : "%REJECT_CANCEL_REQ_OTMess%";
 
             var txtClass = actionType === 'APPROVE' ? "text-success" : "text-danger";
@@ -2110,7 +3352,7 @@
                                 "LoginID", LoginID,
                                 "Action", actionType,
                                 "Remark", remark,
-                                "ModifiedJSON", JSON.stringify(modifiedData) // Bắn cục Json này xuống cho SQL xử
+                                "ModifiedJSON", JSON.stringify(modifiedData)
                             ]
                         },
                         success: function (res) {
@@ -2129,6 +3371,143 @@
             if (v.length > 4) v = v.slice(0, 4);
             el.value = v.length >= 3 ? v.slice(0, 2) + ':' + v.slice(2) : v;
         };
+
+        var TIME_OPTIONS_APPROVED = [];
+        for (let h = 0; h < 24; h++) {
+            for (let m = 0; m < 60; m += 5) {
+                TIME_OPTIONS_APPROVED.push(`${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`);
+            }
+        }
+
+        var currentSmartInput_Approved = null;
+
+        function ensureFloatingTools_Approved() {
+            if ($('#smartTimePicker_Approved').length === 0) {
+                $('body').append('<div id="smartTimePicker_Approved" class="smart-timepicker-approved_Approved"></div>');
+            }
+            if ($('#manualEditPopover_Approved').length === 0) {
+                $('body').append('<div id="manualEditPopover_Approved" class="manual-edit-popover_Approved"></div>');
+            }
+        }
+
+        function renderSmartTimePicker_Approved(inputEl, showAll) {
+            ensureFloatingTools_Approved();
+            var val = $(inputEl).val().replace(':', '');
+            var filtered = TIME_OPTIONS_APPROVED;
+
+            if (!showAll && val.length > 0) {
+                filtered = TIME_OPTIONS_APPROVED.filter(t => t.replace(':', '').includes(val));
+            }
+
+            if (filtered.length === 0) {
+                $('#smartTimePicker_Approved').hide();
+                return;
+            }
+
+            var html = '';
+            filtered.forEach(t => {
+                html += `<div class="time-option-item_Approved"><i class="bi bi-clock"></i> ${t}</div>`;
+            });
+
+            var offset = $(inputEl).offset();
+            $('#smartTimePicker_Approved').html(html).css({
+                top: offset.top + $(inputEl).outerHeight() + 2,
+                left: offset.left,
+                width: Math.max(105, $(inputEl).outerWidth())
+            }).show();
+
+            if (showAll && val.length >= 4) {
+                var formattedVal = `${val.substring(0, 2)}:${val.substring(2, 4)}`;
+                var matchedItem = $('#smartTimePicker_Approved .time-option-item_Approved').filter(function () {
+                    return $(this).text().trim() === formattedVal;
+                });
+                if (matchedItem.length) {
+                    $('#smartTimePicker_Approved').scrollTop(
+                        matchedItem.position().top + $('#smartTimePicker_Approved').scrollTop() - 50
+                    );
+                }
+            }
+        }
+
+        function showManualEditPopover_Approved(trigger) {
+            ensureFloatingTools_Approved();
+            var content = $(trigger).attr('data-edit-history') || '';
+            if (!content) return;
+
+            var offset = $(trigger).offset();
+            var pop = $('#manualEditPopover_Approved');
+            var maxLeft = $(window).scrollLeft() + $(window).width() - 440;
+            var minLeft = $(window).scrollLeft() + 12;
+            var topBelow = offset.top + $(trigger).outerHeight() + 8;
+            pop.removeClass('show-above').html(content).css({
+                top: topBelow,
+                left: Math.max(minLeft, Math.min(offset.left, maxLeft))
+            }).show();
+
+            var viewportBottom = $(window).scrollTop() + $(window).height() - 12;
+            var popBottom = topBelow + pop.outerHeight();
+            if (popBottom > viewportBottom && offset.top - pop.outerHeight() - 8 > $(window).scrollTop()) {
+                pop.addClass('show-above').css('top', offset.top - pop.outerHeight() - 8);
+            }
+        }
+
+        function hideManualEditPopover_Approved() {
+            $('#manualEditPopover_Approved').hide();
+        }
+
+        $(document).on('focus click', '.manual-time-input_Approved', function () {
+            if ($(this).is(':disabled') || $(this).prop('readonly')) return;
+            currentSmartInput_Approved = this;
+            $(this).select();
+            renderSmartTimePicker_Approved(this, true);
+        });
+
+        $(document).on('input', '.manual-time-input_Approved', function () {
+            currentSmartInput_Approved = this;
+            renderSmartTimePicker_Approved(this, false);
+        });
+
+        $(document).on('blur', '.manual-time-input_Approved', function () {
+            var el = this;
+            setTimeout(function () {
+                if (currentSmartInput_Approved === el) $('#smartTimePicker_Approved').hide();
+                validateTimeInput_Approved(el);
+            }, 180);
+        });
+
+        $(document).on('mousedown', '#smartTimePicker_Approved .time-option-item_Approved', function (e) {
+            e.preventDefault();
+            if (!currentSmartInput_Approved) return;
+            $(currentSmartInput_Approved).val($(this).text().trim());
+            $('#smartTimePicker_Approved').hide();
+            validateTimeInput_Approved(currentSmartInput_Approved);
+        });
+
+        $(document).on('mouseenter focus click', '.manual-edit-badge_Approved', function (e) {
+            e.stopPropagation();
+            showManualEditPopover_Approved(this);
+        });
+
+        $(document).on('mouseleave', '.manual-edit-badge_Approved', function () {
+            setTimeout(function () {
+                if (!$('#manualEditPopover_Approved:hover').length) hideManualEditPopover_Approved();
+            }, 180);
+        });
+
+        $(document).on('mouseleave', '#manualEditPopover_Approved', hideManualEditPopover_Approved);
+
+        $(document).on('mousedown', function (e) {
+            if (!$(e.target).closest('.manual-edit-badge_Approved, #manualEditPopover_Approved, #smartTimePicker_Approved, .manual-time-input_Approved').length) {
+                hideManualEditPopover_Approved();
+                $('#smartTimePicker_Approved').hide();
+            }
+        });
+
+        $('.table-wrap_Approved').on('scroll', function () {
+            $('#smartTimePicker_Approved').hide();
+            hideManualEditPopover_Approved();
+        });
+
         window.validateTimeInput_Approved = function (el) {
             var val = el.value;
             var tr = $(el).closest('tr');
@@ -2143,50 +3522,160 @@
             }
             recalculateRowOT_Approved(tr);
         };
-        function recalculateRowOT_Approved(tr) {
-            var f = tr.find('.inp-from').val();
-            var t = tr.find('.inp-to').val();
+        function escapeHtmlAttr_Approved(val) {
+            return String(val == null ? '' : val)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getRowTime_Approved(tr, selector) {
+            var el = tr.find(selector);
+            var val = el.is('input') ? el.val() : el.text();
+            val = (val || '').trim();
+            if (val === '%Off_OTMess%') return '';
+            return val;
+        }
+
+        function buildLiveEditHistoryAttr_Approved(tr, f, t, hrs) {
+            var orgF = tr.attr('data-org-f') || '';
+            var orgT = tr.attr('data-org-t') || '';
+            var orgHrs = (parseFloat(tr.attr('data-org-hrs')) || 0).toFixed(1);
+            var previousHistory = tr.attr('data-edit-history-row') || '';
+            var currentItem = `
+                <div class="manual-edit-history-item_Approved">
+                    <div class="manual-edit-history-person_Approved">%EditingInCurrentApproval_OTRegistration%</div>
+                    <div class="manual-edit-history-change_Approved">
+                        <div class="manual-edit-history-box_Approved">
+                            <div class="manual-edit-history-label_Approved">%BeforeEdit_OTRegistration%</div>
+                            <div class="manual-edit-history-value_Approved">${escapeHtmlAttr_Approved(orgF)} - ${escapeHtmlAttr_Approved(orgT)}</div>
+                            <div class="manual-edit-history-time_Approved">${orgHrs}h</div>
+                        </div>
+                        <i class="bi bi-arrow-right text-secondary"></i>
+                        <div class="manual-edit-history-box_Approved">
+                            <div class="manual-edit-history-label_Approved">%AfterEdit_OTRegistration%</div>
+                            <div class="manual-edit-history-value_Approved">${escapeHtmlAttr_Approved(f)} - ${escapeHtmlAttr_Approved(t)}</div>
+                            <div class="manual-edit-history-time_Approved">${hrs.toFixed(1)}h</div>
+                        </div>
+                    </div>
+                </div>`;
+
+            var html = previousHistory
+                ? previousHistory + currentItem
+                : `<div class="manual-edit-popover-title_Approved"><i class="bi bi-exclamation-circle-fill text-warning"></i> %EditOverTimeHistory_OTRegistration%</div>${currentItem}`;
+            return escapeHtmlAttr_Approved(html);
+        }
+
+        function renderOTCell_Approved(tr, hrs, runningTotal, isOverLimit, limitText) {
             var dMom = moment(tr.attr('data-date'));
-
-            var ws = tr.attr('data-ws');
-            var we = tr.attr('data-we');
-            var bs = tr.attr('data-bs');
-            var be = tr.attr('data-be');
-            var as = tr.attr('data-as');
-            var ae = tr.attr('data-ae');
-
-            var typeReg = $('#lblViewType_Clean').text().includes('NORMAL') || $('#lblViewType_Clean').text().includes('%Normal_OTMess%') ? 1 : 2;
-            var empType = tr.attr('data-emptype') || 1;
-            var isHoliday = parseInt(tr.attr('data-isholiday') || 0) === 1;
-
-            var newHrs = 0;
-            if (f && t && f !== '--:--' && t !== '--:--') {
-                newHrs = calculateOTHours_Helper_Approved(f, t, ws, we, bs, be, as, ae, typeReg, empType, isHoliday);
-            }
-
-            var orgF = tr.attr('data-org-f');
-            var orgT = tr.attr('data-org-t');
-            var baseOT = parseFloat(tr.attr('data-baseot')) || 0;
-            var runningTotal = baseOT + newHrs;
+            var f = getRowTime_Approved(tr, '.act-from-val');
+            var t = getRowTime_Approved(tr, '.act-to-val');
+            var orgF = tr.attr('data-org-f') || '';
+            var orgT = tr.attr('data-org-t') || '';
+            var isTimeModified = (f !== orgF || t !== orgT);
+            var hasHistory = tr.attr('data-has-history') === '1';
+            var typeReg = $('#lblViewType_Clean').hasClass('bg-success') ? 1 : 2;
+            var isZeroRisk = hrs === 0 && typeReg === 1 && parseInt(tr.attr('data-isholiday') || 0) === 0;
             var calcCell = tr.find('.ot-calc-cell');
 
-            if (f !== orgF || t !== orgT || tr.attr('data-has-modified') === '1') {
-                tr.addClass('bg-warning-subtle');
-                tr.attr('data-is-modified', '1');
-                calcCell.html(`<span class="text-danger fw-bold actual-hrs-val" style="font-size:1.05rem;">+${newHrs.toFixed(1)}</span><span class="text-danger fw-bold">h</span><br><span class="text-danger fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="badge bg-danger mt-1" style="font-size:0.65rem;">%ManualEdit_OTMess%</span>`);
+            tr.toggleClass('manual-edit-row_Approved bg-warning-subtle', isTimeModified || hasHistory);
+            tr.attr('data-is-modified', isTimeModified ? '1' : '0');
+            tr.attr('data-current-hrs', hrs);
+            tr.attr('data-currenttotal', parseFloat(tr.attr('data-currenttotal') || 0));
+            tr.attr('data-submit-isexceed', isOverLimit ? 1 : 0);
+            tr.attr('data-submit-limittype', isOverLimit ? limitText : '');
+
+            if (isTimeModified || hasHistory) {
+                var historyAttr = isTimeModified ? buildLiveEditHistoryAttr_Approved(tr, f, t, hrs) : escapeHtmlAttr_Approved(tr.attr('data-edit-history-row') || '');
+                calcCell.html(`<span class="manual-edit-text_Approved fw-bold actual-hrs-val" style="font-size:1.08rem;">+${hrs.toFixed(1)}</span><span class="manual-edit-text_Approved fw-bold">h</span><br><span class="manual-edit-text_Approved fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="manual-edit-badge_Approved mt-1" style="font-size:0.65rem;" tabindex="0" role="button" data-edit-history="${historyAttr}"><i class="bi bi-exclamation-circle-fill"></i> %EditOverTime_OTRegistration% <i class="bi bi-info-circle"></i></span>`);
+            } else if (isOverLimit || isZeroRisk) {
+                var riskText = isZeroRisk ? "(%NoOT_OTMess%)" : limitText;
+                calcCell.html(`<span class="text-danger fw-bold actual-hrs-val" style="font-size:1.08rem;">+${hrs.toFixed(1)}</span><span class="text-danger fw-bold">h</span><br><span class="text-danger fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="text-danger small" style="font-size:0.7rem;"><i class="bi bi-exclamation-triangle-fill"></i> ${riskText}</span>`);
             } else {
-                tr.removeClass('bg-warning-subtle');
-                tr.attr('data-is-modified', '0');
-                calcCell.html(`<span class="text-primary fw-bold actual-hrs-val" style="font-size:1.05rem;">+${newHrs.toFixed(1)}</span><span class="text-primary fw-bold">h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`);
+                calcCell.html(`<span class="ot-focus-hours_Approved actual-hrs-val" style="font-size:1.08rem;">+${hrs.toFixed(1)}</span><span class="ot-focus-hours_Approved">h</span><br><span class="ot-focus-total_Approved" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`);
             }
 
-            var grandTotal = 0;
+            var shouldWarn = isTimeModified || hasHistory || isOverLimit || isZeroRisk;
+            tr.toggleClass('row-warning_Approved', shouldWarn);
+            tr.toggleClass('normal-group-row_Approved', !shouldWarn);
+        }
+
+        function calculateRowHours_Approved(tr) {
+            var f = getRowTime_Approved(tr, '.act-from-val');
+            var t = getRowTime_Approved(tr, '.act-to-val');
+            if (!f || !t || f === '--:--' || t === '--:--') return 0;
+
+            return calculateOTHours_Helper_Approved(
+                f,
+                t,
+                tr.attr('data-ws'),
+                tr.attr('data-we'),
+                tr.attr('data-bs'),
+                tr.attr('data-be'),
+                tr.attr('data-as'),
+                tr.attr('data-ae'),
+                $('#lblViewType_Clean').hasClass('bg-success') ? 1 : 2,
+                tr.attr('data-emptype') || 1,
+                parseInt(tr.attr('data-isholiday') || 0) === 1
+            );
+        }
+
+        function refreshDetailRunningTotals_Approved() {
+            var empRows = {};
             $('#detailBody_Approved tr.employee-row_Approved').each(function () {
-                var hrsStr = $(this).find('.actual-hrs-val').text().replace('+', '');
-                var h = parseFloat(hrsStr) || 0;
-                grandTotal += h;
+                var tr = $(this);
+                var emp = tr.attr('data-emp');
+                if (!empRows[emp]) empRows[emp] = [];
+                empRows[emp].push(tr);
+            });
+
+            Object.keys(empRows).forEach(function (emp) {
+                var monthDeltas = {};
+                empRows[emp].sort(function (a, b) {
+                    return String(a.attr('data-date')).localeCompare(String(b.attr('data-date')));
+                }).forEach(function (tr) {
+                    var dateStr = tr.attr('data-date') || '';
+                    var monthKey = dateStr.substring(0, 7);
+                    if (monthDeltas[monthKey] === undefined) monthDeltas[monthKey] = 0;
+
+                    var orgBase = parseFloat(tr.attr('data-baseot')) || 0;
+                    var orgHrs = parseFloat(tr.attr('data-org-hrs')) || 0;
+                    var newBase = orgBase + monthDeltas[monthKey];
+                    var newHrs = calculateRowHours_Approved(tr);
+                    var runningTotal = newBase + newHrs;
+                    var limit = parseFloat(tr.attr('data-otlimit')) || 100;
+                    var limitText = `%ExceedHours_OTRegistration%`.replace('{0}', limit);
+                    var isOverLimit = runningTotal > limit;
+
+                    tr.attr('data-currenttotal', newBase);
+                    renderOTCell_Approved(tr, newHrs, runningTotal, isOverLimit, limitText);
+                    monthDeltas[monthKey] += (newHrs - orgHrs);
+                });
+            });
+
+            var grandTotal = 0, riskCount = 0;
+            $('#detailBody_Approved tr.employee-row_Approved').each(function () {
+                grandTotal += parseFloat($(this).attr('data-current-hrs')) || 0;
+                if ($(this).hasClass('row-warning_Approved')) riskCount++;
             });
             $('#sumDetHrs_Approved').text(grandTotal.toFixed(1));
+            if (riskCount > 0) {
+                $('#switchDetailRiskWrapper').removeClass('d-none');
+                $('#lblDetailRiskCount').html(`%FilterWarning_OTMess% (<span class="badge bg-danger rounded-pill">${riskCount}</span>)`);
+            } else {
+                $('#switchDetailRiskWrapper').addClass('d-none');
+                $('#switchDetailRisk').prop('checked', false);
+            }
+
+            if ($('#switchDetailRisk').is(':checked')) {
+                applyDetailRiskVisibility_Approved(true);
+            }
+        }
+
+        function recalculateRowOT_Approved(tr) {
+            refreshDetailRunningTotals_Approved();
         }
         window.executeBulkApproval = function (actionType) {
             if (SELECTED_BULK_IDS.length === 0) return;
@@ -2227,7 +3716,7 @@
                         },
                         error: function () {
                             $('#globalBulkLoader').addClass('d-none');
-                            uiManager.showAlert({ type: "error", message: "Lỗi kết nối khi duyệt hàng loạt!" });
+                            uiManager.showAlert({ type: "error", message: "%BulkApprovalConnectionError_OTRegistration%" });
                         }
                     });
                 }
@@ -2286,6 +3775,9 @@
             }
             return Math.floor(hrs * 2) / 2;
         }
+        function calculateOTHours_Helper(f, t, ws, we, bs, be, as, ae, typeReg, empType, isHoliday) {
+            return calculateOTHours_Helper_Approved(f, t, ws, we, bs, be, as, ae, typeReg, empType, isHoliday);
+        }
         window.clearOTHours_Approved = function (btn) {
             var tr = $(btn).closest('tr');
             var isMod = tr.attr('data-is-modified') === '1';
@@ -2298,42 +3790,43 @@
                 var baseOT = parseFloat(tr.attr('data-baseot')) || 0;
                 var runningTotal = baseOT + orgHrs;
 
-                tr.find('.act-from-val').text(orgF || '%Off_OTMess%').removeClass('text-danger').addClass(orgF ? 'text-success' : 'text-danger');
-                tr.find('.act-to-val').text(orgT || '%Off_OTMess%').removeClass('text-success').addClass('text-danger');
+                var fromEl = tr.find('.act-from-val');
+                var toEl = tr.find('.act-to-val');
+                if (fromEl.is('input')) fromEl.val(orgF || ''); else fromEl.text(orgF || '%Off_OTMess%');
+                if (toEl.is('input')) toEl.val(orgT || ''); else toEl.text(orgT || '%Off_OTMess%');
+                fromEl.removeClass('text-danger').addClass(orgF ? 'text-success' : 'text-danger');
+                toEl.removeClass('text-success').addClass('text-danger');
 
                 tr.attr('data-is-modified', '0');
-                tr.removeClass('bg-warning-subtle');
+                if (tr.attr('data-has-history') !== '1') tr.removeClass('bg-warning-subtle manual-edit-row_Approved');
+                var historyHtml = escapeHtmlAttr_Approved(tr.attr('data-edit-history-row') || '');
+                if (tr.attr('data-has-history') === '1' && historyHtml) {
+                    tr.find('.ot-calc-cell').html(`<span class="manual-edit-text_Approved fw-bold actual-hrs-val" style="font-size:1.05rem;">+${orgHrs.toFixed(1)}</span><span class="manual-edit-text_Approved fw-bold">h</span><br><span class="manual-edit-text_Approved fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="manual-edit-badge_Approved mt-1" style="font-size:0.65rem;" tabindex="0" role="button" data-edit-history="${historyHtml}"><i class="bi bi-exclamation-circle-fill"></i> %EditOverTime_OTRegistration% <i class="bi bi-info-circle"></i></span>`);
+                } else {
+                    tr.find('.ot-calc-cell').html(`<span class="text-primary fw-bold actual-hrs-val" style="font-size:1.05rem;">+${orgHrs.toFixed(1)}</span><span class="text-primary fw-bold">h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`);
+                }
 
-                tr.find('.ot-calc-cell').html(`<span class="text-primary fw-bold actual-hrs-val" style="font-size:1.05rem;">+${orgHrs.toFixed(1)}</span><span class="text-primary fw-bold">h</span><br><span class="text-muted fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span>`);
-
-                $(btn).html('<i class="bi bi-eraser-fill fs-5"></i>').attr('title', '%RejectOTToAdmin_OTMess%').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
+                $(btn).html('<i class="bi bi-eraser-fill fs-5"></i>').attr('title', '%ClearOverTimeTitle_OTRegistration%').removeClass('btn-outline-secondary').addClass('btn-outline-danger');
             } else {
                 var ws = tr.attr('data-ws');
                 var we = tr.attr('data-we');
                 if (!ws || ws === '--:--') ws = '';
                 if (!we || we === '--:--') we = '';
 
-                tr.find('.act-from-val').text(ws || '%Off_OTMess%').removeClass('text-danger').addClass(ws ? 'text-success' : 'text-danger');
-                tr.find('.act-to-val').text(we || '%Off_OTMess%').removeClass('text-success').addClass('text-danger');
+                var fromEl = tr.find('.act-from-val');
+                var toEl = tr.find('.act-to-val');
+                if (fromEl.is('input')) fromEl.val(ws || ''); else fromEl.text(ws || '%Off_OTMess%');
+                if (toEl.is('input')) toEl.val(we || ''); else toEl.text(we || '%Off_OTMess%');
+                fromEl.removeClass('text-danger').addClass(ws ? 'text-success' : 'text-danger');
+                toEl.removeClass('text-success').addClass('text-danger');
 
                 tr.attr('data-is-modified', '1');
-                tr.addClass('bg-warning-subtle');
-
-                var baseOT = parseFloat(tr.attr('data-baseot')) || 0;
-                var runningTotal = baseOT + 0;
-
-                tr.find('.ot-calc-cell').html(`<span class="text-danger fw-bold actual-hrs-val" style="font-size:1.05rem;">+0.0</span><span class="text-danger fw-bold">h</span><br><span class="text-danger fw-bold" style="font-size:0.75rem;">%TotalMonth_OTMess%${dMom.format('M')}: ${runningTotal.toFixed(1)}h</span><br><span class="badge bg-danger mt-1" style="font-size:0.65rem;" title="%RejectOT_OTMess%">%RejectOT_OTMess%</span>`);
+                tr.addClass('bg-warning-subtle manual-edit-row_Approved');
 
                 $(btn).html('<i class="bi bi-arrow-counterclockwise fs-5"></i>').attr('title', '%Undo_OTMess%').removeClass('btn-outline-danger').addClass('btn-outline-secondary');
             }
 
-            var grandTotal = 0;
-            $('#detailBody_Approved tr.employee-row_Approved').each(function () {
-                var hrsStr = $(this).find('.actual-hrs-val').text().replace('+', '');
-                var h = parseFloat(hrsStr) || 0;
-                grandTotal += h;
-            });
-            $('#sumDetHrs_Approved').text(grandTotal.toFixed(1));
+            refreshDetailRunningTotals_Approved();
         };
 
         window.validateTimeInput_Approved = function (el) {
@@ -2361,7 +3854,7 @@
             var be = tr.attr('data-be');
             var as = tr.attr('data-as');
             var ae = tr.attr('data-ae');
-            var typeReg = $('#lblViewType_Clean').text().includes('NORMAL') || $('#lblViewType_Clean').text().includes('Thường') ? 1 : 2;
+            var typeReg = $('#lblViewType_Clean').text().includes('NORMAL') || $('#lblViewType_Clean').text().includes('%NormalDay_OTMess%') ? 1 : 2;
             var empType = tr.attr('data-emptype') || 1;
             var isHoliday = parseInt(tr.attr('data-isholiday') || 0) === 1;
 
@@ -2375,12 +3868,12 @@
 
             var calcCell = tr.find('.ot-calc-cell');
 
-            if (f !== orgF || t !== orgT || tr.attr('data-has-modified') === '1') {
-                tr.addClass('bg-warning-subtle');
+            if (f !== orgF || t !== orgT) {
+                tr.addClass('bg-warning-subtle manual-edit-row_Approved');
                 tr.attr('data-is-modified', '1');
-                calcCell.html(`<span class="text-danger fw-bold">${newHrs.toFixed(1)}h</span><br><span class="badge bg-danger mt-1" style="font-size:0.65rem;" title="Đã bị Sếp sửa tay">Sửa Tay</span><span class="actual-hrs-val d-none">${newHrs}</span>`);
+                calcCell.html(`<span class="manual-edit-text_Approved fw-bold">${newHrs.toFixed(1)}h</span><br><span class="manual-edit-badge_Approved mt-1" style="font-size:0.65rem;"><i class="bi bi-exclamation-circle-fill"></i> %EditOverTime_OTRegistration%</span><span class="actual-hrs-val d-none">${newHrs}</span>`);
             } else {
-                tr.removeClass('bg-warning-subtle');
+                if (tr.attr('data-has-history') !== '1') tr.removeClass('bg-warning-subtle manual-edit-row_Approved');
                 tr.attr('data-is-modified', '0');
                 calcCell.html(`<span class="text-primary fw-bold">${newHrs.toFixed(1)}h</span><span class="actual-hrs-val d-none">${newHrs}</span>`);
             }
@@ -2395,4 +3888,6 @@
         }
 
     </script>
-</body>
+
+
+

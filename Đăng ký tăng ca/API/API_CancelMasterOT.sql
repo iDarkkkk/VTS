@@ -11,11 +11,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
     DECLARE @Status INT;
-    DECLARE @Approver_1 VARCHAR(50), @Approver_2 VARCHAR(50);
+    DECLARE @Approver_1 VARCHAR(50), @Approver_2 VARCHAR(50), @Approver_3 VARCHAR(50);
 
     SET @Identity_ID = LTRIM(RTRIM(@Identity_ID));
 
-    SELECT @Status = Approve_Status,@Approver_1 = ISNULL(Approver_1, ''), @Approver_2 = ISNULL(Approver_2, '')
+    SELECT @Status = Approve_Status,
+           @Approver_1 = ISNULL(Approver_1, ''),
+           @Approver_2 = ISNULL(Approver_2, ''),
+           @Approver_3 = ISNULL(Approver_3, '')
     FROM tblOTListRegisteredNIVS
     WHERE CAST(Identity_ID AS VARCHAR(100)) = @Identity_ID;
 
@@ -36,8 +39,13 @@ BEGIN
 
         IF @Approver_1 = 'SKIP'
         BEGIN
-            SET @CurLevel = 2;
+            SET @CurLevel = CASE WHEN @Approver_2 = 'SKIP' THEN 3 ELSE 2 END;
             SET @Date1 = GETDATE();
+            IF @Approver_2 = 'SKIP'
+            BEGIN
+                SET @Date2 = GETDATE();
+                SET @Rem2 = N'He thong tu dong bo qua duyet Huy do khong co Cap 2';
+            END
             SET @Rem1 = N'Hệ thống tự động bỏ qua duyệt Hủy do không có Cấp 1';
         END
 
@@ -74,7 +82,7 @@ DECLARE @IsDivision INT, @TargetID INT, @OTDateFrom DATE, @OTDateTo DATE;
         FROM tblOTListRegisteredNIVS_Detail
         WHERE Identity_ID = @Identity_ID;
 
-        DECLARE @NextApprover VARCHAR(50) = CASE WHEN @Approver_1 = 'SKIP' THEN @Approver_2 ELSE @Approver_1 END;
+        DECLARE @NextApprover VARCHAR(50) = CASE WHEN @Approver_1 = 'SKIP' AND @Approver_2 = 'SKIP' THEN @Approver_3 WHEN @Approver_1 = 'SKIP' THEN @Approver_2 ELSE @Approver_1 END;
 
         DECLARE @CurLang VARCHAR(2) = 'VN';
         IF ISNULL(@NextApprover, '') <> '' AND @NextApprover <> 'SKIP'

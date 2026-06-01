@@ -160,10 +160,10 @@ begin
  select * into #Transportation from dbo.fn_Transportation_ByDate(@ViewDate)
 
  select row_number() over (order by te.EmployeeID) as ORD, te.EmployeeID, te.FullName, div.DivisionName, pos.PositionName, convert(varchar(10), te.HireDate, 103) as HireDate,
-  
-  -- CHỖ NÀY ĐÃ ĐƯỢC ĐƯA VỀ NGUYÊN BẢN CHUẨN TOÁN HỌC
-  datediff(month, te.HireDate, @ViewDate) as SeniorityMonths,
-  
+
+  -- Living support seniority: each completed 365 days counts as 12 months.
+  case when te.HireDate is null or sn.SeniorityEndDate < te.HireDate then 0 else (datediff(day, te.HireDate, sn.SeniorityEndDate) / 365) * 12 end as SeniorityMonths,
+
   case when isnull(st.RankID, 0) <> 0 and isnull(st.LevelID, 0) <> 0 then cast(st.RankID as varchar) + '-' + cast(st.LevelID as varchar) else '0' end as Scale,
   isnull(st.Salary, 0) as Salary, isnull(st.Support_AL, 0) as Support_AL, isnull(st.Support2_AL, 0) as Support2_AL, isnull(pn.PositionAmount, 0) as Pos_AL,
   (isnull(ql.QualLevel_AL, 0) + isnull(qp.QualPCCC_AL, 0) + isnull(qo.QualOther_AL, 0)) as Qualification_AL,
@@ -183,6 +183,9 @@ begin
   isnull(st.TCPN_AL, 0) as TCPN_AL, isnull(up.UnionPos_AL, 0) as Union_AL, cast(0 as money) as TotalIncome
  into #DataView
  from #fn_vtblEmployeeList te
+ outer apply (
+  select case when te.LastWorkingDate is not null and te.LastWorkingDate < @ViewDate then te.LastWorkingDate else @ViewDate end as SeniorityEndDate
+ ) sn
  left join tblDivision div on te.DivisionID = div.DivisionID
  left join tblPosition pos on te.PositionID = pos.PositionID
  left join #tblSalaryHistory st on te.EmployeeID = st.EmployeeID
@@ -236,4 +239,3 @@ begin
  end
 end
 GO
-exec sp_SalaryByDate_List 3,'VN','20260228'

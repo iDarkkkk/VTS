@@ -22,14 +22,25 @@ BEGIN
     else if @OTType = 3 set @TargetOTTypeID = 5
 
     --Hiếu: lấy bộ phận của người đăng ký
-    DECLARE @DivisionID int ;
+    DECLARE @DivisionID int, @DivisionID2 int, @MinApproverLevel int = 4;
     select @DivisionID  = DivisionID from dbo.fn_vtblEmployeeList_Bydate(GETDATE(), '-1',null) te
     where te.EmployeeID = @LeaderEmpID and te.EmployeeStatusID <> 20
 
-    --Lấy cấp duyệt
-    Declare @App1 varchar(20),@App2 varchar(20) ,@App3 varchar(20),@App4 varchar(20);
+    select @DivisionID2 = DivisionID2 from tblDivisionGroup where DivisionID = @DivisionID
 
-    select top 1 @App1 = Approver_1,@App2 = Approver_2,@App3  = Approver_3,@App4 = Approver_4 from tblOT_ApprovalSetting ot
+    select @MinApproverLevel = case
+        when right(rtrim(isnull(nullif(d.DivisionNameEN, ''), d.DivisionName)), 1) = 'I' then 6
+        else 4
+    end
+    from tblDivision d
+    where d.DivisionID = @DivisionID
+
+
+    -- Lấy cấp duyệt
+    Declare @App2 varchar(20), @App3 varchar(20), @App4 varchar(20), @App5 varchar(20);
+
+    select top 1 @App2 = Approver_2, @App3 = Approver_3, @App4 = Approver_4, @App5 = Approver_5
+    from tblOT_ApprovalSetting ot
     where ot.DivisionID = @DivisionID and @TargetOTTypeID = OTTypeID
 
     IF OBJECT_ID('tempdb..#TempApprovers') IS NOT NULL DROP TABLE #TempApprovers;
@@ -39,124 +50,35 @@ BEGIN
         EmployeeID varchar(20),
         Level int
     )
-    if @App1 is not null
+    insert into #TempApprovers(approver, EmployeeID, Level)
+    select distinct 1, te.EmployeeID, pos.level
+    from dbo.fn_vtblEmployeeList_Simple_ByDate(getdate(), '-1', null) te
+    inner join tblPosition pos on pos.PositionID = te.PositionID
+    where te.TerminateDate is null and te.EmployeeStatusID <> 20 and isnull(pos.level, 0) >= @MinApproverLevel
+        and (te.DivisionID = @DivisionID or (@DivisionID2 is not null and te.DivisionID = @DivisionID2));
+
+   if nullif(ltrim(rtrim(@App2)), '') is not null
     begin
-        Insert into #TempApprovers(approver,EmployeeID)
-        select 1,@App1
+         Insert into #TempApprovers(approver,EmployeeID)
+         select 2,@App2
     end
-    ELSE
-    BEGIN
-        -- [LỌC ĐỘNG TÌM CẤP 1 TỪ LEVEL 5 TRỞ LÊN]
-        SELECT u.level_id, s.Items AS PositionID, u.ApproverLevel
-        INTO #tblUserGroupMap
-        FROM tblUserGroupApprovalLevel u
-        CROSS APPLY dbo.SplitString(u.PositionIDss,'&') AS s;
-
-        CREATE TABLE #tblPosGrade(PositionID INT, PosGrade INT);
-        INSERT INTO #tblPosGrade(PositionID, PosGrade)
-        VALUES (1466,1), (1461,2), (1463,3), (1462,4), (1488,5);
-
-        SELECT e.EmployeeID, e.PositionID, e.DivisionID, e.DepartmentID, e.SectionID,
-               l.level_id, l.ApproverLevel, po.PosGrade
-        INTO #EmpHierarchy
-        FROM dbo.fn_vtblEmployeeList_Simple_ByDate(GETDATE(), '-1', NULL) e
-        INNER JOIN #tblUserGroupMap AS l ON l.PositionID = CAST(e.PositionID AS VARCHAR(50))
-        LEFT JOIN #tblPosGrade AS po ON po.PositionID = e.PositionID
-        WHERE e.TerminateDate IS NULL AND l.level_id IS NOT NULL AND e.EmployeeStatusID <> 20;
-
-        DECLARE @ReqDept INT, @ReqDiv INT, @ReqDiv2 INT, @ReqSec INT, @ReqLvl INT, @ReqAppLvl INT, @ReqPosGrade INT;
-        SELECT @ReqDept = DepartmentID, @ReqDiv = DivisionID, @ReqSec = SectionID,
-               @ReqLvl = level_id, @ReqAppLvl = ApproverLevel, @ReqPosGrade = PosGrade
-        FROM #EmpHierarchy WHERE EmployeeID = @LeaderEmpID;
-
-        SELECT @ReqDiv2 = DivisionID2 FROM tblDivisionGroup WHERE DivisionID = @ReqDiv;
-
-        IF @ReqLvl = 6
-        BEGIN
-            DELETE FROM #EmpHierarchy WHERE level_id < @ReqLvl OR EmployeeID = @LeaderEmpID;
-            DELETE FROM #EmpHierarchy WHERE ISNULL(PosGrade, 0) <= ISNULL(@ReqPosGrade, 0);
-
-            IF EXISTS(SELECT 1 FROM #EmpHierarchy WHERE DivisionID = @ReqDiv)
-            BEGIN
-                DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv;
-            END
-        END
-        ELSE
-        BEGIN
-            DELETE FROM #EmpHierarchy WHERE level_id <= @ReqLvl;
-
-            IF @ReqLvl > 2
-            BEGIN
-                IF @ReqDiv2 IS NOT NULL
-                    DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv AND DivisionID <> @ReqDiv2;
-                ELSE
-                    DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv;
-            END
-            ELSE
-            BEGIN
-                -- Lọc Nhánh < ApproverLevel
-                IF NOT EXISTS(SELECT 1 FROM #EmpHierarchy WHERE SectionID = @ReqSec AND level_id < @ReqAppLvl)
-                BEGIN
-                    IF NOT EXISTS(SELECT 1 FROM #EmpHierarchy WHERE DepartmentID = @ReqDept AND level_id < @ReqAppLvl)
-                    BEGIN
-                        IF @ReqDiv2 IS NOT NULL
-                             DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv AND DivisionID <> @ReqDiv2 AND level_id < @ReqAppLvl;
-                        ELSE
-                             DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv AND level_id < @ReqAppLvl;
-                    END
-                    ELSE
-                        DELETE FROM #EmpHierarchy WHERE DepartmentID <> @ReqDept AND level_id < @ReqAppLvl;
-                END
-                ELSE
-                    DELETE FROM #EmpHierarchy WHERE SectionID <> @ReqSec AND level_id < @ReqAppLvl;
-
-                -- Lọc Nhánh >= ApproverLevel
-                IF NOT EXISTS(SELECT 1 FROM #EmpHierarchy WHERE SectionID = @ReqSec AND level_id >= @ReqAppLvl)
-                BEGIN
-                    IF NOT EXISTS(SELECT 1 FROM #EmpHierarchy WHERE DepartmentID = @ReqDept AND level_id >= @ReqAppLvl)
-                    BEGIN
-                        IF @ReqDiv2 IS NOT NULL
-                              DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv AND DivisionID <> @ReqDiv2 AND level_id >= @ReqAppLvl;
-                        ELSE
-                             DELETE FROM #EmpHierarchy WHERE DivisionID <> @ReqDiv AND level_id >= @ReqAppLvl;
-                    END
-                    ELSE
-                         DELETE FROM #EmpHierarchy WHERE DepartmentID <> @ReqDept AND level_id >= @ReqAppLvl;
-                END
-                ELSE
-                     DELETE FROM #EmpHierarchy WHERE SectionID <> @ReqSec AND level_id >= @ReqAppLvl;
-            END
-        END
-
-        -- [CHỐT HẠ LOGIC MỚI]: CHỈ BỐC NHỮNG ÔNG TỪ LEVEL 5 TRỞ LÊN GÁN VÀO CẤP 1
-        INSERT INTO #TempApprovers (approver, EmployeeID,Level)
-        SELECT DISTINCT 1, e.EmployeeID,pos.level
-        FROM #EmpHierarchy e
-        inner join dbo.fn_vtblEmployeeList_Simple_ByDate(getdate(),'-1',null) te on e.EmployeeID = te.EmployeeID
-        left join tblPosition pos on pos.PositionID = te.PositionID
-        WHERE level_id >= 5;
-
-        DROP TABLE #tblUserGroupMap;
-        DROP TABLE #tblPosGrade;
-        DROP TABLE #EmpHierarchy;
-    END
-     if @App2 is not null
-        begin
-             Insert into #TempApprovers(approver,EmployeeID)
-             select 2,@App2
-        end
-    if @App3 is not null
+    if nullif(ltrim(rtrim(@App3)), '') is not null
     begin
             Insert into #TempApprovers(approver,EmployeeID)
             select 3,@App3
     end
-        if @App4 is not null
+   if nullif(ltrim(rtrim(@App4)), '') is not null
     begin
             Insert into #TempApprovers(approver,EmployeeID)
             select 4,@App4
     end
-    --Hiếu: xóa nếu cấp 2 3 4  đã có người đó rồi, tránh bị 1 người duyệt 2 lần
-    --delete from #TempApprovers  where approver = 1 and EmployeeID in (isnull(@App1,''),isnull(@App2,''),isnull(@App3,''),isnull(@App4,''))
+
+   if nullif(ltrim(rtrim(@app5)), '') is not null
+    begin
+            Insert into #TempApprovers(approver,EmployeeID)
+            select 5,@App5
+    end
+
     SELECT t.approver, t.EmployeeID, t.EmployeeID + ' - ' + ISNULL(e.FullName, '') AS FullName,Level
     FROM #TempApprovers t
     LEFT JOIN tblEmployee e ON t.EmployeeID = e.EmployeeID
@@ -166,3 +88,4 @@ BEGIN
 
 END
 GO
+exec API_GetApprovers '12430',1,1

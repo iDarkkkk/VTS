@@ -10,8 +10,13 @@ AS
 BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
-        DECLARE @CurrentStatus INT, @App1 VARCHAR(50), @App2 VARCHAR(50);
-        SELECT @CurrentStatus = Approve_Status, @App1 = Approver_1 FROM tblOTExceedMasterNIVS WHERE Identity_ID = @Identity_ID;
+        DECLARE @CurrentStatus INT, @App1 VARCHAR(50), @App2 VARCHAR(50), @App3 VARCHAR(50);
+        SELECT @CurrentStatus = Approve_Status,
+               @App1 = ISNULL(Approver_1, ''),
+               @App2 = ISNULL(Approver_2, ''),
+               @App3 = ISNULL(Approver_3, '')
+        FROM tblOTExceedMasterNIVS
+        WHERE Identity_ID = @Identity_ID;
 
         IF @CurrentStatus = 1
         BEGIN
@@ -20,13 +25,25 @@ BEGIN
         ELSE IF @CurrentStatus = 2
         BEGIN
             DECLARE @StartLevel INT = 1;
-            IF @App1 = 'SKIP' SET @StartLevel = 2;
+            DECLARE @Date1 DATETIME = NULL, @Rem1 NVARCHAR(200) = NULL;
+            DECLARE @Date2 DATETIME = NULL, @Rem2 NVARCHAR(200) = NULL;
+            IF @App1 = 'SKIP'
+            BEGIN
+                SET @StartLevel = CASE WHEN @App2 = 'SKIP' THEN 3 ELSE 2 END;
+                SET @Date1 = GETDATE();
+                SET @Rem1 = N'Hệ thống tự động bỏ qua';
+                IF @App2 = 'SKIP'
+                BEGIN
+                    SET @Date2 = GETDATE();
+                    SET @Rem2 = N'Hệ thống tự động bỏ qua do không có Cấp 2';
+                END
+            END;
 
             UPDATE tblOTExceedMasterNIVS
             SET Approve_Status = 5, Current_Approved_Level = @StartLevel,
                 ApproveDate_1_Old = ApproveDate_1, ApproverRemark_1_Old = ApproverRemark_1, ApproveDate_2_Old = ApproveDate_2, ApproverRemark_2_Old = ApproverRemark_2, ApproveDate_3_Old = ApproveDate_3, ApproverRemark_3_Old = ApproverRemark_3, ApproveDate_4_Old = ApproveDate_4, ApproverRemark_4_Old = ApproverRemark_4,
-                ApproveDate_1 = CASE WHEN @App1 = 'SKIP' THEN GETDATE() ELSE NULL END, ApproverRemark_1 = CASE WHEN @App1 = 'SKIP' THEN N'Hệ thống tự động bỏ qua' ELSE NULL END,
-                ApproveDate_2 = NULL, ApproverRemark_2 = NULL, ApproveDate_3 = NULL, ApproverRemark_3 = NULL, ApproveDate_4 = NULL, ApproverRemark_4 = NULL
+                ApproveDate_1 = @Date1, ApproverRemark_1 = @Rem1,
+                ApproveDate_2 = @Date2, ApproverRemark_2 = @Rem2, ApproveDate_3 = NULL, ApproverRemark_3 = NULL, ApproveDate_4 = NULL, ApproverRemark_4 = NULL
             WHERE Identity_ID = @Identity_ID;
         END
         DECLARE @IsDivision INT, @TargetID INT, @OTDate DATE;
@@ -47,7 +64,7 @@ BEGIN
             FROM tblOTExceedDetailNIVS
             WHERE Identity_ID = @Identity_ID;
 
-            DECLARE @NextApprover VARCHAR(50) = CASE WHEN @App1 = 'SKIP' THEN @App2 ELSE @App1 END;
+            DECLARE @NextApprover VARCHAR(50) = CASE WHEN @App1 = 'SKIP' AND @App2 = 'SKIP' THEN @App3 WHEN @App1 = 'SKIP' THEN @App2 ELSE @App1 END;
 
             DECLARE @CurLang VARCHAR(2) = 'VN';
             IF ISNULL(@NextApprover, '') <> '' AND @NextApprover <> 'SKIP'

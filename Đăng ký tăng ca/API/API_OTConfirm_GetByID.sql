@@ -60,6 +60,7 @@ begin
             s.ShiftName, s.WorkStart, s.WorkEnd, s.OTBeforeStart, s.OTBeforeEnd, s.OTAfterStart, s.OTAfterEnd,
 
             a.Planned_OTFrom, a.Planned_OTTo,
+            isnull(p.OTHours, 0) as Plan_OTHours,
             a.Actual_OTFrom, a.Actual_OTTo,
             a.Actual_OTFrom as Saved_OTFrom, a.Actual_OTTo as Saved_OTTo,
             isnull(a.Actual_OTHours, 0) as Actual_OTHours,
@@ -69,6 +70,8 @@ begin
             isnull(p.IsExceed, 0) as IsExceed,
             isnull(p.IsExtraEmp, 0) as IsExtraEmp,
             isnull(a.IsIndirectEmp, @IsDivision) as IsIndirectEmp,
+            p.PlanGroupID, p.PlanDivisionID, p.PlanIsDivision,
+            isnull(p.PlanGroupName, case when p.PlanIsDivision = 1 then isnull((select DivisionName from tblDivision where DivisionID = p.PlanDivisionID), 'N/A') else isnull((select GroupTeamName from tblGroupTeam where GroupTeamID = p.PlanGroupID), 'N/A') end) as PlanGroupName,
             isnull(p.LimitType, '') as LimitType,
             isnull(p.CurrentTotalOT, 0) as BaseOT_Before,
             isnull(p.ConsecutiveDays, 0) as ConsecutiveDays,
@@ -95,7 +98,20 @@ begin
 
         from tblOTActualDetailNIVS a
         left join tblOTActualMasterNIVS m on a.Identity_ID = m.Identity_ID
-        left join tblOTListRegisteredNIVS_Detail p on p.Identity_ID = @PlanMasterID and a.EmployeeID = p.EmployeeID and cast(a.OTDate as date) = cast(p.OTDate as date)
+        outer apply (
+            select top 1 pd.ShiftID, pd.OTHours, pd.IsExceed, pd.IsExtraEmp, pd.LimitType, pd.CurrentTotalOT, pd.ConsecutiveDays, pd.WorkedHolidays,
+                pm.GroupID as PlanGroupID, pm.DivisionID as PlanDivisionID, isnull(pm.IsDivision, 0) as PlanIsDivision,
+                case when isnull(pm.IsDivision, 0) = 1 then isnull(dv.DivisionName, 'N/A') else isnull(gt.GroupTeamName, 'N/A') end as PlanGroupName
+            from tblOTListRegisteredNIVS_Detail pd
+            inner join tblOTListRegisteredNIVS pm on pd.Identity_ID = pm.Identity_ID
+            left join tblGroupTeam gt on pm.GroupID = gt.GroupTeamID
+            left join tblDivision dv on pm.DivisionID = dv.DivisionID
+            where pd.EmployeeID = a.EmployeeID
+              and cast(pd.OTDate as date) = cast(a.OTDate as date)
+              and pm.Approve_Status = 2
+              and pm.RegisterBy = m.RegisterBy
+            order by case when pd.Identity_ID = @PlanMasterID then 0 else 1 end, pm.CreateTime desc
+        ) p
         left join dbo.fn_vtblEmployeeList_Simple_ByDate(getdate(), '-1',null) e on a.EmployeeID = e.EmployeeID
         left join tblShiftSetting s on s.ShiftID = isnull(p.ShiftID, a.ShiftID)
         left join tblMappingShiftHolidayStatus map on s.ShiftCode = map.ShiftCode

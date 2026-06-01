@@ -14,7 +14,7 @@ ALTER PROCEDURE [dbo].[API_OTConfirm_Submit]
     @Approver2 VARCHAR(50),
     @Approver3 VARCHAR(50),
     @Approver4 VARCHAR(50),
-    @Approver5 VARCHAR(50),
+    @Approver5 varchar(50) = null,
     @Remark NVARCHAR(500),
     @JSONData NVARCHAR(MAX),
     @IsDivision INT = 0,
@@ -34,21 +34,23 @@ BEGIN
         DECLARE @GroupID INT = CASE WHEN @IsDivision = 0 THEN @TargetID ELSE NULL END;
         DECLARE @DivisionID INT = CASE WHEN @IsDivision = 1 THEN @TargetID ELSE NULL END;
 
-        IF @Approver1 = 'SKIP'
+        -- [ĐÃ SỬA]: Nhảy cóc 2 nhịp lúc tạo đơn
+        IF @Approver1 = 'SKIP' AND @Approver2 = 'SKIP'
+        BEGIN
+            SET @StartLevel = 3;
+            SET @D1 = GETDATE(); SET @R1 = N'Hệ thống tự động bỏ qua do không có Cấp 1';
+            SET @D2 = GETDATE(); SET @R2 = N'Hệ thống tự động bỏ qua do không có Cấp 2';
+        END
+        ELSE IF @Approver1 = 'SKIP'
         BEGIN
             SET @StartLevel = 2;
-            SET @D1 = GETDATE();
-            SET @R1 = CASE
-                WHEN @LanguageID = 'EN' THEN N'System automatically skipped because there is no Level 1'
-                WHEN @LanguageID = 'JP' THEN N'1次承認者がいないため、システムが自動スキップしました'
-                ELSE N'Hệ thống tự động bỏ qua do không có Cấp 1'
-            END;
+            SET @D1 = GETDATE(); SET @R1 = N'Hệ thống tự động bỏ qua do không có Cấp 1';
         END
 
         UPDATE tblOTActualMasterNIVS
-        SET Approver_1 = @Approver1, Approver_2 = @Approver2, Approver_3 = @Approver3, Approver_4 = @Approver4, Approver_5 = @Approver5,
-            Remark = @Remark,
-            RegisterBy = @RegisterBy,
+        SET Approver_1 = @Approver1, Approver_2 = @Approver2, Approver_3 = @Approver3,
+            Approver_4 = @Approver4, Approver_5 = @Approver5,
+            Remark = @Remark, RegisterBy = @RegisterBy,
             Approve_Status = 1, Current_Approved_Level = @StartLevel,
             ApproveDate_1 = @D1, ApproverRemark_1 = @R1,
             ApproveDate_2 = @D2, ApproverRemark_2 = @R2,
@@ -85,7 +87,7 @@ BEGIN
             CASE WHEN jd.ActualTo = '' THEN NULL ELSE jd.ActualTo END AS Actual_OTTo,
             jd.Actual_OTHours,
             0 AS Approve_Status, p.ShiftID,
-            CASE WHEN jd.IsIndirectEmp = 1 THEN @DivisionID ELSE NULL END AS DivisionID,
+            CASE WHEN jd.IsIndirectEmp = 1 THEN jd.TargetID ELSE NULL END AS DivisionID,
             jd.IsIndirectEmp
         FROM #tmpOTData jd
         OUTER APPLY (
@@ -95,10 +97,9 @@ BEGIN
             WHERE pd.EmployeeID = jd.EmployeeID
               AND CAST(pd.OTDate AS DATE) = CAST(@OTDate AS DATE)
               AND pm.Approve_Status = 2
-              AND ((@IsDivision = 0 AND pm.GroupID = @TargetID) OR (@IsDivision = 1 AND pm.DivisionID = @TargetID))
-            ORDER BY pm.CreateTime DESC
+              AND pm.RegisterBy = @RegisterBy
+            ORDER BY CASE WHEN ((ISNULL(jd.IsIndirectEmp, 0) = 0 AND pm.GroupID = jd.TargetID) OR (ISNULL(jd.IsIndirectEmp, 0) = 1 AND pm.DivisionID = jd.TargetID)) THEN 0 ELSE 1 END, pm.CreateTime DESC
         ) p;
-
 
         DECLARE @GroupName NVARCHAR(250);
         IF @IsDivision = 1
@@ -110,7 +111,10 @@ BEGIN
         SELECT @TotalEmp = COUNT(DISTINCT EmployeeID), @TotalHours = SUM(ISNULL(Actual_OTHours, 0))
         FROM #tmpOTData;
 
-        DECLARE @NextApprover VARCHAR(50) = CASE WHEN @Approver1 = 'SKIP' THEN @Approver2 ELSE @Approver1 END;
+        DECLARE @NextApprover VARCHAR(50);
+        IF @Approver1 = 'SKIP' AND @Approver2 = 'SKIP' SET @NextApprover = @Approver3;
+        ELSE IF @Approver1 = 'SKIP' SET @NextApprover = @Approver2;
+        ELSE SET @NextApprover = @Approver1;
 
         DECLARE @CurLang VARCHAR(2) = 'VN';
         IF ISNULL(@NextApprover, '') <> '' AND @NextApprover <> 'SKIP'
@@ -149,10 +153,7 @@ BEGIN
             VALUES ('Nivs_App_Notify', 0, 1, @Identity_ID, @NextApprover, 1, @NotifyText);
         END
 
-        -- Kích hoạt job gửi mail
-        UPDATE Taskschedule set LastTryDay = '20190101', NextRunDate = '20190101' where FunctionName = 'SendPendingEmail'
-
-        -- =========================================================================
+        UPDATE Taskschedule set LastTryDay = '20190101', NextRunDate = '20190101' where FunctionName = 'SendPendingEmail';
 
         DROP TABLE #tmpOTData;
 

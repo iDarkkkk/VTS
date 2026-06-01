@@ -1,5 +1,4 @@
-USE Paradise_NIVS_Cloud
-GO
+
 if object_id('[dbo].[API_SubmitOTRegistration]') is null
 	EXEC ('CREATE PROCEDURE [dbo].[API_SubmitOTRegistration] as select 1')
 GO
@@ -23,7 +22,7 @@ as
 begin
     set nocount on;
     begin try
-        declare @CurLevel int = 1;
+        declare @CurLevel int = 1, @IsProduction4Section bit = 0;
         declare @Date1 datetime = null, @Rem1 nvarchar(200) = null;
         declare @Date2 datetime = null, @Rem2 nvarchar(200) = null;
 
@@ -60,6 +59,32 @@ begin
             TargetID int '$.TargetID', IsExtraEmp int '$.IsExtraEmp', ConsecutiveDays int '$.ConsecutiveDays', WorkedHolidays int '$.WorkedHolidays', IsIndirectEmp int '$.IsIndirectEmp'
         );
 
+        if @IsDivision = 0 and exists (
+            select 1
+            from tblSC_Login l
+            inner join dbo.fn_vtblEmployeeList_Simple_ByDate(@OTDateTo, '-1', null) e on l.EmployeeID = e.EmployeeID
+            inner join tblPosition p on e.PositionID = p.PositionID
+            where l.LoginID = @RegisterBy and p.PositionName like '%Leader%' and e.DivisionID in (11, 17) and e.SectionID = @TargetID
+
+            union
+
+            select 1
+            from tblSC_Login l
+            inner join tblReponLeader rl on l.EmployeeID = rl.EmployeeID
+            inner join dbo.fn_vtblEmployeeList_Simple_ByDate(@OTDateTo, '-1', null) e on rl.EmployeeID = e.EmployeeID
+            where l.LoginID = @RegisterBy and e.DivisionID in (11, 17) and e.SectionID = @TargetID
+
+            union
+
+            select 1
+            from #tmpOTData d
+            inner join dbo.fn_DivDepSecPosRange(0) r on d.EmployeeID = r.EmployeeID and d.OTDate between r.ChangedDate and r.EndDate
+            where r.DivisionID in (11, 17) and r.SectionID = @TargetID
+        )
+        begin
+            set @IsProduction4Section = 1;
+        end
+
         delete from tblOTListRegisteredNIVS_Detail where Identity_ID = @Identity_ID;
 
         insert into tblOTListRegisteredNIVS_Detail (Identity_ID, EmployeeID, OTDate, ShiftID, Approve_Status, OTFrom, OTTo, OTHours, GroupID, DivisionID, IsExceed, LimitType, CurrentTotalOT, IsExtraEmp, ConsecutiveDays, WorkedHolidays, IsIndirectEmp)
@@ -73,6 +98,8 @@ begin
         declare @GroupName nvarchar(250);
         if @IsDivision = 1
             select @GroupName = DivisionName from tblDivision where DivisionID = @TargetID;
+        else if @IsProduction4Section = 1
+            select @GroupName = SectionName from tblSection where SectionID = @TargetID;
         else
             select @GroupName = GroupTeamName from tblGroupTeam where GroupTeamID = @TargetID;
 

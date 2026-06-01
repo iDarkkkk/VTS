@@ -1,5 +1,4 @@
-USE Paradise_NIVS_Cloud
-GO
+
 if object_id('[dbo].[API_GetOTRegistrationByID]') is null
 	EXEC ('CREATE PROCEDURE [dbo].[API_GetOTRegistrationByID] as select 1')
 GO
@@ -10,11 +9,37 @@ as
 begin
     set nocount on;
     begin try
-        declare @GroupID int, @DivisionID int, @FromDate date, @ToDate date, @IsDivision int;
-        select top 1 @GroupID = GroupID, @DivisionID = DivisionID, @FromDate = OTDateFrom, @ToDate = OTDateTo, @IsDivision = isnull(IsDivision, 0)
+        declare @GroupID int, @DivisionID int, @FromDate date, @ToDate date, @IsDivision int, @RegisterBy varchar(50), @IsProduction4Section bit = 0;
+        select top 1 @GroupID = GroupID, @DivisionID = DivisionID, @FromDate = OTDateFrom, @ToDate = OTDateTo, @IsDivision = isnull(IsDivision, 0), @RegisterBy = RegisterBy
         from tblOTListRegisteredNIVS where Identity_ID = @Identity_ID;
 
         declare @TargetID int = case when @IsDivision = 1 then @DivisionID else @GroupID end;
+
+        if @IsDivision = 0 and exists (
+            select 1
+            from tblSC_Login l
+            inner join dbo.fn_vtblEmployeeList_Simple_ByDate(@ToDate, '-1', null) e on l.EmployeeID = e.EmployeeID
+            inner join tblPosition p on e.PositionID = p.PositionID
+            where l.LoginID = @RegisterBy and p.PositionName like '%Leader%' and e.DivisionID in (11, 17) and e.SectionID = @TargetID
+
+            union
+
+            select 1
+            from tblSC_Login l
+            inner join tblReponLeader rl on l.EmployeeID = rl.EmployeeID
+            inner join dbo.fn_vtblEmployeeList_Simple_ByDate(@ToDate, '-1', null) e on rl.EmployeeID = e.EmployeeID
+            where l.LoginID = @RegisterBy and e.DivisionID in (11, 17) and e.SectionID = @TargetID
+
+            union
+
+            select 1
+            from tblOTListRegisteredNIVS_Detail dt
+            inner join dbo.fn_DivDepSecPosRange(0) r on dt.EmployeeID = r.EmployeeID and dt.OTDate between r.ChangedDate and r.EndDate
+            where dt.Identity_ID = @Identity_ID and r.DivisionID in (11, 17) and r.SectionID = @TargetID
+        )
+        begin
+            set @IsProduction4Section = 1;
+        end
         --Hieu: check lại xem ca có dc cập nhật mới hay không
 
         update d
@@ -33,6 +58,7 @@ begin
             upper(m.Approver_4) as Approver_4, concat(e4.EmployeeID, ' - ', e4.FullName ) as Approver4_Name, m.ApproveDate_4, m.ApproverRemark_4,
             m.CreateTime, concat(sc.EmployeeID, ' - ', e.FullName)  as RegisterBy,
             case when m.IsDivision = 1 then isnull((select DivisionName from tblDivision where DivisionID = m.DivisionID), 'N/A')
+                 when @IsProduction4Section = 1 then isnull((select SectionName from tblSection where SectionID = m.GroupID), 'N/A')
                  else isnull((select GroupTeamName from tblGroupTeam where GroupTeamID = m.GroupID), 'N/A') end as GroupName
         from tblOTListRegisteredNIVS m
         left join tblEmployee e1 on m.Approver_1 = e1.EmployeeID
@@ -46,10 +72,32 @@ begin
         create table #tmpEmployeeList (EmployeeID varchar(50), FullName nvarchar(200), HireDate date, LastWorkingDate date, EmployeeTypeID int, PositionID varchar(50), GroupTeamID int, IsExtraEmp int);
         create table #EmpGroupRange (EmployeeID varchar(50), EffectiveDate date, EndDate date);
 
-        if @IsDivision = 0
+        if exists (select 1 from tblOTListRegisteredNIVS_Detail where Identity_ID = @Identity_ID)
         begin
+            insert into #tmpEmployeeList
+            select distinct e.EmployeeID, e.FullName, e.HireDate, e.LastWorkingDate, e.EmployeeTypeID, e.PositionID, e.GroupTeamID, isnull(dt.IsExtraEmp, 0)
+            from tblOTListRegisteredNIVS_Detail dt
+            inner join fn_vtblEmployeeList_Simple_ByDate(@ToDate, '-1', null) e on dt.EmployeeID = e.EmployeeID
+            where dt.Identity_ID = @Identity_ID;
+
             insert into #EmpGroupRange (EmployeeID, EffectiveDate, EndDate)
-            select EmployeeID, EffectiveDate, EndDate from dbo.fn_GroupTeamRange() where GroupTeamID = @TargetID and EffectiveDate <= @ToDate and EndDate >= @FromDate;
+            select distinct EmployeeID, OTDate, OTDate
+            from tblOTListRegisteredNIVS_Detail
+            where Identity_ID = @Identity_ID;
+        end
+        else if @IsDivision = 0
+        begin
+            if @IsProduction4Section = 1
+            begin
+                insert into #EmpGroupRange (EmployeeID, EffectiveDate, EndDate)
+                select EmployeeID, ChangedDate, EndDate from dbo.fn_DivDepSecPosRange(0)
+                where DivisionID in (11, 17) and SectionID = @TargetID and ChangedDate <= @ToDate and EndDate >= @FromDate;
+            end
+            else
+            begin
+                insert into #EmpGroupRange (EmployeeID, EffectiveDate, EndDate)
+                select EmployeeID, EffectiveDate, EndDate from dbo.fn_GroupTeamRange() where GroupTeamID = @TargetID and EffectiveDate <= @ToDate and EndDate >= @FromDate;
+            end
 
             insert into #tmpEmployeeList
             select distinct e.EmployeeID, e.FullName, e.HireDate, e.LastWorkingDate, e.EmployeeTypeID, e.PositionID, e.GroupTeamID, 0
@@ -175,6 +223,30 @@ begin
             isnull(cc.ConsecUpToThisDay, 0) as ConsecutiveDays,
 
             isnull(dt.IsIndirectEmp, @IsDivision) as IsIndirectEmp, dt.Original_OTTo, dt.Original_OTFrom,
+            isnull((
+                select
+                    l.LogID,
+                    l.ApproveLevel,
+                    l.EditedBy,
+                    concat(l.EditedBy, ' - ', isnull(el.FullName, isnull(el2.FullName, ''))) as EditedByName,
+                    l.OldFrom,
+                    l.OldTo,
+                    l.OldHours,
+                    l.NewFrom,
+                    l.NewTo,
+       l.NewHours,
+                    l.EditRemark,
+                    l.EditTime
+                from tblOTListRegisteredNIVS_Detail_EditLog l
+                left join tblEmployee el on el.EmployeeID = l.EditedBy
+                left join tblSC_Login sl on cast(sl.LoginID as varchar(50)) = l.EditedBy
+                left join tblEmployee el2 on el2.EmployeeID = sl.EmployeeID
+                where cast(l.Identity_ID as varchar(100)) = cast(dt.Identity_ID as varchar(100))
+                  and l.EmployeeID = dt.EmployeeID
+                  and cast(l.OTDate as date) = cast(dt.OTDate as date)
+                order by l.LogID
+                for json path
+            ), '[]') as EditHistoryJson,
 
             cast(isnull(td.Direct, 1) as varchar) as IsDirect,
 

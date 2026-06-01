@@ -1,4 +1,5 @@
-<style>
+
+    <style>
     :root {
         --primary-app: #198754;
         --bg-app: #f8fafc;
@@ -678,6 +679,19 @@
                                     onchange="applyClientSideFilters_ExceedAppv()">
                                     <option value="ALL">%AllGroup_OTMess%</option>
                                 </select>
+
+                                <span class="fw-bold text-muted small ms-md-3"><i class="bi bi-search"></i>
+                                    %EmpCode_OTMess% / %EmployeeName_OTMess%</span>
+                                <div class="input-group input-group-sm w-auto">
+                                    <input type="text" id="searchCreatorInput_ExceedAppv"
+                                        class="form-control rounded-start-pill fw-bold border-secondary text-secondary"
+                                        placeholder="%EmpCode_OTMess% / %EmployeeName_OTMess%"
+                                        oninput="applyClientSideFilters_ExceedAppv()">
+                                    <button type="button" class="btn btn-outline-secondary rounded-end-pill"
+                                        onclick="clearCreatorSearch_ExceedAppv()" title="%Clear_OTMess%">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -896,6 +910,7 @@
             QUICK_TYPE_FILTER_ExceedAppv = 0;
             $('.filter-type-btn').removeClass('active');
             $('#quickGroupFilter_ExceedAppv').val('ALL');
+            $('#searchCreatorInput_ExceedAppv').val('');
 
             loadApprovalList_ExceedAppv();
             setTimeout(checkNewExceedOTFormsCount, 5000);
@@ -1110,9 +1125,83 @@
             applyClientSideFilters_ExceedAppv();
         }
 
+        function normalizeSearchText_ExceedAppv(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
+        function getCreatorSearchText_ExceedAppv(row) {
+            return [
+                row.CreatorID,
+                row.CreatorCode,
+                row.CreatorName,
+                row.ApplicantID,
+                row.ApplicantCode,
+                row.ApplicantName,
+                row.RequesterID,
+                row.RequesterCode,
+                row.RequesterName,
+                row.RequestorID,
+                row.RequestorCode,
+                row.RequestorName,
+                row.SenderID,
+                row.SenderCode,
+                row.SenderName,
+                row.SubmitterID,
+                row.SubmitterCode,
+                row.SubmitterName,
+                row.RegisterByID,
+                row.RegisterByCode,
+                row.RegisterBy,
+                row.RegisterByName,
+                row.RegisterByNew,
+                row.CreatedBy,
+                row.CreateBy,
+                row.CreateUser,
+                row.CreateUserName,
+                row.UserID,
+                row.UserCode,
+                row.UserName
+            ].filter(function (v) {
+                return v !== undefined && v !== null && String(v).trim() !== '' && String(v).toLowerCase() !== 'null';
+            }).join(' ');
+        }
+
+        function getCreatorDisplayCode_ExceedAppv(row) {
+            var codeFields = [
+                row.CreatorID,
+                row.CreatorCode,
+                row.ApplicantID,
+                row.ApplicantCode,
+                row.RequesterID,
+                row.RequesterCode,
+                row.RequestorID,
+                row.RequestorCode,
+                row.SenderID,
+                row.SenderCode,
+                row.SubmitterID,
+                row.SubmitterCode,
+                row.RegisterByID,
+                row.RegisterByCode,
+                row.UserID,
+                row.UserCode
+            ];
+            for (var i = 0; i < codeFields.length; i++) {
+                if (codeFields[i] !== undefined && codeFields[i] !== null && String(codeFields[i]).trim() !== '' && String(codeFields[i]).toLowerCase() !== 'null') {
+                    return String(codeFields[i]).trim();
+                }
+            }
+            return '';
+        }
+
+        window.clearCreatorSearch_ExceedAppv = function () {
+            $('#searchCreatorInput_ExceedAppv').val('');
+            applyClientSideFilters_ExceedAppv();
+        };
+
         // --- BÓC TÁCH LOGIC DASHBOARD LÀM 3 PHẦN ---
         function applyClientSideFilters_ExceedAppv() {
             var selectedGroup = $('#quickGroupFilter_ExceedAppv').val();
+            var creatorKeyword = normalizeSearchText_ExceedAppv($('#searchCreatorInput_ExceedAppv').val());
 
             var tempFiltered = [];
             var dsTotalForms = 0, sumAllE = 0, sumAllH = 0;
@@ -1123,6 +1212,7 @@
             RAW_API_DATA_ExceedAppv.forEach(row => {
                 var rowType = row.TypeRegister || 1;
                 if (QUICK_TYPE_FILTER_ExceedAppv !== 0 && rowType != QUICK_TYPE_FILTER_ExceedAppv) return;
+                if (creatorKeyword && normalizeSearchText_ExceedAppv(getCreatorSearchText_ExceedAppv(row)).indexOf(creatorKeyword) === -1) return;
                 if (selectedGroup !== 'ALL' && row.GroupName !== selectedGroup) return;
 
                 dsTotalForms++;
@@ -1337,6 +1427,8 @@
                     </div>
                 `;
                 var creatorName = row.CreatorName || row.RegisterBy || 'N/A';
+                var creatorCode = getCreatorDisplayCode_ExceedAppv(row);
+                var creatorCodeHtml = creatorCode ? `<div class="text-muted mt-1" style="font-size:0.75rem;"><i class="bi bi-person-badge me-1"></i>${creatorCode}</div>` : '';
 
                 tbody.append(`
                     <tr>
@@ -1344,6 +1436,7 @@
                         <td class="text-muted fw-bold">${idx}</td>
                         <td class="text-start">
                             <div class="fw-bold text-primary">${creatorName}</div>
+                            ${creatorCodeHtml}
                             <div class="text-muted fw-bold mt-1" style="font-size:0.75rem;"><i class="bi bi-tags-fill me-1"></i>${row.GroupName}</div>
                             ${summaryBadge}
                         </td>
@@ -1679,3 +1772,4 @@
             loadApprovalList_ExceedAppv();
         }
     </script>
+
